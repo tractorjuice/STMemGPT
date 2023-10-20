@@ -91,6 +91,7 @@ def aretry_with_exponential_backoff(
 
                 # Sleep for the delay
                 #await asyncio.sleep(62)
+                time.sleep(62)
 
             # Raise exceptions for any errors not specified
             except Exception as e:
