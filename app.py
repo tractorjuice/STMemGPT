@@ -3,6 +3,40 @@ import streamlit as st
 import openai
 import promptlayer
 
+import asyncio
+from absl import app, flags
+import logging
+import glob
+import os
+import sys
+import pickle
+import readline
+
+from rich.console import Console
+console = Console()
+
+import interface  # for printing to terminal
+import memgpt.agent as agent
+import memgpt.system as system
+import memgpt.utils as utils
+import memgpt.presets as presets
+import memgpt.constants as constants
+import memgpt.personas.personas as personas
+import memgpt.humans.humans as humans
+from memgpt.persistence_manager import InMemoryStateManager, InMemoryStateManagerWithPreloadedArchivalMemory, InMemoryStateManagerWithFaiss
+
+FLAGS = flags.FLAGS
+flags.DEFINE_string("persona", default=personas.DEFAULT, required=False, help="Specify persona")
+flags.DEFINE_string("human", default=humans.DEFAULT, required=False, help="Specify human")
+flags.DEFINE_string("model", default=constants.DEFAULT_MEMGPT_MODEL, required=False, help="Specify the LLM model")
+flags.DEFINE_boolean("first", default=False, required=False, help="Use -first to send the first message in the sequence")
+flags.DEFINE_boolean("debug", default=False, required=False, help="Use -debug to enable debugging output")
+flags.DEFINE_boolean("no_verify", default=False, required=False, help="Bypass message verification")
+flags.DEFINE_string("archival_storage_faiss_path", default="", required=False, help="Specify archival storage with FAISS index to load (a folder with a .index and .json describing documents to be loaded)")
+flags.DEFINE_string("archival_storage_files", default="", required=False, help="Specify files to pre-load into archival memory (glob pattern)")
+flags.DEFINE_string("archival_storage_files_compute_embeddings", default="", required=False, help="Specify files to pre-load into archival memory (glob pattern), and compute embeddings over them")
+flags.DEFINE_string("archival_storage_sqldb", default="", required=False, help="Specify SQL database to pre-load into archival memory")
+
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 promptlayer.api_key = st.secrets["PROMPTLAYER"]
 #MODEL = "gpt-3"
@@ -17,8 +51,8 @@ MODEL = "gpt-3.5-turbo-16k-0613"
 # Swap out your 'import openai'
 openai = promptlayer.openai
 
-st.set_page_config(page_title="Learn Wardley Mapping Bot")
-st.sidebar.title("Learn Wardley Mapping")
+st.set_page_config(page_title="Learn Wardley Mapping Bot (Memory Infinte)")
+st.sidebar.title("Learn Wardley Mapping (Infinite)")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
 st.sidebar.markdown("Current Version: 0.2.0")
