@@ -102,13 +102,13 @@ def aretry_with_exponential_backoff(
 
 @aretry_with_exponential_backoff
 def acompletions_with_backoff(**kwargs):
-    return openai.ChatCompletion.acreate(**kwargs)
+    return openai.ChatCompletion.create(**kwargs)
 
 
 @aretry_with_exponential_backoff
 def acreate_embedding_with_backoff(**kwargs):
     """Wrapper around Embedding.acreate w/ backoff"""
-    return openai.Embedding.acreate(**kwargs)
+    return openai.Embedding.create(**kwargs)
 
 def async_get_embedding_with_backoff(text, model="text-embedding-ada-002"):
     """To get text embeddings, import/call this function
