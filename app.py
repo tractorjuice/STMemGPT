@@ -4,18 +4,18 @@ import openai
 import promptlayer
 
 import asyncio
-from absl import app, flags
-import logging
+#from absl import app, flags
+#import logging
 import glob
 import os
 import sys
 import pickle
 import readline
 
-from rich.console import Console
-console = Console()
+#from rich.console import Console
+#console = Console()
 
-import interface  # for printing to terminal
+#import interface  # for printing to terminal
 import memgpt.agent as agent
 import memgpt.system as system
 import memgpt.utils as utils
@@ -25,7 +25,6 @@ import memgpt.personas.personas as personas
 import memgpt.humans.humans as humans
 from memgpt.persistence_manager import InMemoryStateManager, InMemoryStateManagerWithPreloadedArchivalMemory, InMemoryStateManagerWithFaiss
 
-FLAGS = flags.FLAGS
 flags.DEFINE_string("persona", default=personas.DEFAULT, required=False, help="Specify persona")
 flags.DEFINE_string("human", default=humans.DEFAULT, required=False, help="Specify human")
 flags.DEFINE_string("model", default=constants.DEFAULT_MEMGPT_MODEL, required=False, help="Specify the LLM model")
@@ -47,6 +46,8 @@ MODEL = "gpt-3.5-turbo-16k-0613"
 #MODEL = "gpt-4"
 #MODEL = "gpt-4-0613"
 #MODEL = "gpt-4-32k-0613"
+
+DEFAULT = 'memgpt_chat'
 
 # Swap out your 'import openai'
 openai = promptlayer.openai
@@ -91,7 +92,7 @@ if "messages" not in st.session_state:
 
 # --------------- New code here
 persistence_manager = InMemoryStateManager()
-memgpt_agent = presets.use_preset(presets.DEFAULT, FLAGS.model, personas.get_persona_text(FLAGS.persona), humans.get_human_text(FLAGS.human), interface, persistence_manager)
+memgpt_agent = presets.use_preset(DEFAULT, MODEL, personas.get_persona_text(FLAGS.persona), humans.get_human_text(FLAGS.human), interface, persistence_manager)
 
 for message in st.session_state.messages:
     if message["role"] in ["user", "assistant"]:
