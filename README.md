@@ -1,4 +1,4 @@
-# STMemGPT
+# [STMemGPT](https://stmemgpt.streamlit.ai)
 
 
 <a href="#user-content-memgpt"><img src="https://memgpt.ai/assets/img/memgpt_logo_circle.png" alt="MemGPT logo" width="75" align="right"></a>
