@@ -80,7 +80,7 @@ def initialize_message_sequence(
     return messages
 
 
-async def get_ai_reply_async(
+def get_ai_reply_async(
         model,
         message_sequence,
         functions,
@@ -305,7 +305,7 @@ class AgentAsync(object):
             state = json.load(file)
         self.load_inplace(state)
 
-    async def handle_ai_response(self, response_message):
+    def handle_ai_response(self, response_message):
         """Handles parsing and function execution"""
         messages = []  # append these to the history when done
 
@@ -458,7 +458,7 @@ class AgentAsync(object):
         try:
             # Step 0: add user message
             if user_message is not None:
-                await self.interface.user_message(user_message)
+                self.interface.user_message(user_message)
                 packed_user_message = {'role': 'user', 'content': user_message}
                 input_message_sequence = self.messages + [packed_user_message]
             else:
@@ -473,7 +473,7 @@ class AgentAsync(object):
                 counter = 0
                 while True:
 
-                    response = await get_ai_reply_async(model=self.model, message_sequence=input_message_sequence, functions=self.functions)
+                    response = get_ai_reply_async(model=self.model, message_sequence=input_message_sequence, functions=self.functions)
                     if self.verify_first_message_correctness(response, require_monologue=self.first_message_verify_mono):
                         break
 
@@ -482,14 +482,14 @@ class AgentAsync(object):
                         raise Exception(f'Hit first message retry limit ({first_message_retry_limit})')
 
             else:
-                response = await get_ai_reply_async(model=self.model, message_sequence=input_message_sequence, functions=self.functions)
+                response = get_ai_reply_async(model=self.model, message_sequence=input_message_sequence, functions=self.functions)
 
             # Step 2: check if LLM wanted to call a function
             # (if yes) Step 3: call the function
             # (if yes) Step 4: send the info on the function call and function response to LLM
             response_message = response.choices[0].message
             response_message_copy = response_message.copy()
-            all_response_messages, heartbeat_request, function_failed = await self.handle_ai_response(response_message)
+            all_response_messages, heartbeat_request, function_failed = self.handle_ai_response(response_message)
 
             # Add the extra metadata to the assistant response
             # (e.g. enough metadata to enable recreating the API call)
@@ -529,15 +529,15 @@ class AgentAsync(object):
             # If we got a context alert, try trimming the messages length, then try again
             if 'maximum context length' in str(e):
                 # A separate API call to run a summarizer
-                await self.summarize_messages_inplace()
+                self.summarize_messages_inplace()
 
                 # Try step again
-                return await self.step(user_message, first_message=first_message)
+                return self.step(user_message, first_message=first_message)
             else:
                 printd(f"step() failed with openai.InvalidRequestError, but didn't recognize the error message: '{str(e)}'")
                 raise e
 
-    async def summarize_messages_inplace(self, cutoff=None):
+    def summarize_messages_inplace(self, cutoff=None):
         if cutoff is None:
             tokens_so_far = 0   # Smart cutoff -- just below the max.
             cutoff = len(self.messages) - 1
@@ -562,7 +562,7 @@ class AgentAsync(object):
         message_sequence_to_summarize = self.messages[1:cutoff]  # do NOT get rid of the system message
         printd(f"Attempting to summarize {len(message_sequence_to_summarize)} messages [1:{cutoff}] of {len(self.messages)}")
 
-        summary = await summarize_messages(self.model, message_sequence_to_summarize)
+        summary = summarize_messages(self.model, message_sequence_to_summarize)
         printd(f"Got summary: {summary}")
 
         # Metadata that's useful for the agent to see
@@ -583,7 +583,7 @@ class AgentAsync(object):
 
         printd(f"Ran summarizer, messages length {prior_len} -> {len(self.messages)}")
 
-    async def free_step(self, user_message, limit=None):
+    def free_step(self, user_message, limit=None):
         """Allow agent to manage its own control flow (past a single LLM call).
         Not currently used, instead this is handled in the CLI main.py logic
         """
@@ -594,11 +594,11 @@ class AgentAsync(object):
         while limit is None or step_count < limit:
             if function_failed:
                 user_message = get_heartbeat('Function call failed')
-                new_messages, heartbeat_request, function_failed = await self.step(user_message)
+                new_messages, heartbeat_request, function_failed = self.step(user_message)
                 step_count += 1
             elif heartbeat_request:
                 user_message = get_heartbeat('AI requested')
-                new_messages, heartbeat_request, function_failed = await self.step(user_message)
+                new_messages, heartbeat_request, function_failed = self.step(user_message)
                 step_count += 1
             else:
                 break
@@ -609,29 +609,29 @@ class AgentAsync(object):
     # All functions should return a response string (or None)
     # If the function fails, throw an exception
 
-    async def send_ai_message(self, message):
+    def send_ai_message(self, message):
         """AI wanted to send a message"""
-        await self.interface.assistant_message(message)
+        self.interface.assistant_message(message)
         return None
 
-    async def edit_memory(self, name, content):
+    def edit_memory(self, name, content):
         """Edit memory.name <= content"""
         new_len = self.memory.edit(name, content)
         self.rebuild_memory()
         return None
 
-    async def edit_memory_append(self, name, content):
+    def edit_memory_append(self, name, content):
         new_len = self.memory.edit_append(name, content)
         self.rebuild_memory()
         return None
 
-    async def edit_memory_replace(self, name, old_content, new_content):
+    def edit_memory_replace(self, name, old_content, new_content):
         new_len = self.memory.edit_replace(name, old_content, new_content)
         self.rebuild_memory()
         return None
 
-    async def recall_memory_search(self, query, count=5, page=0):
-        results, total = await self.persistence_manager.recall_memory.text_search(query, count=count, start=page*count)
+    def recall_memory_search(self, query, count=5, page=0):
+        results, total = self.persistence_manager.recall_memory.text_search(query, count=count, start=page*count)
         num_pages = math.ceil(total / count) - 1  # 0 index
         if len(results) == 0:
             results_str = f"No results found."
@@ -641,8 +641,8 @@ class AgentAsync(object):
             results_str = f"{results_pref} {json.dumps(results_formatted)}"
         return results_str
 
-    async def recall_memory_search_date(self, start_date, end_date, count=5, page=0):
-        results, total = await self.persistence_manager.recall_memory.date_search(start_date, end_date, count=count, start=page*count)
+    def recall_memory_search_date(self, start_date, end_date, count=5, page=0):
+        results, total = self.persistence_manager.recall_memory.date_search(start_date, end_date, count=count, start=page*count)
         num_pages = math.ceil(total / count) - 1  # 0 index
         if len(results) == 0:
             results_str = f"No results found."
@@ -652,12 +652,12 @@ class AgentAsync(object):
             results_str = f"{results_pref} {json.dumps(results_formatted)}"
         return results_str
 
-    async def archival_memory_insert(self, content, embedding=None):
-        await self.persistence_manager.archival_memory.insert(content, embedding=None)
+    def archival_memory_insert(self, content, embedding=None):
+        self.persistence_manager.archival_memory.insert(content, embedding=None)
         return None
 
-    async def archival_memory_search(self, query, count=5, page=0):
-        results, total = await self.persistence_manager.archival_memory.search(query, count=count, start=page*count)
+    def archival_memory_search(self, query, count=5, page=0):
+        results, total = self.persistence_manager.archival_memory.search(query, count=count, start=page*count)
         num_pages = math.ceil(total / count) - 1  # 0 index
         if len(results) == 0:
             results_str = f"No results found."
@@ -696,7 +696,7 @@ class AgentAsync(object):
             {'role': 'system', 'content': MESSAGE_CHATGPT_FUNCTION_SYSTEM_MESSAGE},
             {'role': 'user', 'content': str(message)},
         ]
-        response = await acreate(
+        response = acreate(
             model=MESSAGE_CHATGPT_FUNCTION_MODEL,
             messages=message_sequence,
             # functions=functions,
