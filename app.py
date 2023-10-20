@@ -89,6 +89,9 @@ if "messages" not in st.session_state:
             """
         })
 
+# --------------- New code here
+persistence_manager = InMemoryStateManager()
+
 for message in st.session_state.messages:
     if message["role"] in ["user", "assistant"]:
         with st.chat_message(message["role"]):
