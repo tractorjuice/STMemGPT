@@ -1,4 +1,4 @@
-import asyncio
+#import asyncio
 import random
 import time
 
@@ -64,7 +64,7 @@ def aretry_with_exponential_backoff(
 ):
     """Retry a function with exponential backoff."""
 
-    async def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs):
         # Initialize variables
         num_retries = 0
         delay = initial_delay
@@ -72,7 +72,7 @@ def aretry_with_exponential_backoff(
         # Loop until a successful response or max_retries is hit or an exception is raised
         while True:
             try:
-                return await func(*args, **kwargs)
+                return func(*args, **kwargs)
 
             # Retry on specified errors
             except errors as e:
@@ -90,7 +90,7 @@ def aretry_with_exponential_backoff(
                 delay *= exponential_base * (1 + jitter * random.random())
 
                 # Sleep for the delay
-                await asyncio.sleep(62)
+                #await asyncio.sleep(62)
 
             # Raise exceptions for any errors not specified
             except Exception as e:
@@ -100,19 +100,19 @@ def aretry_with_exponential_backoff(
 
 
 @aretry_with_exponential_backoff
-async def acompletions_with_backoff(**kwargs):
-    return await openai.ChatCompletion.acreate(**kwargs)
+def acompletions_with_backoff(**kwargs):
+    return openai.ChatCompletion.acreate(**kwargs)
 
 
 @aretry_with_exponential_backoff
-async def acreate_embedding_with_backoff(**kwargs):
+def acreate_embedding_with_backoff(**kwargs):
     """Wrapper around Embedding.acreate w/ backoff"""
-    return await openai.Embedding.acreate(**kwargs)
+    return openai.Embedding.acreate(**kwargs)
 
-async def async_get_embedding_with_backoff(text, model="text-embedding-ada-002"):
+def async_get_embedding_with_backoff(text, model="text-embedding-ada-002"):
     """To get text embeddings, import/call this function
     It specifies defaults + handles rate-limiting + is async"""
     text = text.replace("\n", " ")
-    response = await acreate_embedding_with_backoff(input = [text], model=model)
+    response = acreate_embedding_with_backoff(input = [text], model=model)
     embedding = response['data'][0]['embedding']
     return embedding
