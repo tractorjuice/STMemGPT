@@ -15,7 +15,7 @@ import readline
 #from rich.console import Console
 #console = Console()
 
-#import interface  # for printing to terminal
+import interface  # for printing to terminal
 import memgpt.agent as agent
 import memgpt.system as system
 import memgpt.utils as utils
