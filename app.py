@@ -48,6 +48,7 @@ MODEL = "gpt-3.5-turbo-16k-0613"
 #MODEL = "gpt-4-32k-0613"
 
 DEFAULT = 'memgpt_chat'
+user_message = None
 
 # Swap out your 'import openai'
 openai = promptlayer.openai
@@ -106,6 +107,10 @@ if prompt := st.chat_input("What is up?"):
 
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
+
+        user_message = system.package_user_message(prompt)
+        new_messages, heartbeat_request, function_failed, token_warning = await memgpt_agent.step(user_message, first_message=False, skip_verify=False)
+        
         full_response = ""
         for response in openai.ChatCompletion.create(
             model=st.session_state["openai_model"],
