@@ -1,0 +1,14 @@
+requiremenabsl-py
+colorama
+demjson3
+faiss-cpu
+geopy
+numpy
+openai
+pybars3
+python-dotenv
+pytz
+rich
+tiktoken
+timezonefinder
+tqdm
