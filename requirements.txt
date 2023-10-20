@@ -1,4 +1,4 @@
-requiremenabsl-py
+requirementabsl-py
 colorama
 demjson3
 faiss-cpu
