@@ -25,16 +25,16 @@ import memgpt.personas.personas as personas
 import memgpt.humans.humans as humans
 from memgpt.persistence_manager import InMemoryStateManager, InMemoryStateManagerWithPreloadedArchivalMemory, InMemoryStateManagerWithFaiss
 
-flags.DEFINE_string("persona", default=personas.DEFAULT, required=False, help="Specify persona")
-flags.DEFINE_string("human", default=humans.DEFAULT, required=False, help="Specify human")
-flags.DEFINE_string("model", default=constants.DEFAULT_MEMGPT_MODEL, required=False, help="Specify the LLM model")
-flags.DEFINE_boolean("first", default=False, required=False, help="Use -first to send the first message in the sequence")
-flags.DEFINE_boolean("debug", default=False, required=False, help="Use -debug to enable debugging output")
-flags.DEFINE_boolean("no_verify", default=False, required=False, help="Bypass message verification")
-flags.DEFINE_string("archival_storage_faiss_path", default="", required=False, help="Specify archival storage with FAISS index to load (a folder with a .index and .json describing documents to be loaded)")
-flags.DEFINE_string("archival_storage_files", default="", required=False, help="Specify files to pre-load into archival memory (glob pattern)")
-flags.DEFINE_string("archival_storage_files_compute_embeddings", default="", required=False, help="Specify files to pre-load into archival memory (glob pattern), and compute embeddings over them")
-flags.DEFINE_string("archival_storage_sqldb", default="", required=False, help="Specify SQL database to pre-load into archival memory")
+#flags.DEFINE_string("persona", default=personas.DEFAULT, required=False, help="Specify persona")
+#flags.DEFINE_string("human", default=humans.DEFAULT, required=False, help="Specify human")
+#flags.DEFINE_string("model", default=constants.DEFAULT_MEMGPT_MODEL, required=False, help="Specify the LLM model")
+#flags.DEFINE_boolean("first", default=False, required=False, help="Use -first to send the first message in the sequence")
+#flags.DEFINE_boolean("debug", default=False, required=False, help="Use -debug to enable debugging output")
+#flags.DEFINE_boolean("no_verify", default=False, required=False, help="Bypass message verification")
+#flags.DEFINE_string("archival_storage_faiss_path", default="", required=False, help="Specify archival storage with FAISS index to load (a folder with a .index and .json describing documents to be loaded)")
+#flags.DEFINE_string("archival_storage_files", default="", required=False, help="Specify files to pre-load into archival memory (glob pattern)")
+#flags.DEFINE_string("archival_storage_files_compute_embeddings", default="", required=False, help="Specify files to pre-load into archival memory (glob pattern), and compute embeddings over them")
+#flags.DEFINE_string("archival_storage_sqldb", default="", required=False, help="Specify SQL database to pre-load into archival memory")
 
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 promptlayer.api_key = st.secrets["PROMPTLAYER"]
@@ -92,7 +92,7 @@ if "messages" not in st.session_state:
 
 # --------------- New code here
 persistence_manager = InMemoryStateManager()
-memgpt_agent = presets.use_preset(DEFAULT, MODEL, personas.get_persona_text(FLAGS.persona), humans.get_human_text(FLAGS.human), interface, persistence_manager)
+memgpt_agent = presets.use_preset(DEFAULT, MODEL, personas.get_persona_text(sam_pov), humans.get_human_text(cs_phd), interface, persistence_manager)
 
 for message in st.session_state.messages:
     if message["role"] in ["user", "assistant"]:
