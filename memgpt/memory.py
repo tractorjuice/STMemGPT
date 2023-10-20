@@ -98,7 +98,7 @@ class CoreMemory(object):
             raise KeyError
 
 
-async def summarize_messages(
+def summarize_messages(
         model,
         message_sequence_to_summarize,
     ):
@@ -110,13 +110,13 @@ async def summarize_messages(
     if summary_input_tkns > MESSAGE_SUMMARY_WARNING_TOKENS:
         trunc_ratio = (MESSAGE_SUMMARY_WARNING_TOKENS / summary_input_tkns) * 0.8   # For good measure...
         cutoff = int(len(message_sequence_to_summarize) * trunc_ratio)
-        summary_input = str([await summarize_messages(model, message_sequence_to_summarize[:cutoff])] + message_sequence_to_summarize[cutoff:])
+        summary_input = str([summarize_messages(model, message_sequence_to_summarize[:cutoff])] + message_sequence_to_summarize[cutoff:])
     message_sequence = [
         {"role": "system", "content": summary_prompt},
         {"role": "user", "content": summary_input},
     ]
 
-    response = await acreate(
+    response = acreate(
         model=model,
         messages=message_sequence,
     )
@@ -164,7 +164,7 @@ class DummyArchivalMemory(ArchivalMemory):
             f"\n### ARCHIVAL MEMORY ###" + \
             f"\n{memory_str}"
 
-    async def insert(self, memory_string, embedding=None):
+    def insert(self, memory_string, embedding=None):
         if embedding is not None:
             raise ValueError('Basic text-based archival memory does not support embeddings')
         self._archive.append({
@@ -173,7 +173,7 @@ class DummyArchivalMemory(ArchivalMemory):
             'content': memory_string,
         })
 
-    async def search(self, query_string, count=None, start=None):
+    def search(self, query_string, count=None, start=None):
         """Simple text-based search"""
         # in the dummy version, run an (inefficient) case-insensitive match search
         # printd(f"query_string: {query_string}")
@@ -202,10 +202,10 @@ class DummyArchivalMemoryWithEmbeddings(DummyArchivalMemory):
     def __len__(self):
         return len(self._archive)
 
-    async def insert(self, memory_string, embedding=None):
+    def insert(self, memory_string, embedding=None):
         # Get the embedding
         if embedding is None:
-            embedding = await async_get_embedding_with_backoff(memory_string, model=self.embedding_model)
+            embedding = async_get_embedding_with_backoff(memory_string, model=self.embedding_model)
         embedding_meta = {'model': self.embedding_model}
         printd(f"Got an embedding, type {type(embedding)}, len {len(embedding)}")
 
@@ -216,13 +216,13 @@ class DummyArchivalMemoryWithEmbeddings(DummyArchivalMemory):
             'embedding_metadata': embedding_meta,
         })
 
-    async def search(self, query_string, count=None, start=None):
+    def search(self, query_string, count=None, start=None):
         """Simple embedding-based search (inefficient, no caching)"""
         # see: https://github.com/openai/openai-cookbook/blob/main/examples/Semantic_text_search_using_embeddings.ipynb
 
         # query_embedding = get_embedding(query_string, model=self.embedding_model)
         # our wrapped version supports backoff/rate-limits
-        query_embedding = await async_get_embedding_with_backoff(query_string, model=self.embedding_model)
+        query_embedding = async_get_embedding_with_backoff(query_string, model=self.embedding_model)
         similarity_scores = [cosine_similarity(memory['embedding'], query_embedding) for memory in self._archive]
 
         # Sort the archive based on similarity scores
@@ -273,10 +273,10 @@ class DummyArchivalMemoryWithFaiss(DummyArchivalMemory):
     def __len__(self):
         return len(self._archive)
 
-    async def insert(self, memory_string, embedding=None):
+    def insert(self, memory_string, embedding=None):
         if embedding is None:
             # Get the embedding
-            embedding = await async_get_embedding_with_backoff(memory_string, model=self.embedding_model)
+            embedding = async_get_embedding_with_backoff(memory_string, model=self.embedding_model)
         print(f"Got an embedding, type {type(embedding)}, len {len(embedding)}")
 
         self._archive.append({
@@ -287,7 +287,7 @@ class DummyArchivalMemoryWithFaiss(DummyArchivalMemory):
         embedding = np.array([embedding]).astype('float32')
         self.index.add(embedding)
 
-    async def search(self, query_string, count=None, start=None):
+    def search(self, query_string, count=None, start=None):
         """Simple embedding-based search (inefficient, no caching)"""
         # see: https://github.com/openai/openai-cookbook/blob/main/examples/Semantic_text_search_using_embeddings.ipynb
 
@@ -297,7 +297,7 @@ class DummyArchivalMemoryWithFaiss(DummyArchivalMemory):
             query_embedding = self.embeddings_dict[query_string]
             search_result = self.search_results[query_string]
         else:
-            query_embedding = await async_get_embedding_with_backoff(query_string, model=self.embedding_model)
+            query_embedding = async_get_embedding_with_backoff(query_string, model=self.embedding_model)
             _, indices = self.index.search(np.array([np.array(query_embedding, dtype=np.float32)]), self.k)
             search_result = [self._archive[idx] if idx < len(self._archive) else "" for idx in indices[0]]
             self.embeddings_dict[query_string] = query_embedding
@@ -387,10 +387,10 @@ class DummyRecallMemory(RecallMemory):
             f"\n### RECALL MEMORY ###" + \
             f"\n{memory_str}"
 
-    async def insert(self, message):
+    def insert(self, message):
         raise NotImplementedError('This should be handled by the PersistenceManager, recall memory is just a search layer on top')
 
-    async def text_search(self, query_string, count=None, start=None):
+    def text_search(self, query_string, count=None, start=None):
         # in the dummy version, run an (inefficient) case-insensitive match search
         message_pool = [d for d in self._message_logs if d['message']['role'] not in ['system', 'function']]
 
@@ -422,7 +422,7 @@ class DummyRecallMemory(RecallMemory):
         match = re.match(r"(\d{4}-\d{2}-\d{2})", timestamp)
         return match.group(1) if match else None
 
-    async def date_search(self, start_date, end_date, count=None, start=None):
+    def date_search(self, start_date, end_date, count=None, start=None):
         message_pool = [d for d in self._message_logs if d['message']['role'] not in ['system', 'function']]
 
         # First, validate the start_date and end_date format
@@ -459,7 +459,7 @@ class DummyRecallMemoryWithEmbeddings(DummyRecallMemory):
         self.embedding_model = 'text-embedding-ada-002'
         self.only_use_preloaded_embeddings = False
 
-    async def text_search(self, query_string, count=None, start=None):
+    def text_search(self, query_string, count=None, start=None):
         # in the dummy version, run an (inefficient) case-insensitive match search
         message_pool = [d for d in self._message_logs if d['message']['role'] not in ['system', 'function']]
 
@@ -474,11 +474,11 @@ class DummyRecallMemoryWithEmbeddings(DummyRecallMemory):
                     message_pool_filtered.append(d)
             elif message_str not in self.embeddings:
                 printd(f"recall_memory.text_search -- '{message_str}' was not in embedding dict, computing now")
-                self.embeddings[message_str] = await async_get_embedding_with_backoff(message_str, model=self.embedding_model)
+                self.embeddings[message_str] = async_get_embedding_with_backoff(message_str, model=self.embedding_model)
                 message_pool_filtered.append(d)
 
        # our wrapped version supports backoff/rate-limits
-        query_embedding = await async_get_embedding_with_backoff(query_string, model=self.embedding_model)
+        query_embedding = async_get_embedding_with_backoff(query_string, model=self.embedding_model)
         similarity_scores = [cosine_similarity(self.embeddings[d['message']['content']], query_embedding) for d in message_pool_filtered]
 
         # Sort the archive based on similarity scores
