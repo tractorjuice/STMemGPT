@@ -1,17 +1,5 @@
 # [STMemGPT](https://stmemgpt.streamlit.ai)
 
-
-<a href="#user-content-memgpt"><img src="https://memgpt.ai/assets/img/memgpt_logo_circle.png" alt="MemGPT logo" width="75" align="right"></a>
-
-<div align="center">
-
- <strong>Try out our MemGPT chatbot on <a href="https://discord.gg/9GEQrxmVyE">Discord</a>!</strong>
- 
-[![Discord](https://img.shields.io/discord/1161736243340640419?label=Discord&logo=discord&logoColor=5865F2&style=flat-square&color=5865F2)](https://discord.gg/9GEQrxmVyE)
-[![arXiv 2310.08560](https://img.shields.io/badge/arXiv-2310.08560-B31B1B?logo=arxiv&style=flat-square)](https://arxiv.org/abs/2310.08560)
-
-</div>
-
 <details open>
   <summary><h2>🤖 Create perpetual chatbots with self-editing memory!</h2></summary>
   <div align="center">
