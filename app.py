@@ -108,6 +108,7 @@ if prompt := st.chat_input("What is up?"):
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
 
+        # --------------- New code here
         user_message = system.package_user_message(prompt)
         new_messages, heartbeat_request, function_failed, token_warning = memgpt_agent.step(user_message, first_message=False, skip_verify=False)
         
