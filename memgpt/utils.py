@@ -183,7 +183,7 @@ def chunk_files_for_jsonl(files, tkns_per_chunk=300, model='gpt-4'):
         ret.append(curr_file)
     return ret
 
-async def prepare_archival_index_from_files_compute_embeddings(glob_pattern, tkns_per_chunk=300, model='gpt-4', embeddings_model='text-embedding-ada-002'):
+def prepare_archival_index_from_files_compute_embeddings(glob_pattern, tkns_per_chunk=300, model='gpt-4', embeddings_model='text-embedding-ada-002'):
     files = sorted(glob.glob(glob_pattern))
     save_dir = "archival_index_from_files_" + get_local_time().replace(' ', '_').replace(':', '_')
     os.makedirs(save_dir, exist_ok=True)
@@ -199,7 +199,7 @@ async def prepare_archival_index_from_files_compute_embeddings(glob_pattern, tkn
     for chunk in tqdm(archival_database, desc="Processing file chunks", total=len(archival_database)):
         # for chunk in tqdm(f, desc=f"Embedding file {i+1}/{len(chunks_by_file)}", total=len(f), leave=False):
         try:
-            embedding = await async_get_embedding_with_backoff(chunk['content'], model=embeddings_model)
+            embedding = async_get_embedding_with_backoff(chunk['content'], model=embeddings_model)
         except Exception as e:
             print(chunk)
             raise e
