@@ -13,20 +13,20 @@ DEBUG = False  # only dumps important messages in the terminal
 def important_message(msg):
     print(f'{Fore.MAGENTA}{Style.BRIGHT}{msg}{Style.RESET_ALL}')
 
-async def internal_monologue(msg):
+def internal_monologue(msg):
     # ANSI escape code for italic is '\x1B[3m'
     print(f'\x1B[3m{Fore.LIGHTBLACK_EX}💭 {msg}{Style.RESET_ALL}')
 
-async def assistant_message(msg):
+def assistant_message(msg):
     print(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
 
-async def memory_message(msg):
+def memory_message(msg):
     print(f'{Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}🧠 {Fore.LIGHTMAGENTA_EX}{msg}{Style.RESET_ALL}')
 
-async def system_message(msg):
+def system_message(msg):
     printd(f'{Fore.MAGENTA}{Style.BRIGHT}🖥️ [system] {Fore.MAGENTA}{msg}{Style.RESET_ALL}')
 
-async def user_message(msg, raw=False):
+def user_message(msg, raw=False):
     if isinstance(msg, str):
         if raw:
             printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg}{Style.RESET_ALL}')
@@ -52,7 +52,7 @@ async def user_message(msg, raw=False):
     else:
         printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
 
-async def function_message(msg):
+def function_message(msg):
 
     if isinstance(msg, dict):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
@@ -99,43 +99,43 @@ async def function_message(msg):
             printd(f"Warning: did not recognize function message {type(msg)} {msg}")
             printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
 
-async def print_messages(message_sequence):
+def print_messages(message_sequence):
     for msg in message_sequence:
         role = msg['role']
         content = msg['content']
 
         if role == 'system':
-            await system_message(content)
+            system_message(content)
         elif role == 'assistant':
             # Differentiate between internal monologue, function calls, and messages
             if msg.get('function_call'):
                 if content is not None:
-                    await internal_monologue(content)
-                await function_message(msg['function_call'])
+                    internal_monologue(content)
+                function_message(msg['function_call'])
                 # assistant_message(content)
             else:
-                await internal_monologue(content)
+                internal_monologue(content)
         elif role == 'user':
-            await user_message(content)
+            user_message(content)
         elif role == 'function':
-            await function_message(content)
+            function_message(content)
         else:
             print(f'Unknown role: {content}')
 
-async def print_messages_simple(message_sequence):
+def print_messages_simple(message_sequence):
     for msg in message_sequence:
         role = msg['role']
         content = msg['content']
 
         if role == 'system':
-            await system_message(content)
+            system_message(content)
         elif role == 'assistant':
-            await assistant_message(content)
+            assistant_message(content)
         elif role == 'user':
-            await user_message(content, raw=True)
+            user_message(content, raw=True)
         else:
             print(f'Unknown role: {content}')
 
-async def print_messages_raw(message_sequence):
+def print_messages_raw(message_sequence):
     for msg in message_sequence:
         print(msg)
