@@ -667,7 +667,7 @@ class AgentAsync(object):
             results_str = f"{results_pref} {json.dumps(results_formatted)}"
         return results_str
 
-    async def pause_heartbeats(self, minutes, max_pause=MAX_PAUSE_HEARTBEATS):
+    def pause_heartbeats(self, minutes, max_pause=MAX_PAUSE_HEARTBEATS):
         """Pause timed heartbeats for N minutes"""
         minutes = min(max_pause, minutes)
 
@@ -689,7 +689,7 @@ class AgentAsync(object):
         elapsed_time = datetime.datetime.now() - self.pause_heartbeats_start
         return elapsed_time.total_seconds() < self.pause_heartbeats_minutes * 60
 
-    async def message_chatgpt(self, message):
+    def message_chatgpt(self, message):
         """Base call to GPT API w/ functions"""
 
         message_sequence = [
