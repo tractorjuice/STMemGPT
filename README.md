@@ -3,8 +3,6 @@
 
 <a href="#user-content-memgpt"><img src="https://memgpt.ai/assets/img/memgpt_logo_circle.png" alt="MemGPT logo" width="75" align="right"></a>
 
-# [MemGPT](https://memgpt.ai)
-
 <div align="center">
 
  <strong>Try out our MemGPT chatbot on <a href="https://discord.gg/9GEQrxmVyE">Discord</a>!</strong>
