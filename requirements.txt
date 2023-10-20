@@ -12,3 +12,6 @@ rich
 tiktoken
 timezonefinder
 tqdm
+openai
+streamlit
+promptlayer
