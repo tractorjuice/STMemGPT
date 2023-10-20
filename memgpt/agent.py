@@ -89,7 +89,7 @@ def get_ai_reply_async(
     """Base call to GPT API w/ functions"""
 
     try:
-        response = await acreate(
+        response = acreate(
             model=model,
             messages=message_sequence,
             functions=functions,
@@ -313,7 +313,7 @@ class AgentAsync(object):
         if response_message.get("function_call"):
 
             # The content if then internal monologue, not chat
-            await self.interface.internal_monologue(response_message.content)
+            self.interface.internal_monologue(response_message.content)
             messages.append(response_message)  # extend conversation with assistant's reply
 
             # Step 3: call the function
@@ -351,7 +351,7 @@ class AgentAsync(object):
                         "content": function_response,
                     }
                 )  # extend conversation with function response
-                await self.interface.function_message(f'Error: {error_msg}')
+                self.interface.function_message(f'Error: {error_msg}')
                 return messages, None, True  # force a heartbeat to allow agent to handle error
 
             # Failure case 2: function name is OK, but function args are bad JSON
@@ -368,7 +368,7 @@ class AgentAsync(object):
                         "content": function_response,
                     }
                 )  # extend conversation with function response
-                await self.interface.function_message(f'Error: {error_msg}')
+                self.interface.function_message(f'Error: {error_msg}')
                 return messages, None, True  # force a heartbeat to allow agent to handle error
 
             # (Still parsing function args)
@@ -379,9 +379,9 @@ class AgentAsync(object):
                 heartbeat_request = None
 
             # Failure case 3: function failed during execution
-            await self.interface.function_message(f'Running {function_name}({function_args})')
+            self.interface.function_message(f'Running {function_name}({function_args})')
             try:
-                function_response_string = await function_to_call(**function_args)
+                function_response_string = function_to_call(**function_args)
                 function_response = package_function_response(True, function_response_string)
                 function_failed = False
             except Exception as e:
@@ -395,12 +395,12 @@ class AgentAsync(object):
                         "content": function_response,
                     }
                 )  # extend conversation with function response
-                await self.interface.function_message(f'Error: {error_msg}')
+                self.interface.function_message(f'Error: {error_msg}')
                 return messages, None, True  # force a heartbeat to allow agent to handle error
 
             # If no failures happened along the way: ...
             # Step 4: send the info on the function call and function response to GPT
-            await self.interface.function_message(f'Success: {function_response_string}')
+            self.interface.function_message(f'Success: {function_response_string}')
             messages.append(
                 {
                     "role": "function",
@@ -411,7 +411,7 @@ class AgentAsync(object):
 
         else:
             # Standard non-function reply
-            await self.interface.internal_monologue(response_message.content)
+            self.interface.internal_monologue(response_message.content)
             messages.append(response_message)  # extend conversation with assistant's reply
             heartbeat_request = None
             function_failed = None
