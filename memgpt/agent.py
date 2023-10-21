@@ -165,7 +165,7 @@ class AgentAsync(object):
         self.messages_total_init = st.session_state.messages_total_init
         
         printd(f"AgentAsync initialized, self.messages_total={self.messages_total}")
-        st.sidebar.write(AgentAsync initialized, self.messages_total={self.messages_total}")
+        st.sidebar.write("AgentAsync initialized, self.messages_total={self.messages_total}")
 
         # Interface must implement:
         # - internal_monologue
