@@ -479,6 +479,7 @@ class AgentAsync(object):
             # Step 1: send the conversation and available functions to GPT
             if not skip_verify and (first_message or self.messages_total == self.messages_total_init):
                 printd(f"This is the first message. Running extra verifier on AI response.")
+                st.sidebar.write(printd(f"This is the first message. Running extra verifier on AI response.")
                 counter = 0
                 while True:
 
@@ -530,6 +531,7 @@ class AgentAsync(object):
                 printd(f"last response total_tokens ({current_total_tokens}) < {MESSAGE_SUMMARY_WARNING_TOKENS}")
 
             self.append_to_messages(all_new_messages)
+            st.session_state.all_new_messages.append(all_new_messages)
             return all_new_messages, heartbeat_request, function_failed, active_memory_warning
 
         except Exception as e:
