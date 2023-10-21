@@ -121,7 +121,7 @@ if prompt := st.chat_input("What is up?"):
                 for m in st.session_state.messages
             ],
             stream=True,
-            pl_tags=["stmemgpt"]
+            pl_tags=["stmemgptv1"]
         ):
             full_response += response.choices[0].delta.get("content", "")
             message_placeholder.markdown(full_response + "▌")
