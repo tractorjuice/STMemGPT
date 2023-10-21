@@ -596,7 +596,7 @@ class AgentAsync(object):
                 return self.step(user_message, first_message=first_message)
             else:
                 printd(f"step() failed with openai.InvalidRequestError, but didn't recognize the error message: '{str(e)}'")
-                st.sidebar.write("step() failed with openai.InvalidRequestError, but didn't recognize the error message: " + {str(e)})
+                st.sidebar.write(f"step() failed with openai.InvalidRequestError, but didn't recognize the error message: '{str(e)}'")
                 raise e
 
     def summarize_messages_inplace(self, cutoff=None):
