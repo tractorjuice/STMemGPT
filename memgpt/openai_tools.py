@@ -3,6 +3,7 @@ import random
 import time
 
 import openai
+import promptlayer
 
 
 def retry_with_exponential_backoff(
