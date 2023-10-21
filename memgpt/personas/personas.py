@@ -1,6 +1,6 @@
 import os
 
-DEFAULT = 'sam_pov'
+DEFAULT = 'wardleylearnbot'
 
 
 def get_persona_text(key=DEFAULT):
