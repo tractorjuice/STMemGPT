@@ -113,7 +113,8 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         new_messages, heartbeat_request, function_failed, token_warning = memgpt_agent.step(user_message, first_message=False, skip_verify=False)
         st.sidebar.warning(new_messages)
 
-        message = new_messages['function_call']['arguments']['message']
+        message_args = json.loads(new_messages['function_call']['arguments'])
+        message = message_args['message']
         st.write(message)
         
         #full_response = ""
