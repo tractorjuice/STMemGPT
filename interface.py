@@ -13,29 +13,30 @@ DEBUG = False  # only dumps important messages in the terminal
 
 def important_message(msg):
     st.warning(msg)
-    #print(f'{Fore.MAGENTA}{Style.BRIGHT}{msg}{Style.RESET_ALL}')
+    print(f'{Fore.MAGENTA}{Style.BRIGHT}{msg}{Style.RESET_ALL}')
 
 def internal_monologue(msg):
     # ANSI escape code for italic is '\x1B[3m'
-    #print(f'\x1B[3m{Fore.LIGHTBLACK_EX}💭 {msg}{Style.RESET_ALL}')
+    print(f'\x1B[3m{Fore.LIGHTBLACK_EX}💭 {msg}{Style.RESET_ALL}')
     st.sidebar.write('Internal: ' + msg)
 
 def assistant_message(msg):
-    #print(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
+    print(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
     st.write('Assistant: ' + msg)
 
 def memory_message(msg):
-    #print(f'{Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}🧠 {Fore.LIGHTMAGENTA_EX}{msg}{Style.RESET_ALL}')
+    print(f'{Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}🧠 {Fore.LIGHTMAGENTA_EX}{msg}{Style.RESET_ALL}')
     st.sidebar.write('Memory: ' + msg)
 
 def system_message(msg):
-    #printd(f'{Fore.MAGENTA}{Style.BRIGHT}🖥️ [system] {Fore.MAGENTA}{msg}{Style.RESET_ALL}')
+    printd(f'{Fore.MAGENTA}{Style.BRIGHT}🖥️ [system] {Fore.MAGENTA}{msg}{Style.RESET_ALL}')
     st.sidebar.write('System: ' + msg)
 
 def user_message(msg, raw=False):
     if isinstance(msg, str):
         if raw:
             printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg}{Style.RESET_ALL}')
+            st.write(User Message: ' + msg)
             return
         else:
             try:
@@ -145,4 +146,4 @@ def print_messages_simple(message_sequence):
 def print_messages_raw(message_sequence):
     for msg in message_sequence:
         st.write(msg)
-        #print(msg)
+        print(msg)
