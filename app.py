@@ -48,7 +48,6 @@ MODEL = "gpt-4"
 #MODEL = "gpt-4-0613"
 #MODEL = "gpt-4-32k-0613"
 
-DEFAULT = 'memgpt_wardley'
 user_message = None
 
 # Swap out your 'import openai'
@@ -97,7 +96,7 @@ if "messages" not in st.session_state:
 
 # --------------- New code here
 persistence_manager = InMemoryStateManager()
-memgpt_agent = presets.use_preset(DEFAULT, MODEL, personas.get_persona_text('simonwarbley'), humans.get_human_text('awareness'), interface, persistence_manager)
+memgpt_agent = presets.use_preset('memgpt_wardley', MODEL, personas.get_persona_text('simonwarbley'), humans.get_human_text('awareness'), interface, persistence_manager)
 
 for message in st.session_state.messages:
     if message["role"] in ["user", "assistant"]:
