@@ -165,7 +165,6 @@ class AgentAsync(object):
         self.messages_total_init = st.session_state.messages_total_init
         
         printd(f"AgentAsync initialized, self.messages_total={self.messages_total}")
-        st.sidebar.write("AgentAsync initialized, self.messages_total={self.messages_total}")
 
         # Interface must implement:
         # - internal_monologue
@@ -474,18 +473,15 @@ class AgentAsync(object):
         # First message should be a call to send_message with a non-empty content
         if require_send_message and not response_message.get("function_call"):
             printd(f"First message didn't include function call: {response_message}")
-            st.sidebar.warning("First message didn't include function call: " + str(response_message))
             return False
 
         function_name = response_message["function_call"]["name"]
         if require_send_message and function_name != 'send_message':
             printd(f"First message function call wasn't send_message: {response_message}")
-            st.sidebar.warning("First message function call wasn't send_message: str(response_message)")
             return False
 
         if require_monologue and (not response_message.get("content") or response_message["content"] is None or response_message["content"] == ""):
             printd(f"First message missing internal monologue: {response_message}")
-            st.sidebar.warning("First message missing internal monologue: " + str(response_message))
             return False
 
         if response_message.get("content"):
@@ -496,12 +492,10 @@ class AgentAsync(object):
                 return any(char in s for char in special_characters)
             if contains_special_characters(monologue):
                 printd(f"First message internal monologue contained special characters: {response_message}")
-                st.sidebar.warning("First message internal monologue contained special characters: " + str(response_message))
                 return False
             if 'functions' in monologue or 'send_message' in monologue or 'inner thought' in monologue.lower():
                 # Sometimes the syntax won't be correct and internal syntax will leak into message.context
                 printd(f"First message internal monologue contained reserved words: " + {response_message})
-                st.sidebar.warning("First message internal monologue contained reserved words: " + str(response_message))
                 return False
 
         return True
@@ -523,12 +517,10 @@ class AgentAsync(object):
 
             if len(input_message_sequence) > 1 and input_message_sequence[-1]['role'] != 'user':
                 printd(f"WARNING: attempting to run ChatCompletion without user as the last message in the queue")
-                st.sidebar.write("WARNING: attempting to run ChatCompletion without user as the last message in the queue")
 
             # Step 1: send the conversation and available functions to GPT
             if not skip_verify and (first_message or self.messages_total == self.messages_total_init):
                 printd(f"This is the first message. Running extra verifier on AI response.")
-                st.sidebar.write("This is the first message. Running extra verifier on AI response.")
                 counter = 0
                 while True:
 
@@ -585,7 +577,6 @@ class AgentAsync(object):
 
         except Exception as e:
             printd(f"step() failed\nuser_message = {user_message}\nerror = {e}")
-            st.sidebar.write(f"step() failed\nuser_message = {user_message}\nerror = {e}")
 
             # If we got a context alert, try trimming the messages length, then try again
             if 'maximum context length' in str(e):
@@ -596,7 +587,6 @@ class AgentAsync(object):
                 return self.step(user_message, first_message=first_message)
             else:
                 printd(f"step() failed with openai.InvalidRequestError, but didn't recognize the error message: '{str(e)}'")
-                st.sidebar.write(f"step() failed with openai.InvalidRequestError, but didn't recognize the error message: '{str(e)}'")
                 raise e
 
     def summarize_messages_inplace(self, cutoff=None):
