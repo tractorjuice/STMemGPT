@@ -506,7 +506,7 @@ class AgentAsync(object):
 
         return True
 
-    def step(self, user_message, first_message=False, first_message_retry_limit=FIRST_MESSAGE_ATTEMPTS, skip_verify=False):
+    def step(self, user_message, first_message=False, first_message_retry_limit=FIRST_MESSAGE_ATTEMPTS, skip_verify=True):
         """Top-level event message handler for the MemGPT agent"""
 
         try:
