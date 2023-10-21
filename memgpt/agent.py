@@ -481,7 +481,7 @@ class AgentAsync(object):
                 return any(char in s for char in special_characters)
             if contains_special_characters(monologue):
                 printd(f"First message internal monologue contained special characters: {response_message}")
-                st.sidebar.warnng("First message internal monologue contained special characters: " + str(response_message))
+                st.sidebar.warning("First message internal monologue contained special characters: " + str(response_message))
                 return False
             if 'functions' in monologue or 'send_message' in monologue or 'inner thought' in monologue.lower():
                 # Sometimes the syntax won't be correct and internal syntax will leak into message.context
