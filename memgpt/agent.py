@@ -585,7 +585,7 @@ class AgentAsync(object):
 
         except Exception as e:
             printd(f"step() failed\nuser_message = {user_message}\nerror = {e}")
-            st.sidebar.write("step() failed\nuser_message = " + {user_message} + "\nerror = " + {e})
+            st.sidebar.write(f"step() failed\nuser_message = {user_message}\nerror = {e}")
 
             # If we got a context alert, try trimming the messages length, then try again
             if 'maximum context length' in str(e):
