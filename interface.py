@@ -37,7 +37,7 @@ def user_message(msg, raw=False):
     if isinstance(msg, str):
         if raw:
             printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg}{Style.RESET_ALL}')
-            st.sidebar.write('User Message:\n' + msg)
+            #st.sidebar.write('User Message:\n' + msg)
             return
         else:
             try:
@@ -50,19 +50,19 @@ def user_message(msg, raw=False):
     if msg_json['type'] == 'user_message':
         msg_json.pop('type')
         printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-        st.sidebar.write(msg_json)
+        #st.sidebar.write(msg_json)
     elif msg_json['type'] == 'heartbeat':
         if DEBUG:
             msg_json.pop('type')
             printd(f'{Fore.GREEN}{Style.BRIGHT}💓 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-            st.write.sidebar(msg_json)
+            #st.write.sidebar(msg_json)
     elif msg_json['type'] == 'system_message':
         msg_json.pop('type')
         printd(f'{Fore.GREEN}{Style.BRIGHT}🖥️ {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-        st.write.sidebar(msg_json)
+        #st.write.sidebar(msg_json)
     else:
         printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-        st.write.sidebar(msg_json)
+        #st.write.sidebar(msg_json)
 
 def function_message(msg):
 
