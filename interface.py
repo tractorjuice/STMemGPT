@@ -119,7 +119,7 @@ def function_message(msg):
         except Exception:
             printd(f"Warning: did not recognize function message {type(msg)} {msg}")
             printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-            st.sidebar.write('Warning: did not recognize funtion message' + msg)
+            #st.sidebar.write('Warning: did not recognize funtion message' + msg)
 
 def print_messages(message_sequence):
     for msg in message_sequence:
