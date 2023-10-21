@@ -49,7 +49,7 @@ def user_message(msg, raw=False):
     if msg_json['type'] == 'user_message':
         msg_json.pop('type')
         printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-        st.write.sidebar(msg_json)
+        st.sidebar.write(msg_json)
     elif msg_json['type'] == 'heartbeat':
         if DEBUG:
             msg_json.pop('type')
