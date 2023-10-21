@@ -109,7 +109,7 @@ def function_message(msg):
                 pass
             else:
                 printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-                st.sidebar.write('Function: ' + msg)
+                #st.sidebar.write('Function: ' + msg)
     else:
         try:
             msg_dict = json.loads(msg)
