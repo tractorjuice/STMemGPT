@@ -23,6 +23,7 @@ DEBUG = False
 def printd(*args, **kwargs):
     if DEBUG:
         print(*args, **kwargs)
+        st.write.sidebar(*args, **kwargs)
 
 def cosine_similarity(a, b):
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
