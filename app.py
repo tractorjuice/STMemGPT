@@ -111,6 +111,7 @@ if prompt := st.chat_input("What is up?"):
         # --------------- New code here
         user_message = system.package_user_message(prompt)
         new_messages, heartbeat_request, function_failed, token_warning = memgpt_agent.step(user_message, first_message=False, skip_verify=False)
+        st.warning(new_messages)
         
         full_response = ""
         for response in openai.ChatCompletion.create(
