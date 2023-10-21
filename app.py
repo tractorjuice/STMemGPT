@@ -48,6 +48,7 @@ MODEL = "gpt-4"
 #MODEL = "gpt-4-0613"
 #MODEL = "gpt-4-32k-0613"
 
+DEFAULT = 'memgpt_chat'
 user_message = None
 
 # Swap out your 'import openai'
@@ -60,6 +61,9 @@ st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)"
 st.sidebar.markdown("Current Version: 0.2.0")
 st.sidebar.markdown("Using GPT-4 API")
 st.sidebar.divider()
+
+if "all_new_messages" not in st.session_state:
+    st.session_state["all_new_messages"] = []
 
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = MODEL
@@ -93,7 +97,7 @@ if "messages" not in st.session_state:
 
 # --------------- New code here
 persistence_manager = InMemoryStateManager()
-memgpt_agent = presets.use_preset('memgpt_chat', MODEL, personas.get_persona_text('simonwarbley'), humans.get_human_text('awareness'), interface, persistence_manager)
+memgpt_agent = presets.use_preset(DEFAULT, MODEL, personas.get_persona_text('wardleylearnbot'), humans.get_human_text('awareness'), interface, persistence_manager)
 
 for message in st.session_state.messages:
     if message["role"] in ["user", "assistant"]:
@@ -111,7 +115,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         # --------------- New code here
         user_message = system.package_user_message(prompt)
         new_messages, heartbeat_request, function_failed, token_warning = memgpt_agent.step(user_message, first_message=False, skip_verify=False)
-        st.sidebar.warning(new_messages)
+        #st.sidebar.warning(new_messages)
 
         for item in new_messages:
             if 'function_call' in item and 'arguments' in item['function_call']:
