@@ -5,7 +5,9 @@ import time
 import openai
 import promptlayer
 
+# Swap out your 'import openai'
 promptlayer.api_key = st.secrets["PROMPTLAYER"]
+openai = promptlayer.openai
 
 
 def retry_with_exponential_backoff(
