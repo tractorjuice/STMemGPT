@@ -40,7 +40,7 @@ def retry_with_exponential_backoff(
                 delay *= exponential_base * (1 + jitter * random.random())
 
                 # Sleep for the delay
-                time.sleep(62)
+                #time.sleep(62)
 
             # Raise exceptions for any errors not specified
             except Exception as e:
@@ -91,7 +91,7 @@ def aretry_with_exponential_backoff(
 
                 # Sleep for the delay
                 #await asyncio.sleep(62)
-                time.sleep(62)
+                #time.sleep(62)
 
             # Raise exceptions for any errors not specified
             except Exception as e:
