@@ -434,7 +434,7 @@ class AgentAsync(object):
         # First message should be a call to send_message with a non-empty content
         if require_send_message and not response_message.get("function_call"):
             printd(f"First message didn't include function call: {response_message}")
-            st.sidebar.warning("First message didn't include function call: {response_message}")
+            st.sidebar.warning("First message didn't include function call: " + {response_message})
             return False
 
         function_name = response_message["function_call"]["name"]
@@ -445,7 +445,7 @@ class AgentAsync(object):
 
         if require_monologue and (not response_message.get("content") or response_message["content"] is None or response_message["content"] == ""):
             printd(f"First message missing internal monologue: {response_message}")
-            st.sidebar.warning("First message missing internal monologue: {response_message}")
+            st.sidebar.warning("First message missing internal monologue: " + {response_message})
             return False
 
         if response_message.get("content"):
@@ -456,12 +456,12 @@ class AgentAsync(object):
                 return any(char in s for char in special_characters)
             if contains_special_characters(monologue):
                 printd(f"First message internal monologue contained special characters: {response_message}")
-                st.sidebar.warnng("First message internal monologue contained special characters: {response_message}")
+                st.sidebar.warnng("First message internal monologue contained special characters: " + {response_message})
                 return False
             if 'functions' in monologue or 'send_message' in monologue or 'inner thought' in monologue.lower():
                 # Sometimes the syntax won't be correct and internal syntax will leak into message.context
-                printd(f"First message internal monologue contained reserved words: {response_message}")
-                st.sidebar.warning("First message internal monologue contained reserved words: {response_message}")
+                printd(f"First message internal monologue contained reserved words: " + {response_message})
+                st.sidebar.warning("First message internal monologue contained reserved words: " + {response_message})
                 return False
 
         return True
