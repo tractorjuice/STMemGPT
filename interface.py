@@ -92,7 +92,7 @@ def function_message(msg):
                         msg_dict = eval(function_args)
                         if function_name == 'archival_memory_search':
                             print(f'{Fore.RED}\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
-                            st.sidebar.write(query: {msg_dict["query"]}, page: {msg_dict["page"]})
+                            st.sidebar.write('query:' + {msg_dict["query"]} + ' page: ' + {msg_dict["page"]})
                         else:
                             print(f'{Fore.RED}{Style.BRIGHT}\t{Fore.RED} {msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]}')
                             st.sidebar.write({msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]})
