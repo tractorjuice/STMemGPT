@@ -12,8 +12,8 @@ init(autoreset=True)
 DEBUG = False  # only dumps important messages in the terminal
 
 def important_message(msg):
-    st.warning(msg)
     print(f'{Fore.MAGENTA}{Style.BRIGHT}{msg}{Style.RESET_ALL}')
+    st.sidebar.warning(msg)
 
 def internal_monologue(msg):
     # ANSI escape code for italic is '\x1B[3m'
@@ -22,7 +22,7 @@ def internal_monologue(msg):
 
 def assistant_message(msg):
     print(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
-    st.write('Assistant: ' + msg)
+    st.sidebar.write('Assistant: ' + msg)
 
 def memory_message(msg):
     print(f'{Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}🧠 {Fore.LIGHTMAGENTA_EX}{msg}{Style.RESET_ALL}')
@@ -36,7 +36,7 @@ def user_message(msg, raw=False):
     if isinstance(msg, str):
         if raw:
             printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg}{Style.RESET_ALL}')
-            st.write('User Message: ' + msg)
+            st.sidebar.write('User Message: ' + msg)
             return
         else:
             try:
@@ -49,29 +49,37 @@ def user_message(msg, raw=False):
     if msg_json['type'] == 'user_message':
         msg_json.pop('type')
         printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
+        st.write.sidebar(msg_json)
     elif msg_json['type'] == 'heartbeat':
         if DEBUG:
             msg_json.pop('type')
             printd(f'{Fore.GREEN}{Style.BRIGHT}💓 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
+            st.write.sidebar(msg_json)
     elif msg_json['type'] == 'system_message':
         msg_json.pop('type')
         printd(f'{Fore.GREEN}{Style.BRIGHT}🖥️ {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
+        st.write.sidebar(msg_json)
     else:
         printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
+        st.write.sidebar(msg_json)
 
 def function_message(msg):
 
     if isinstance(msg, dict):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+        st.sidebar.write(msg)
         return
 
     if msg.startswith('Success: '):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡🟢 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+        st.sidebar.write(msg)
     elif msg.startswith('Error: '):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡🔴 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+        st.sidebar.write(msg)
     elif msg.startswith('Running '):
         if DEBUG:
             printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+            st.sidebar.write(msg)
         else:
             if 'memory' in msg:
                 match = re.search(r'Running (\w+)\((.*)\)', msg)
@@ -79,6 +87,7 @@ def function_message(msg):
                     function_name = match.group(1)
                     function_args = match.group(2)
                     print(f'{Fore.RED}{Style.BRIGHT}⚡🧠 [function] {Fore.RED}updating memory with {function_name}{Style.RESET_ALL}:')
+                    st.sidebar.write('Updating memory with ' + function_name)
                     try:
                         msg_dict = eval(function_args)
                         if function_name == 'archival_memory_search':
@@ -92,19 +101,23 @@ def function_message(msg):
                 else:
                     printd(f"Warning: did not recognize function message")
                     printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+                    st.sidebar.write('Warning: did not recognize funtion message' + function)
             elif 'send_message' in msg:
                 # ignore in debug mode
                 pass
             else:
                 printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+                st.sidebar.write(function)
     else:
         try:
             msg_dict = json.loads(msg)
             if "status" in msg_dict and msg_dict["status"] == "OK":
                 printd(f'{Fore.GREEN}{Style.BRIGHT}⚡ [function] {Fore.GREEN}{msg}{Style.RESET_ALL}')
+                st.sidebar.write(function)
         except Exception:
             printd(f"Warning: did not recognize function message {type(msg)} {msg}")
             printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+            st.sidebar.write('Warning: did not recognize funtion message' + function)
 
 def print_messages(message_sequence):
     for msg in message_sequence:
@@ -145,5 +158,5 @@ def print_messages_simple(message_sequence):
 
 def print_messages_raw(message_sequence):
     for msg in message_sequence:
-        st.write(msg)
         print(msg)
+        st.write(msg)
