@@ -113,17 +113,17 @@ if prompt := st.chat_input("What is up?"):
         new_messages, heartbeat_request, function_failed, token_warning = memgpt_agent.step(user_message, first_message=False, skip_verify=False)
         st.sidebar.warning(new_messages)
         
-        full_response = ""
-        for response in openai.ChatCompletion.create(
-            model=st.session_state["openai_model"],
-            messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ],
-            stream=True,
-            pl_tags=["stmemgptv1"]
-        ):
-            full_response += response.choices[0].delta.get("content", "")
-            message_placeholder.markdown(full_response + "▌")
-        message_placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+        #full_response = ""
+        #for response in openai.ChatCompletion.create(
+        #    model=st.session_state["openai_model"],
+        #    messages=[
+        #        {"role": m["role"], "content": m["content"]}
+        #        for m in st.session_state.messages
+        #    ],
+        #    stream=True,
+        #    pl_tags=["stmemgptv1"]
+        #):
+        #    full_response += response.choices[0].delta.get("content", "")
+        #    message_placeholder.markdown(full_response + "▌")
+        #message_placeholder.markdown(full_response)
+    #st.session_state.messages.append({"role": "assistant", "content": full_response})
