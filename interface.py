@@ -13,7 +13,7 @@ DEBUG = False  # only dumps important messages in the terminal
 
 def important_message(msg):
     print(f'{Fore.MAGENTA}{Style.BRIGHT}{msg}{Style.RESET_ALL}')
-    st.sidebar.warning(msg)
+    st.sidebar.warning('Important Message: ' + msg)
 
 def internal_monologue(msg):
     # ANSI escape code for italic is '\x1B[3m'
@@ -67,19 +67,19 @@ def function_message(msg):
 
     if isinstance(msg, dict):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write(msg)
+        st.sidebar.write(function)
         return
 
     if msg.startswith('Success: '):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡🟢 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write(msg)
+        st.sidebar.write(function)
     elif msg.startswith('Error: '):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡🔴 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write(msg)
+        st.sidebar.write(function)
     elif msg.startswith('Running '):
         if DEBUG:
             printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-            st.sidebar.write(msg)
+            st.sidebar.write(function)
         else:
             if 'memory' in msg:
                 match = re.search(r'Running (\w+)\((.*)\)', msg)
@@ -87,13 +87,15 @@ def function_message(msg):
                     function_name = match.group(1)
                     function_args = match.group(2)
                     print(f'{Fore.RED}{Style.BRIGHT}⚡🧠 [function] {Fore.RED}updating memory with {function_name}{Style.RESET_ALL}:')
-                    st.sidebar.write('Updating memory with ' + function_name)
+                    st.sidebar.write(function + 'updating memory with ' + function_name)
                     try:
                         msg_dict = eval(function_args)
                         if function_name == 'archival_memory_search':
                             print(f'{Fore.RED}\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
+                            st.sidebar.write(query: {msg_dict["query"]}, page: {msg_dict["page"]})
                         else:
                             print(f'{Fore.RED}{Style.BRIGHT}\t{Fore.RED} {msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]}')
+                            st.sidebar.write({msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]})
                     except Exception as e:
                         printd(e)
                         printd(msg_dict)
