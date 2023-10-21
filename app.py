@@ -63,7 +63,7 @@ st.sidebar.markdown("Using GPT-4 API")
 st.sidebar.divider()
 
 if "all_new_messages" not in st.session_state:
-    st.session_state["all_new_messages"] = None
+    st.session_state["all_new_messages"] = []
 
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = MODEL
