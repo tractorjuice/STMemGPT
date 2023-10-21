@@ -17,7 +17,7 @@ def use_preset(preset_name, model, persona, human, interface, persistence_manage
             'archival_memory_insert', 'archival_memory_search',
         ]
         available_functions = [v for k,v in gpt_functions.FUNCTIONS_CHAINING.items() if k in functions]
-        #printd(f"Available functions:\n", [x['name'] for x in available_functions])
+        printd(f"Available functions:\n", [x['name'] for x in available_functions])
         assert len(functions) == len(available_functions)
 
         return AgentAsync(
