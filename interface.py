@@ -22,7 +22,7 @@ def internal_monologue(msg):
 
 def assistant_message(msg):
     print(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
-    st.sidebar.write('Assistant:\n' + msg)
+    #st.sidebar.write('Assistant:\n' + msg)
 
 def memory_message(msg):
     print(f'{Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}🧠 {Fore.LIGHTMAGENTA_EX}{msg}{Style.RESET_ALL}')
