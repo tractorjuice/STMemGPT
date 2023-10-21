@@ -472,11 +472,6 @@ class AgentAsync(object):
                 #input_message_sequence = self.messages + [packed_user_message]
                 st.session_state.all_new_messages.append(packed_user_message)
                 input_message_sequence = st.session_state.all_new_messages
-                st.write(st.session_state.all_new_messages)
-                st.write("....")
-                st.write(packed_user_message)
-                st.write("....")
-                st.write('IMS: ' + input_message_sequence)
             else:
                 #input_message_sequence = self.messages
                 input_message_sequence = st.session_state.all_new_messages
