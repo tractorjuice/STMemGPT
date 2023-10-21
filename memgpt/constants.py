@@ -1,6 +1,6 @@
 DEFAULT_MEMGPT_MODEL = 'gpt-4'
 
-FIRST_MESSAGE_ATTEMPTS = 10
+FIRST_MESSAGE_ATTEMPTS = 5
 
 INITIAL_BOOT_MESSAGE = "Boot sequence complete. Persona activated."
 INITIAL_BOOT_MESSAGE_SEND_MESSAGE_THOUGHT = "Bootup sequence complete. Persona activated. Testing messaging functionality."
