@@ -7,6 +7,7 @@ import threading
 import streamlit as st
 
 import openai
+import promptlayer
 
 from .system import get_heartbeat, get_login_event, package_function_response, package_summarize_message, get_initial_boot_messages
 from .memory import CoreMemory as Memory, summarize_messages
