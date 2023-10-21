@@ -67,19 +67,19 @@ def function_message(msg):
 
     if isinstance(msg, dict):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write(function)
+        st.sidebar.write('Function: ' + msg)
         return
 
     if msg.startswith('Success: '):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡🟢 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write(function)
+        st.sidebar.write('Function: ' + msg)
     elif msg.startswith('Error: '):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡🔴 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write(function)
+        st.sidebar.write('Function: ' + msg)
     elif msg.startswith('Running '):
         if DEBUG:
             printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-            st.sidebar.write(function)
+            st.sidebar.write('Function: ' + msg)
         else:
             if 'memory' in msg:
                 match = re.search(r'Running (\w+)\((.*)\)', msg)
@@ -87,7 +87,7 @@ def function_message(msg):
                     function_name = match.group(1)
                     function_args = match.group(2)
                     print(f'{Fore.RED}{Style.BRIGHT}⚡🧠 [function] {Fore.RED}updating memory with {function_name}{Style.RESET_ALL}:')
-                    st.sidebar.write(function + 'updating memory with ' + function_name)
+                    st.sidebar.write('Function ' + 'updating memory with ' + function_name)
                     try:
                         msg_dict = eval(function_args)
                         if function_name == 'archival_memory_search':
@@ -103,13 +103,13 @@ def function_message(msg):
                 else:
                     printd(f"Warning: did not recognize function message")
                     printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-                    st.sidebar.write('Warning: did not recognize funtion message' + function)
+                    st.sidebar.write('Warning: did not recognize funtion message' + msg)
             elif 'send_message' in msg:
                 # ignore in debug mode
                 pass
             else:
                 printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-                st.sidebar.write(function)
+                st.sidebar.write('Function: ' + msg)
     else:
         try:
             msg_dict = json.loads(msg)
