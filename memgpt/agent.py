@@ -9,6 +9,8 @@ import streamlit as st
 import openai
 import promptlayer
 
+promptlayer.api_key = st.secrets["PROMPTLAYER"]
+
 from .system import get_heartbeat, get_login_event, package_function_response, package_summarize_message, get_initial_boot_messages
 from .memory import CoreMemory as Memory, summarize_messages
 from .openai_tools import acompletions_with_backoff as acreate
