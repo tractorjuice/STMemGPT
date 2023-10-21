@@ -95,7 +95,7 @@ def function_message(msg):
                             st.sidebar.write('query:' + {msg_dict["query"]} + ' page: ' + {msg_dict["page"]})
                         else:
                             print(f'{Fore.RED}{Style.BRIGHT}\t{Fore.RED} {msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]}')
-                            st.sidebar.write({msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]})
+                            st.sidebar.write({msg_dict["old_content"]} + '\n\t→' + {msg_dict["new_content"]})
                     except Exception as e:
                         printd(e)
                         printd(msg_dict)
