@@ -174,27 +174,42 @@ class AgentAsync(object):
         # ...
         # Different interfaces can handle events differently
         # e.g., print in CLI vs send a discord message with a discord bot
-        self.interface = interface
+
+        if "interface" not in st.session_state:
+            st.session_state["interface"] = interface
+        self.interface = st.session_state.interface
 
         # Persistence manager must implement:
         # - set_messages
         # - get_messages
         # - append_to_messages
-        self.persistence_manager = persistence_manager
+
+        if "persistence_manager" not in st.session_state:
+            st.session_state["persistence_manager"] = persistence_manager
+        self.persistence_manager = st.session_state.persistence_manager
         if persistence_manager_init:
             # creates a new agent object in the database
             self.persistence_manager.init(self)
 
         # State needed for heartbeat pausing
-        self.pause_heartbeats_start = None
-        self.pause_heartbeats_minutes = 0
+        if "pause_heartbeats_start" not in st.session_state:
+            st.session_state["pause_heartbeats_start"] = None
+        self.pause_heartbeats_start = st.session_state.pause_heartbeats_start
 
-        self.first_message_verify_mono = first_message_verify_mono
+        if "pause_heartbeats_minutes" not in st.session_state:
+            st.session_state["pause_heartbeats_minutes"] = 0
+        self.pause_heartbeats_minutes = st.session_state.pause_heartbeats_minutes
+
+        if "first_message_verify_mono" not in st.session_state:
+            st.session_state["first_message_verify_mono"] = first_message_verify_mono
+        self.first_message_verify_mono = st.session_state.first_message_verify_mono
 
         # Controls if the convo memory pressure warning is triggered
         # When an alert is sent in the message queue, set this to True (to avoid repeat alerts)
         # When the summarizer is run, set this back to False (to reset)
-        self.agent_alerted_about_memory_pressure = False
+        if "agent_alerted_about_memory_pressure" not in st.session_state:
+            st.session_state["agent_alerted_about_memory_pressure"] = False
+        self.agent_alerted_about_memory_pressure = st.session_state.agent_alerted_about_memory_pressure
 
     @property
     def messages(self):
