@@ -18,7 +18,7 @@ def important_message(msg):
 def internal_monologue(msg):
     # ANSI escape code for italic is '\x1B[3m'
     #print(f'\x1B[3m{Fore.LIGHTBLACK_EX}💭 {msg}{Style.RESET_ALL}')
-    st.write('Internal: ' + msg)
+    st.sidebar.write('Internal: ' + msg)
 
 def assistant_message(msg):
     #print(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
@@ -26,11 +26,11 @@ def assistant_message(msg):
 
 def memory_message(msg):
     #print(f'{Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}🧠 {Fore.LIGHTMAGENTA_EX}{msg}{Style.RESET_ALL}')
-    st.write('Memory: ' + msg)
+    st.sidebar.write('Memory: ' + msg)
 
 def system_message(msg):
     #printd(f'{Fore.MAGENTA}{Style.BRIGHT}🖥️ [system] {Fore.MAGENTA}{msg}{Style.RESET_ALL}')
-    st.write('System: ' + msg)
+    st.sidebar.write('System: ' + msg)
 
 def user_message(msg, raw=False):
     if isinstance(msg, str):
