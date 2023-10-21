@@ -61,9 +61,6 @@ st.sidebar.markdown("Current Version: 0.2.0")
 st.sidebar.markdown("Using GPT-4 API")
 st.sidebar.divider()
 
-if "all_new_messages" not in st.session_state:
-    st.session_state["all_new_messages"] = []
-
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = MODEL
 
@@ -114,7 +111,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         # --------------- New code here
         user_message = system.package_user_message(prompt)
         new_messages, heartbeat_request, function_failed, token_warning = memgpt_agent.step(user_message, first_message=False, skip_verify=False)
-        #st.sidebar.warning(new_messages)
+        st.sidebar.warning(new_messages)
 
         for item in new_messages:
             if 'function_call' in item and 'arguments' in item['function_call']:
