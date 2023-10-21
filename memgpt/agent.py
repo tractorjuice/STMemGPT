@@ -585,6 +585,7 @@ class AgentAsync(object):
 
         except Exception as e:
             printd(f"step() failed\nuser_message = {user_message}\nerror = {e}")
+            st.sidebar.write("step() failed\nuser_message = " + {user_message} + "\nerror = " + {e}")
 
             # If we got a context alert, try trimming the messages length, then try again
             if 'maximum context length' in str(e):
@@ -595,6 +596,7 @@ class AgentAsync(object):
                 return self.step(user_message, first_message=first_message)
             else:
                 printd(f"step() failed with openai.InvalidRequestError, but didn't recognize the error message: '{str(e)}'")
+                st.sidebar.write("step() failed with openai.InvalidRequestError, but didn't recognize the error message: " + {str(e)})
                 raise e
 
     def summarize_messages_inplace(self, cutoff=None):
