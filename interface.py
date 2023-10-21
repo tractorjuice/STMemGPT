@@ -115,7 +115,7 @@ def function_message(msg):
             msg_dict = json.loads(msg)
             if "status" in msg_dict and msg_dict["status"] == "OK":
                 printd(f'{Fore.GREEN}{Style.BRIGHT}⚡ [function] {Fore.GREEN}{msg}{Style.RESET_ALL}')
-                st.sidebar.write('Function:\n' + msg)
+                #st.sidebar.write('Function:\n' + msg)
         except Exception:
             printd(f"Warning: did not recognize function message {type(msg)} {msg}")
             printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
