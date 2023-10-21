@@ -100,7 +100,7 @@ def get_ai_reply_async(
             messages=message_sequence,
             functions=functions,
             function_call=function_call,
-            pl_tags=["stmemgptv2"],
+            #pl_tags=["stmemgptv2"],
         )
 
         # special case for 'length'
