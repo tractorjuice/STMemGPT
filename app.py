@@ -93,7 +93,7 @@ if "messages" not in st.session_state:
 
 # --------------- New code here
 persistence_manager = InMemoryStateManager()
-memgpt_agent = presets.use_preset(DEFAULT, MODEL, personas.get_persona_text('sam_pov'), humans.get_human_text('cs_phd'), interface, persistence_manager)
+memgpt_agent = presets.use_preset(DEFAULT, MODEL, personas.get_persona_text('wardleygpt'), humans.get_human_text('cs_phd'), interface, persistence_manager)
 
 for message in st.session_state.messages:
     if message["role"] in ["user", "assistant"]:
