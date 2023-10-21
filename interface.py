@@ -67,7 +67,7 @@ def function_message(msg):
 
     if isinstance(msg, dict):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write('Function:\n' + msg)
+        #st.sidebar.write('Function:\n' + msg)
         return
 
     if msg.startswith('Success: '):
