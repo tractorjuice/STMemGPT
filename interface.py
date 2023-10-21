@@ -18,7 +18,8 @@ def important_message(msg):
 def internal_monologue(msg):
     # ANSI escape code for italic is '\x1B[3m'
     print(f'\x1B[3m{Fore.LIGHTBLACK_EX}💭 {msg}{Style.RESET_ALL}')
-    st.sidebar.write('Internal:\n' + msg)
+    st.sidebar.write('Internal Dialogue:)
+    st.sidebar.write(msg)
 
 def assistant_message(msg):
     print(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
