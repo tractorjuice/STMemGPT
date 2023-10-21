@@ -478,6 +478,7 @@ class AgentAsync(object):
 
             if len(input_message_sequence) > 1 and input_message_sequence[-1]['role'] != 'user':
                 printd(f"WARNING: attempting to run ChatCompletion without user as the last message in the queue")
+                st.sidebar.write("WARNING: attempting to run ChatCompletion without user as the last message in the queue")
 
             # Step 1: send the conversation and available functions to GPT
             if not skip_verify and (first_message or self.messages_total == self.messages_total_init):
