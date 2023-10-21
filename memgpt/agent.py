@@ -103,8 +103,6 @@ def get_ai_reply_async(
             pl_tags=["stmemgptv2"],
         )
 
-        #st.code(response)
-
         # special case for 'length'
         if response.choices[0].finish_reason == 'length':
             raise Exception('Finish reason was length (maximum context length)')
