@@ -48,7 +48,7 @@ MODEL = "gpt-4"
 #MODEL = "gpt-4-0613"
 #MODEL = "gpt-4-32k-0613"
 
-DEFAULT = 'memgpt_warbley'
+DEFAULT = 'memgpt_wardley'
 user_message = None
 
 # Swap out your 'import openai'
