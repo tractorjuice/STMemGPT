@@ -36,7 +36,7 @@ def user_message(msg, raw=False):
     if isinstance(msg, str):
         if raw:
             printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg}{Style.RESET_ALL}')
-            st.write(User Message: ' + msg)
+            st.write('User Message: ' + msg)
             return
         else:
             try:
