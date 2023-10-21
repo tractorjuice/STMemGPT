@@ -18,26 +18,26 @@ def important_message(msg):
 def internal_monologue(msg):
     # ANSI escape code for italic is '\x1B[3m'
     print(f'\x1B[3m{Fore.LIGHTBLACK_EX}💭 {msg}{Style.RESET_ALL}')
-    st.sidebar.write('Internal Dialogue:')
+    st.sidebar.write('Internal Dialogue 💭:')
     st.sidebar.write(msg)
 
 def assistant_message(msg):
     print(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
-    #st.sidebar.write('Assistant:\n' + msg)
+    #st.sidebar.write('Assistant 🤖:\n' + msg)
 
 def memory_message(msg):
     print(f'{Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}🧠 {Fore.LIGHTMAGENTA_EX}{msg}{Style.RESET_ALL}')
-    st.sidebar.write('Memory:\n' + msg)
+    st.sidebar.write('Memory 🧠:\n' + msg)
 
 def system_message(msg):
     printd(f'{Fore.MAGENTA}{Style.BRIGHT}🖥️ [system] {Fore.MAGENTA}{msg}{Style.RESET_ALL}')
-    st.sidebar.write('System:\n' + msg)
+    st.sidebar.write('System 🖥️:\n' + msg)
 
 def user_message(msg, raw=False):
     if isinstance(msg, str):
         if raw:
             printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg}{Style.RESET_ALL}')
-            #st.sidebar.write('User Message:\n' + msg)
+            st.sidebar.write('User Message:\n' + msg)
             return
         else:
             try:
@@ -50,19 +50,19 @@ def user_message(msg, raw=False):
     if msg_json['type'] == 'user_message':
         msg_json.pop('type')
         printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-        #st.sidebar.write(msg_json)
+        st.sidebar.write(msg_json)
     elif msg_json['type'] == 'heartbeat':
         if DEBUG:
             msg_json.pop('type')
             printd(f'{Fore.GREEN}{Style.BRIGHT}💓 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-            #st.write.sidebar(msg_json)
+            st.write.sidebar(msg_json)
     elif msg_json['type'] == 'system_message':
         msg_json.pop('type')
         printd(f'{Fore.GREEN}{Style.BRIGHT}🖥️ {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-        #st.write.sidebar(msg_json)
+        st.write.sidebar(msg_json)
     else:
         printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-        #st.write.sidebar(msg_json)
+        st.write.sidebar(msg_json)
 
 def function_message(msg):
 
@@ -116,11 +116,11 @@ def function_message(msg):
             msg_dict = json.loads(msg)
             if "status" in msg_dict and msg_dict["status"] == "OK":
                 printd(f'{Fore.GREEN}{Style.BRIGHT}⚡ [function] {Fore.GREEN}{msg}{Style.RESET_ALL}')
-                #st.sidebar.write('Function:\n' + msg)
+                st.sidebar.write('Function:\n' + msg)
         except Exception:
             printd(f"Warning: did not recognize function message {type(msg)} {msg}")
             printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-            #st.sidebar.write('Warning: did not recognize funtion message' + msg)
+            st.sidebar.write('Warning: did not recognize funtion message' + msg)
 
 def print_messages(message_sequence):
     for msg in message_sequence:
