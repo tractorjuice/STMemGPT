@@ -1,6 +1,6 @@
 import os
 
-DEFAULT = 'cs_phd'
+DEFAULT = 'awareness'
 
 def get_human_text(key=DEFAULT):
     filename = key if key.endswith('.txt') else f'{key}.txt'
