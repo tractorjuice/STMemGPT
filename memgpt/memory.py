@@ -114,14 +114,16 @@ class CoreMemory(object):
         if field == 'persona':
             #if old_content in self.persona:
             if old_content in st.session_state.corememory_persona:
-                new_persona = self.persona.replace(old_content, new_content)
+                #new_persona = self.persona.replace(old_content, new_content)
+                new_persona = st.session_state.corememory_persona.replace(old_content, new_content)
                 return self.edit_persona(new_persona)
             else:
                 raise ValueError('Content not found in persona (make sure to use exact string)')
         elif field == 'human':
             #if old_content in self.human:
             if old_content in st.session_state.corememory_human:
-                new_human = self.human.replace(old_content, new_content)
+                #new_human = self.human.replace(old_content, new_content)
+                new_human = st.session_state.corememory_human.replace(old_content, new_content)
                 return self.edit_human(new_human)
             else:
                 raise ValueError('Content not found in human (make sure to use exact string)')
