@@ -65,7 +65,7 @@ class InMemoryStateManager(PersistenceManager):
         self.all_messages = st.session_state.persistence_all_messages
         
         #self.messages = [{'timestamp': get_local_time(), 'message': msg} for msg in agent.messages.copy()]
-        st.session_state.persistence_messages = = [{'timestamp': get_local_time(), 'message': msg} for msg in agent.messages.copy()]
+        st.session_state.persistence_messages = [{'timestamp': get_local_time(), 'message': msg} for msg in agent.messages.copy()]
         self.messages = st.session_state.persistence_messages
         
         #self.memory = agent.memory
