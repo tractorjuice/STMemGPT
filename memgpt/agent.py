@@ -157,7 +157,7 @@ class AgentAsync(object):
         )
         st.session_state._messages = initialize_message_sequence(
             #self.system,
-            st.session_state.agent_system
+            st.session_state.agent_system,
             #self.memory,
             st.session_state.agent_memory,
         )
