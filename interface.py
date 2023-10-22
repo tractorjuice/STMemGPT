@@ -25,7 +25,7 @@ def assistant_message(msg):
     st.sidebar.write(f'🤖 {msg}')
 
 def memory_message(msg):
-    print(f'🧠 {msg}}')
+    print(f'🧠 {msg}')
     st.sidebar.write(f'🧠 {msg}')
     
 def system_message(msg):
