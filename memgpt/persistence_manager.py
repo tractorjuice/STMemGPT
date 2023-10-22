@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import pickle
+import streamlit as st
 
 from .memory import DummyRecallMemory, DummyRecallMemoryWithEmbeddings, DummyArchivalMemory, DummyArchivalMemoryWithEmbeddings, DummyArchivalMemoryWithFaiss
 from .utils import get_local_time, printd
