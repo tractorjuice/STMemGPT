@@ -48,8 +48,6 @@ MODEL = "gpt-4"
 #MODEL = "gpt-4-0613"
 #MODEL = "gpt-4-32k-0613"
 
-user_message = None
-
 # Swap out your 'import openai'
 openai = promptlayer.openai
 
