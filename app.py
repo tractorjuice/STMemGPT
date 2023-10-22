@@ -32,8 +32,8 @@ MODEL = "gpt-4"
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
 
-if "initial_setup" not in st.session_state:
-    st.session_state["initial_setup"] = False
+if "memgpt_agent" not in st.session_state:
+    st.session_state["memgpt_agent"] = False
     
 # Swap out your 'import openai'
 openai = promptlayer.openai
@@ -52,7 +52,7 @@ if not st.session_state.initial_setup:
     memgpt_agent = presets.use_preset('memgpt_chat', MODEL, personas.get_persona_text('simonwarbley'), humans.get_human_text('awareness'), interface, persistence_manager)
     print_messages = interface.print_messages
     print_messages(memgpt_agent.messages)
-    st.session_state.initial_setup = True
+    st.session_state.memgpt_agent = memgpt_agent
 
 for message in st.session_state.messages:
     if message["role"] in ["user", "assistant"]:
@@ -69,7 +69,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
 
         # --------------- New code here
         user_message = system.package_user_message(prompt)
-        new_messages, heartbeat_request, function_failed, token_warning = memgpt_agent.step(user_message, first_message=False, skip_verify=True)
+        new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
 
         st.sidebar.write("Heartbeat:")
         st.sidebar.write(heartbeat_request)
