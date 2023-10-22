@@ -163,7 +163,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
                 if 'message' in message_args:
                     message = message_args['message']
                     st.write(message)
-                    break  # Exit the loop once the message is found
+                    st.session_state.messages.append({"role": "assistant", "content": message})
 
         
         #full_response = ""
@@ -179,4 +179,4 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         #    full_response += response.choices[0].delta.get("content", "")
         #    message_placeholder.markdown(full_response + "▌")
         #message_placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": "assistant", "content": message})
+    #st.session_state.messages.append({"role": "assistant", "content": message})
