@@ -85,6 +85,7 @@ def function_message(msg):
                             print(f'{Fore.RED}\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
                             st.sidebar.write(f'{Fore.RED}\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
                         else:
+                            st.sidebar.warning(msg_dict)
                             print(f'{Fore.RED}{Style.BRIGHT}\t{Fore.RED} {msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]}')
                             st.sidebar.write(f'{Fore.RED}{Style.BRIGHT}\t{Fore.RED} {msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]}')
                     except Exception as e:
