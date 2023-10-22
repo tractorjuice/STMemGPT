@@ -9,6 +9,7 @@ from .utils import cosine_similarity, get_local_time, printd, count_tokens
 from .prompts.gpt_summarize import SYSTEM as SUMMARY_PROMPT_SYSTEM
 from .openai_tools import acompletions_with_backoff as acreate, async_get_embedding_with_backoff
 
+import streamlit as st
 
 class CoreMemory(object):
     """Held in-context inside the system message
