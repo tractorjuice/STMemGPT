@@ -277,6 +277,7 @@ class AgentAsync(object):
         new_messages = [new_system_message] + self.messages[1:]  # swap index 0 (system)
         #self._messages = new_messages
         st.session_state._messages = new_messages
+        self._messages = st.session_state._messages
 
     def rebuild_memory(self):
         """Rebuilds the system message with the latest memory object"""
