@@ -126,26 +126,35 @@ class AgentAsync(object):
         
         if "model" not in st.session_state:
             st.session_state["model"] = model
+        st.session_state.model  = model
         self.model = st.session_state.model
         
         # Store the system instructions (used to rebuild memory)
         if "system" not in st.session_state:
             st.session_state["system"] = system
+        st.session_state.system = system
         self.system = st.session_state.system
         
         # Store the functions spec
         if "functions" not in st.session_state:
             st.session_state["functions"] = functions
+        st.session_state.functions = functions
         self.functions = st.session_state.functions
         
         # Initialize the memory object
         if "memory" not in st.session_state:
             st.session_state["memory"] = initialize_memory(persona_notes, human_notes)
+        st.session_state.memory = initialize_memory(persona_notes, human_notes)
         self.memory = st.session_state.memory
         
         # Once the memory object is initialize, use it to "bake" the system message
         if "_messages" not in st.session_state:
             st.session_state["_messages"] = initialize_message_sequence(
+            self.model,
+            self.system,
+            self.memory,
+        )
+        st.session_state._messages = initialize_message_sequence(
             self.model,
             self.system,
             self.memory,
@@ -156,10 +165,12 @@ class AgentAsync(object):
 
         if "messages_total" not in st.session_state:
             st.session_state["messages_total"] = messages_total if messages_total is not None else (len(self._messages) - 1)  # (-system)
+        st.session_state.messages_total = messages_total if messages_total is not None else (len(self._messages) - 1)  # (-system)
         self.messages_total = st.session_state.messages_total
         
         if "messages_total_init" not in st.session_state:
             st.session_state["messages_total_init"] = self.messages_total
+        st.session_state.messages_total_init = self.messages_total
         self.messages_total_init = st.session_state.messages_total_init
         
         printd(f"AgentAsync initialized, self.messages_total={self.messages_total}")
@@ -174,6 +185,7 @@ class AgentAsync(object):
 
         if "interface" not in st.session_state:
             st.session_state["interface"] = interface
+        st.session_state.interface = interface
         self.interface = st.session_state.interface
 
         # Persistence manager must implement:
@@ -183,6 +195,7 @@ class AgentAsync(object):
 
         if "persistence_manager" not in st.session_state:
             st.session_state["persistence_manager"] = persistence_manager
+        st.session_state.persistence_manager = persistence_manager
         self.persistence_manager = st.session_state.persistence_manager
         
         if persistence_manager_init:
@@ -192,14 +205,17 @@ class AgentAsync(object):
         # State needed for heartbeat pausing
         if "pause_heartbeats_start" not in st.session_state:
             st.session_state["pause_heartbeats_start"] = None
+        st.session_state.pause_heartbeats_start = None
         self.pause_heartbeats_start = st.session_state.pause_heartbeats_start
 
         if "pause_heartbeats_minutes" not in st.session_state:
             st.session_state["pause_heartbeats_minutes"] = 0
+        st.session_state.pause_heartbeats_minutes = 0
         self.pause_heartbeats_minutes = st.session_state.pause_heartbeats_minutes
 
         if "first_message_verify_mono" not in st.session_state:
             st.session_state["first_message_verify_mono"] = first_message_verify_mono
+        st.session_state.first_message_verify_mono = first_message_verify_mono
         self.first_message_verify_mono = st.session_state.first_message_verify_mono
 
         # Controls if the convo memory pressure warning is triggered
@@ -207,6 +223,7 @@ class AgentAsync(object):
         # When the summarizer is run, set this back to False (to reset)
         if "agent_alerted_about_memory_pressure" not in st.session_state:
             st.session_state["agent_alerted_about_memory_pressure"] = False
+        st.session_state.agent_alerted_about_memory_pressure = False
         self.agent_alerted_about_memory_pressure = st.session_state.agent_alerted_about_memory_pressure
 
     @property
