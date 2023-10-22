@@ -76,7 +76,7 @@ class InMemoryStateManager(PersistenceManager):
         printd(f"InMemoryStateManager.messages.len = {len(st.session_state.persistence_messages)}")
 
         # Persistence manager also handles DB-related state
-        #self.recall_memory = self.recall_memory_cls(message_database=st.session_state.persistence_all_messages)
+        #self.recall_memory = self.recall_memory_cls(message_database=self.all_messages)
         self.recall_memory = self.recall_memory_cls(message_database=st.session_state.persistence_all_messages)
         self.archival_memory_db = []
         self.archival_memory = self.archival_memory_cls(archival_memory_database=self.archival_memory_db)
