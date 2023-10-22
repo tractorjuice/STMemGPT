@@ -100,23 +100,27 @@ class CoreMemory(object):
 
     def edit_append(self, field, content, sep='\n'):
         if field == 'persona':
-            new_content = self.persona + sep + content
+            #new_content = self.persona + sep + content
+            new_content = st.session_state.corememory_persona + sep + content
             return self.edit_persona(new_content)
         elif field == 'human':
-            new_content = self.human + sep + content
+            #new_content = self.human + sep + content
+            new_content = st.session_state.corememory_human + sep + content
             return self.edit_human(new_content)
         else:
             raise KeyError
 
     def edit_replace(self, field, old_content, new_content):
         if field == 'persona':
-            if old_content in self.persona:
+            #if old_content in self.persona:
+            if old_content in st.session_state.corememory_persona:
                 new_persona = self.persona.replace(old_content, new_content)
                 return self.edit_persona(new_persona)
             else:
                 raise ValueError('Content not found in persona (make sure to use exact string)')
         elif field == 'human':
-            if old_content in self.human:
+            #if old_content in self.human:
+            if old_content in st.session_state.corememory_human:
                 new_human = self.human.replace(old_content, new_content)
                 return self.edit_human(new_human)
             else:
