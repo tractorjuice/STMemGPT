@@ -7,5 +7,5 @@ Age:
 Nationality:
 Occupation:
 Interests: Learning Wardley Mapping
-Wardley Mapping Knowledge: Beginner
-Wardley Mapping Experince: Beginner
+Wardley Mapping Knowledge:
+Wardley Mapping Experince:
