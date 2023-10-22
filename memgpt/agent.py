@@ -226,7 +226,7 @@ class AgentAsync(object):
 
     @property
     def messages(self):
-        return #self._messages
+        #return self._messages
         return st.session_state._messages
 
     @messages.setter
