@@ -72,8 +72,8 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         user_message = system.package_user_message(prompt)
         new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
 
-        st.sidebar.write("Heartbeat:")
-        st.sidebar.write(heartbeat_request)
+        st.sidebar.divider()
+        st.sidebar.write(f"Heartbeat: {heartbeat_request}")
         
         if heartbeat_request:
             user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
