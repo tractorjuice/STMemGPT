@@ -22,7 +22,7 @@ def internal_monologue(msg):
 
 def assistant_message(msg):
     print(f'🤖 {msg}')
-    st.sidebar.write(f'🤖 {msg}')
+    #st.sidebar.write(f'🤖 {msg}')
 
 def memory_message(msg):
     print(f'🧠 {msg}')
