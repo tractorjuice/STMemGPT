@@ -19,10 +19,26 @@ class CoreMemory(object):
     """
 
     def __init__(self, persona=None, human=None, persona_char_limit=None, human_char_limit=None, archival_memory_exists=True):
-        self.persona = persona
-        self.human = human
-        self.persona_char_limit = persona_char_limit
-        self.human_char_limit = human_char_limit
+        
+        #self.persona = persona
+        if "corememory_persona" not in st.session_state:
+            st.session_state["corememory_persona"] = persona
+        self.persona = st.session_state.corememory_persona
+        
+        #self.human = human
+        if "corememory_human" not in st.session_state:
+            st.session_state["corememory_human"] = human
+        self.human = st.session_state.corememory_human
+        
+        #self.persona_char_limit = persona_char_limit
+        if "corememory_persona_char_limit" not in st.session_state:
+            st.session_state["corememory_persona_char_limit"] = persona_char_limit
+        self.persona_char_limit = st.session_state.corememory_persona_char_limit
+        
+        #self.human_char_limit = human_char_limit
+        if "corememory_human_char_limit" not in st.session_state:
+            st.session_state["corememory_human_char_limit"] = human_char_limit
+        self.human_char_limit = st.session_state.corememory_human_char_limit
 
         # affects the error message the AI will see on overflow inserts
         self.archival_memory_exists = archival_memory_exists
@@ -30,13 +46,17 @@ class CoreMemory(object):
     def __repr__(self) -> str:
         return \
             f"\n### CORE MEMORY ###" + \
-            f"\n=== Persona ===\n{self.persona}" + \
-            f"\n\n=== Human ===\n{self.human}"
+            #f"\n=== Persona ===\n{self.persona}" + \
+            f"\n=== Persona ===\n{st.session_state.corememory_persona}" + \
+            #f"\n\n=== Human ===\n{self.human}"
+            f"\n\n=== Human ===\n{st.session_state.corememory_human}"
 
     def to_dict(self):
         return {
-            'persona': self.persona,
-            'human': self.human,
+            #'persona': self.persona,
+            'persona': st.session_state.corememory_persona,
+            #'human': self.human,
+            'human': st.session_state.corememory_human,
         }
 
     @classmethod
@@ -44,23 +64,29 @@ class CoreMemory(object):
         return cls(state['persona'], state['human'])
 
     def edit_persona(self, new_persona):
-        if self.persona_char_limit and len(new_persona) > self.persona_char_limit:
-            error_msg = f"Edit failed: Exceeds {self.persona_char_limit} character limit (requested {len(new_persona)})."
+        #if self.persona_char_limit and len(new_persona) > self.persona_char_limit:
+        if st.session_state.corememory_persona_char_limit and len(new_persona) > st.session_state.corememory_persona_char_limit:
+            #error_msg = f"Edit failed: Exceeds {self.persona_char_limit} character limit (requested {len(new_persona)})."
+            error_msg = f"Edit failed: Exceeds {st.session_state.corememory_persona_char_limit} character limit (requested {len(new_persona)})."
             if self.archival_memory_exists:
                 error_msg = f"{error_msg} Consider summarizing existing core memories in 'persona' and/or moving lower priority content to archival memory to free up space in core memory, then trying again."
             raise ValueError(error_msg)
 
-        self.persona = new_persona
+        #self.persona = new_persona
+        st.session_state.corememory_persona = new_persona
         return len(self.persona)
 
     def edit_human(self, new_human):
-        if self.human_char_limit and len(new_human) > self.human_char_limit:
-            error_msg = f"Edit failed: Exceeds {self.human_char_limit} character limit (requested {len(new_human)})."
+        #if self.human_char_limit and len(new_human) > self.human_char_limit:
+        if st.session_state.corememory_human_char_limit and len(new_human) > st.session_state.corememory_human_char_limit:
+            #error_msg = f"Edit failed: Exceeds {self.human_char_limit} character limit (requested {len(new_human)})."
+            error_msg = f"Edit failed: Exceeds {st.session_state.corememory_human_char_limit} character limit (requested {len(new_human)})."
             if self.archival_memory_exists:
                 error_msg = f"{error_msg} Consider summarizing existing core memories in 'human' and/or moving lower priority content to archival memory to free up space in core memory, then trying again."
             raise ValueError(error_msg)
 
-        self.human = new_human
+        #self.human = new_human
+        st.session_state.corememory_human = new_human
         return len(self.human)
 
     def edit(self, field, content):
