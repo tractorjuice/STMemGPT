@@ -61,53 +61,53 @@ def user_message(msg, raw=False):
 def function_message(msg):
 
     if isinstance(msg, dict):
-        printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+        printd(f'⚡ [function] {msg}')
         return
 
     if msg.startswith('Success: '):
-        printd(f'{Fore.RED}{Style.BRIGHT}⚡🟢 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+        printd(f'⚡🟢 [function] {msg}')
     elif msg.startswith('Error: '):
-        printd(f'{Fore.RED}{Style.BRIGHT}⚡🔴 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+        printd(f'⚡🔴 [function] {msg}')
     elif msg.startswith('Running '):
         if DEBUG:
-            printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+            printd(f'⚡ [function] {msg}')
         else:
             if 'memory' in msg:
                 match = re.search(r'Running (\w+)\((.*)\)', msg)
                 if match:
                     function_name = match.group(1)
                     function_args = match.group(2)
-                    print(f'{Fore.RED}{Style.BRIGHT}⚡🧠 [function] {Fore.RED}updating memory with {function_name}{Style.RESET_ALL}:')
-                    st.sidebar.write(f'{Fore.RED}{Style.BRIGHT}⚡🧠 [function] {Fore.RED}updating memory with {function_name}{Style.RESET_ALL}:')
+                    print(f'⚡🧠 [function] updating memory with {function_name}:')
+                    st.sidebar.write(f'⚡🧠 [function] updating memory with {function_name}:')
                     try:
                         msg_dict = eval(function_args)
                         if function_name == 'archival_memory_search':
-                            print(f'{Fore.RED}\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
-                            st.sidebar.write(f'{Fore.RED}\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
+                            print(f'\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
+                            st.sidebar.write(f'\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
                         else:
                             st.sidebar.warning(msg_dict)
-                            print(f'{Fore.RED}{Style.BRIGHT}\t{Fore.RED} {msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]}')
-                            st.sidebar.write(f'{Fore.RED}{Style.BRIGHT}\t{Fore.RED} {msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]}')
+                            print(f'\t {msg_dict["old_content"]}\n\t→ {msg_dict["new_content"]}')
+                            st.sidebar.write(f'\t {msg_dict["old_content"]}\n\t→ {msg_dict["new_content"]}')
                     except Exception as e:
                         printd(e)
                         printd(msg_dict)
                         pass
                 else:
                     printd(f"Warning: did not recognize function message")
-                    printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+                    printd(f'⚡ [function] {msg}')
             elif 'send_message' in msg:
                 # ignore in debug mode
                 pass
             else:
-                printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+                printd(f'⚡ [function] {msg}')
     else:
         try:
             msg_dict = json.loads(msg)
             if "status" in msg_dict and msg_dict["status"] == "OK":
-                printd(f'{Fore.GREEN}{Style.BRIGHT}⚡ [function] {Fore.GREEN}{msg}{Style.RESET_ALL}')
+                printd(f'⚡ [function] {msg}')
         except Exception:
             printd(f"Warning: did not recognize function message {type(msg)} {msg}")
-            printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
+            printd(f'⚡ [function] {msg}')
 
 def print_messages(message_sequence):
     for msg in message_sequence:
