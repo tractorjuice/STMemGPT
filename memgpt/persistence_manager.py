@@ -102,8 +102,8 @@ class InMemoryStateManager(PersistenceManager):
     def append_to_messages(self, added_messages):
         # first tag with timestamps
         added_messages = [{'timestamp': get_local_time(), 'message': msg} for msg in added_messages]
-
         printd(f"InMemoryStateManager.append_to_messages")
+        st.sidebar.error(added_messages)
         #self.messages = self.messages + added_messages
         st.session_state.persistence_messages = st.session_state.persistence_messages + added_messages
         self.messages = st.session_state.persistence_messages
