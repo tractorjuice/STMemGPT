@@ -87,6 +87,7 @@ class CoreMemory(object):
 
         #self.human = new_human
         st.session_state.corememory_human = new_human
+        self.human = st.session_state.corememory_human
         return len(self.human)
 
     def edit(self, field, content):
