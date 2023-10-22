@@ -13,31 +13,29 @@ DEBUG = False  # only dumps important messages in the terminal
 
 def important_message(msg):
     print(f'{Fore.MAGENTA}{Style.BRIGHT}{msg}{Style.RESET_ALL}')
-    st.sidebar.warning('Important Message:\n' + msg)
+    st.sidebar.warning(f'{Fore.MAGENTA}{Style.BRIGHT}{msg}{Style.RESET_ALL}')
 
 def internal_monologue(msg):
     # ANSI escape code for italic is '\x1B[3m'
     print(f'\x1B[3m{Fore.LIGHTBLACK_EX}💭 {msg}{Style.RESET_ALL}')
-    st.sidebar.write('Internal Dialogue 💭:')
-    st.sidebar.write(msg)
+    st.sidebar.write(f'\x1B[3m{Fore.LIGHTBLACK_EX}💭 {msg}{Style.RESET_ALL}')
 
 def assistant_message(msg):
     print(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
-    #st.sidebar.write('Assistant 🤖:\n' + msg)
+    st.sidebar.write(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
 
 def memory_message(msg):
     print(f'{Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}🧠 {Fore.LIGHTMAGENTA_EX}{msg}{Style.RESET_ALL}')
-    st.sidebar.write('Memory 🧠:\n' + msg)
-
+    st.sidebar.write(f'{Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}🧠 {Fore.LIGHTMAGENTA_EX}{msg}{Style.RESET_ALL}')
+    
 def system_message(msg):
     printd(f'{Fore.MAGENTA}{Style.BRIGHT}🖥️ [system] {Fore.MAGENTA}{msg}{Style.RESET_ALL}')
-    st.sidebar.write('System 🖥️:\n' + msg)
-
+    st.sidebar.write(f'{Fore.MAGENTA}{Style.BRIGHT}🖥️ [system] {Fore.MAGENTA}{msg}{Style.RESET_ALL}')
+    
 def user_message(msg, raw=False):
     if isinstance(msg, str):
         if raw:
             printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg}{Style.RESET_ALL}')
-            #st.sidebar.write('User Message:\n' + msg)
             return
         else:
             try:
@@ -50,19 +48,15 @@ def user_message(msg, raw=False):
     if msg_json['type'] == 'user_message':
         msg_json.pop('type')
         printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-        #st.sidebar.write(msg_json)
     elif msg_json['type'] == 'heartbeat':
         if DEBUG:
             msg_json.pop('type')
             printd(f'{Fore.GREEN}{Style.BRIGHT}💓 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-            #st.write.sidebar(msg_json)
     elif msg_json['type'] == 'system_message':
         msg_json.pop('type')
         printd(f'{Fore.GREEN}{Style.BRIGHT}🖥️ {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-        #st.write.sidebar(msg_json)
     else:
         printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
-        #st.write.sidebar(msg_json)
 
 def function_message(msg):
 
@@ -84,15 +78,15 @@ def function_message(msg):
                     function_name = match.group(1)
                     function_args = match.group(2)
                     print(f'{Fore.RED}{Style.BRIGHT}⚡🧠 [function] {Fore.RED}updating memory with {function_name}{Style.RESET_ALL}:')
-                    st.sidebar.write('Function\n' + 'Updating memory with ' + function_name)
+                    st.sidebar.write(f'{Fore.RED}{Style.BRIGHT}⚡🧠 [function] {Fore.RED}updating memory with {function_name}{Style.RESET_ALL}:')
                     try:
                         msg_dict = eval(function_args)
                         if function_name == 'archival_memory_search':
                             print(f'{Fore.RED}\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
-                            st.sidebar.write(f'\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
+                            st.sidebar.write(f'{Fore.RED}\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
                         else:
                             print(f'{Fore.RED}{Style.BRIGHT}\t{Fore.RED} {msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]}')
-                            st.sidebar.write(f'\t {msg_dict["old_content"]}\n\t→ {msg_dict["new_content"]}')
+                            st.sidebar.write(f'{Fore.RED}{Style.BRIGHT}\t{Fore.RED} {msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]}')
                     except Exception as e:
                         printd(e)
                         printd(msg_dict)
