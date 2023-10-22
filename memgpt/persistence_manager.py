@@ -37,7 +37,10 @@ class InMemoryStateManager(PersistenceManager):
 
     def __init__(self):
         # Memory held in-state useful for debugging stateful versions
-        self.memory = None
+        if "memory" not in st.session_state:
+            st.session_state["memory"] = None
+        self.memory = st.session_state.memory
+        
         self.messages = []
 
         if "all_messages" not in st.session_state:
@@ -59,7 +62,10 @@ class InMemoryStateManager(PersistenceManager):
         st.session_state.all_messages = [{'timestamp': get_local_time(), 'message': msg} for msg in agent.messages.copy()]
         self.all_messages = st.session_state.all_messages
         self.messages = [{'timestamp': get_local_time(), 'message': msg} for msg in agent.messages.copy()]
-        self.memory = agent.memory
+        #self.memory = agent.memory
+        st.session_state.memory = agent.memory
+        self.memory = st.session_state.memory
+        
         printd(f"InMemoryStateManager.all_messages.len = {len(st.session_state.all_messages)}")
         printd(f"InMemoryStateManager.messages.len = {len(st.session_state.all_messages)}")
 
@@ -104,7 +110,9 @@ class InMemoryStateManager(PersistenceManager):
 
     def update_memory(self, new_memory):
         printd(f"InMemoryStateManager.update_memory")
-        self.memory = new_memory
+        #self.memory = new_memory
+        st.session_state.memory = new_memory
+        self.memory = st.session_state.memory
 
 
 class InMemoryStateManagerWithPreloadedArchivalMemory(InMemoryStateManager):
@@ -120,7 +128,9 @@ class InMemoryStateManagerWithPreloadedArchivalMemory(InMemoryStateManager):
         st.session_state.all_messages = [{'timestamp': get_local_time(), 'message': msg} for msg in agent.messages.copy()]
         self.all_messages = st.session_state.all_messages
         self.messages = [{'timestamp': get_local_time(), 'message': msg} for msg in agent.messages.copy()]
-        self.memory = agent.memory
+        #self.memory = agent.memory
+        st.session_state.memory = agent.memory
+        self.memory = st.session_state.memory
         #print(f"InMemoryStateManager.all_messages.len = {len(st.session_state.all_messages)}")
         print(f"InMemoryStateManager.all_messages.len = {len(self.all_messages)}")
         print(f"InMemoryStateManager.messages.len = {len(self.messages)}")
@@ -153,7 +163,10 @@ class InMemoryStateManagerWithFaiss(InMemoryStateManager):
         st.session_state.all_messages = [{'timestamp': get_local_time(), 'message': msg} for msg in agent.messages.copy()]
         self.all_messages = st.session_state.all_messages
         self.messages = [{'timestamp': get_local_time(), 'message': msg} for msg in agent.messages.copy()]
-        self.memory = agent.memory
+        #self.memory = agent.memory
+        st.session_state.memory = agent.memory
+        self.memory = st.session_state.memory
+        
         #print(f"InMemoryStateManager.all_messages.len = {len(self.all_messages)}")
         print(f"InMemoryStateManager.all_messages.len = {len(st.session_state.all_messages)}")
         print(f"InMemoryStateManager.messages.len = {len(self.messages)}")
