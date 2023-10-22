@@ -150,12 +150,10 @@ class AgentAsync(object):
         # Once the memory object is initialize, use it to "bake" the system message
         if "_messages" not in st.session_state:
             st.session_state["_messages"] = initialize_message_sequence(
-            self.model,
             self.system,
             self.memory,
         )
         st.session_state._messages = initialize_message_sequence(
-            self.model,
             self.system,
             self.memory,
         )
