@@ -42,7 +42,7 @@ def user_message(msg, raw=False):
                 msg_json = json.loads(msg)
             except:
                 printd(f"Warning: failed to parse user message into json")
-                printd(f'🧑 {{msg}')
+                printd(f'🧑 {msg}')
                 return
 
     if msg_json['type'] == 'user_message':
