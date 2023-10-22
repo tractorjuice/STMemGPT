@@ -100,7 +100,7 @@ def get_ai_reply_async(
             messages=message_sequence,
             functions=functions,
             function_call=function_call,
-            #pl_tags=["stmemgptv2"],
+            pl_tags=["stmemgptv2"],
         )
 
         # special case for 'length'
@@ -146,6 +146,7 @@ class AgentAsync(object):
         # Once the memory object is initialize, use it to "bake" the system message
         if "_messages" not in st.session_state:
             st.session_state["_messages"] = initialize_message_sequence(
+            self.model,
             self.system,
             self.memory,
         )
@@ -155,9 +156,8 @@ class AgentAsync(object):
 
         if "messages_total" not in st.session_state:
             st.session_state["messages_total"] = messages_total if messages_total is not None else (len(self._messages) - 1)  # (-system)
-        
         self.messages_total = st.session_state.messages_total
-
+        
         if "messages_total_init" not in st.session_state:
             st.session_state["messages_total_init"] = self.messages_total
         self.messages_total_init = st.session_state.messages_total_init
@@ -184,6 +184,7 @@ class AgentAsync(object):
         if "persistence_manager" not in st.session_state:
             st.session_state["persistence_manager"] = persistence_manager
         self.persistence_manager = st.session_state.persistence_manager
+        
         if persistence_manager_init:
             # creates a new agent object in the database
             self.persistence_manager.init(self)
