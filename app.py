@@ -66,6 +66,13 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         user_message = system.package_user_message(prompt)
         new_messages, heartbeat_request, function_failed, token_warning = memgpt_agent.step(user_message, first_message=False, skip_verify=True)
 
+        st.sidebar.write("Heartbeat:")
+        st.sidebar.write(heartbeat_request)
+        st.sidebar.write("Function Failed:")
+        st.sidebar.write(function_failed)
+        st.sidebar.write("Token Warning:")
+        st.sidebar.write(token_warning)
+
         for item in new_messages:
             if 'function_call' in item and 'arguments' in item['function_call']:
                 message_args = json.loads(item['function_call']['arguments'])
