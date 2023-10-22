@@ -155,19 +155,19 @@ class AgentAsync(object):
             #self.memory,
             st.session_state.agent_memory,
         )
-        st.session_state._messages = initialize_message_sequence(
+        st.session_state.agent_messages = initialize_message_sequence(
             #self.system,
             st.session_state.agent_system,
             #self.memory,
             st.session_state.agent_memory,
         )
-        self._messages = st.session_state._messages
+        self._messages = st.session_state.agent_messages
         
         # Keep track of the total number of messages throughout all time
 
         if "messages_total" not in st.session_state:
-            st.session_state["messages_total"] = messages_total if messages_total is not None else (len(st.session_state._messages) - 1)  # (-system)
-        st.session_state.messages_total = messages_total if messages_total is not None else (len(st.session_state._messages) - 1)  # (-system)
+            st.session_state["messages_total"] = messages_total if messages_total is not None else (len(st.session_state.agent_messages) - 1)  # (-system)
+        st.session_state.messages_total = messages_total if messages_total is not None else (len(st.session_state.agent_messages) - 1)  # (-system)
         self.messages_total = st.session_state.messages_total
         
         if "messages_total_init" not in st.session_state:
@@ -231,7 +231,7 @@ class AgentAsync(object):
     @property
     def messages(self):
         #return self._messages
-        return st.session_state._messages
+        return st.session_state.agent_messages
 
     @messages.setter
     def messages(self, value):
@@ -243,7 +243,7 @@ class AgentAsync(object):
 
         new_messages = [self.messages[0]] + self.messages[num:]
         #self._messages = new_messages
-        st.session_state._messages = new_messages
+        st.session_state.agent_messages = new_messages
 
     def prepend_to_messages(self, added_messages):
         """Wrapper around self.messages.prepend to allow additional calls to a state/persistence manager"""
@@ -251,7 +251,7 @@ class AgentAsync(object):
 
         new_messages = [self.messages[0]] + added_messages + self.messages[1:]  # prepend (no system)
         #self._messages = new_messages
-        st.session_state._messages = new_messages
+        st.session_state.agent_messages = new_messages
         #self.messages_total += len(added_messages)  # still should increment the message counter (summaries are additions too)
         st.session_state.messages_total += len(added_messages)  # still should increment the message counter (summaries are additions too)
         self.messages_total = st.session_state.messages_total
@@ -267,7 +267,7 @@ class AgentAsync(object):
         new_messages = self.messages + added_messages  # append
 
         #self._messages = new_messages
-        st.session_state._messages = new_messages
+        st.session_state.agent_messages = new_messages
         #self.messages_total += len(added_messages)
         st.session_state.messages_total += len(added_messages)
         self.messages_total = st.session_state.messages_total
@@ -280,8 +280,8 @@ class AgentAsync(object):
 
         new_messages = [new_system_message] + self.messages[1:]  # swap index 0 (system)
         #self._messages = new_messages
-        st.session_state._messages = new_messages
-        self._messages = st.session_state._messages
+        st.session_state.agent_messages = new_messages
+        self._messages = st.session_state.agent_messages
 
     def rebuild_memory(self):
         """Rebuilds the system message with the latest memory object"""
@@ -375,7 +375,7 @@ class AgentAsync(object):
         self.memory = st.session_state.agent_memory
         # messages also
         #self._messages = state['messages']
-        st.session_state._messages = new_messages
+        st.session_state.agent_messages = new_messages
         try:
             #self.messages_total = state['messages_total']
             st.session_state.messages_total = state['messages_total']
@@ -561,6 +561,11 @@ class AgentAsync(object):
                 input_message_sequence = self.messages + [packed_user_message]
                 #st.session_state.all_new_messages.append(packed_user_message)
                 #input_message_sequence = st.session_state.all_new_messages
+
+                st.write(self.messages)
+                st.write("......")
+                st.write(self._messages)
+                
             else:
                 input_message_sequence = self.messages
                 #input_message_sequence = st.session_state.all_new_messages
