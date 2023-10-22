@@ -593,7 +593,7 @@ class AgentAsync(object):
             assert 'api_args' not in all_response_messages[0]
             all_response_messages[0]['api_args'] = {
                 #'model': self.model,
-                'model': st.session_state.agent_model
+                'model': st.session_state.agent_model,
                 'messages': input_message_sequence,
                 'functions': self.functions,
             }
