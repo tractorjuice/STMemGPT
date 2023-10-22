@@ -51,7 +51,7 @@ def user_message(msg, raw=False):
     elif msg_json['type'] == 'heartbeat':
         if DEBUG:
             msg_json.pop('type')
-            printd(f'💓 {msg_json}}')
+            printd(f'💓 {msg_json}')
     elif msg_json['type'] == 'system_message':
         msg_json.pop('type')
         printd(f'🖥️ {msg_json}')
