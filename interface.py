@@ -68,19 +68,15 @@ def function_message(msg):
 
     if isinstance(msg, dict):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write('Function:\n' + msg)
         return
 
     if msg.startswith('Success: '):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡🟢 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write(f'Function {msg}')
     elif msg.startswith('Error: '):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡🔴 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write(f'Function {msg}')
     elif msg.startswith('Running '):
         if DEBUG:
             printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-            st.sidebar.write(f'Function {msg}')
         else:
             if 'memory' in msg:
                 match = re.search(r'Running (\w+)\((.*)\)', msg)
@@ -93,10 +89,10 @@ def function_message(msg):
                         msg_dict = eval(function_args)
                         if function_name == 'archival_memory_search':
                             print(f'{Fore.RED}\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
-                            st.sidebar.write('Query:' + {msg_dict["query"]} + ' page: ' + {msg_dict["page"]})
+                            st.sidebar.write(f'\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
                         else:
                             print(f'{Fore.RED}{Style.BRIGHT}\t{Fore.RED} {msg_dict["old_content"]}\n\t{Fore.GREEN}→ {msg_dict["new_content"]}')
-                            st.sidebar.write({msg_dict["old_content"]} + '\n\t→' + {msg_dict["new_content"]})
+                            st.sidebar.write(f'\t {msg_dict["old_content"]}\n\t→ {msg_dict["new_content"]}')
                     except Exception as e:
                         printd(e)
                         printd(msg_dict)
@@ -104,23 +100,19 @@ def function_message(msg):
                 else:
                     printd(f"Warning: did not recognize function message")
                     printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-                    st.sidebar.write('Warning: did not recognize funtion message' + msg)
             elif 'send_message' in msg:
                 # ignore in debug mode
                 pass
             else:
                 printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-                st.sidebar.write('Function: ' + msg)
     else:
         try:
             msg_dict = json.loads(msg)
             if "status" in msg_dict and msg_dict["status"] == "OK":
                 printd(f'{Fore.GREEN}{Style.BRIGHT}⚡ [function] {Fore.GREEN}{msg}{Style.RESET_ALL}')
-                st.sidebar.write('Function:\n' + msg)
         except Exception:
             printd(f"Warning: did not recognize function message {type(msg)} {msg}")
             printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-            st.sidebar.write('Warning: did not recognize funtion message' + msg)
 
 def print_messages(message_sequence):
     for msg in message_sequence:
