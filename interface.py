@@ -12,51 +12,51 @@ init(autoreset=True)
 DEBUG = False  # only dumps important messages in the terminal
 
 def important_message(msg):
-    print(f'{Fore.MAGENTA}{Style.BRIGHT}{msg}{Style.RESET_ALL}')
-    st.sidebar.warning(f'{Fore.MAGENTA}{Style.BRIGHT}{msg}{Style.RESET_ALL}')
+    print(f'{msg}')
+    st.sidebar.warning(f'{msg}')
 
 def internal_monologue(msg):
     # ANSI escape code for italic is '\x1B[3m'
-    print(f'\x1B[3m{Fore.LIGHTBLACK_EX}💭 {msg}{Style.RESET_ALL}')
-    st.sidebar.write(f'\x1B[3m{Fore.LIGHTBLACK_EX}💭 {msg}{Style.RESET_ALL}')
+    print(f'💭 {msg}')
+    st.sidebar.write(f'💭 {msg}')
 
 def assistant_message(msg):
-    print(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
-    st.sidebar.write(f'{Fore.YELLOW}{Style.BRIGHT}🤖 {Fore.YELLOW}{msg}{Style.RESET_ALL}')
+    print(f'🤖 {msg}')
+    st.sidebar.write(f'🤖 {msg}')
 
 def memory_message(msg):
-    print(f'{Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}🧠 {Fore.LIGHTMAGENTA_EX}{msg}{Style.RESET_ALL}')
-    st.sidebar.write(f'{Fore.LIGHTMAGENTA_EX}{Style.BRIGHT}🧠 {Fore.LIGHTMAGENTA_EX}{msg}{Style.RESET_ALL}')
+    print(f'🧠 {msg}}')
+    st.sidebar.write(f'🧠 {msg}')
     
 def system_message(msg):
-    printd(f'{Fore.MAGENTA}{Style.BRIGHT}🖥️ [system] {Fore.MAGENTA}{msg}{Style.RESET_ALL}')
-    st.sidebar.write(f'{Fore.MAGENTA}{Style.BRIGHT}🖥️ [system] {Fore.MAGENTA}{msg}{Style.RESET_ALL}')
+    printd(f'🖥️ [system] {msg}')
+    st.sidebar.write(f'🖥️ [system] {msg}')
     
 def user_message(msg, raw=False):
     if isinstance(msg, str):
         if raw:
-            printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg}{Style.RESET_ALL}')
+            printd(f'🧑 {msg}')
             return
         else:
             try:
                 msg_json = json.loads(msg)
             except:
                 printd(f"Warning: failed to parse user message into json")
-                printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg}{Style.RESET_ALL}')
+                printd(f'🧑 {{msg}')
                 return
 
     if msg_json['type'] == 'user_message':
         msg_json.pop('type')
-        printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
+        printd(f'🧑 {msg_json}')
     elif msg_json['type'] == 'heartbeat':
         if DEBUG:
             msg_json.pop('type')
-            printd(f'{Fore.GREEN}{Style.BRIGHT}💓 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
+            printd(f'💓 {msg_json}}')
     elif msg_json['type'] == 'system_message':
         msg_json.pop('type')
-        printd(f'{Fore.GREEN}{Style.BRIGHT}🖥️ {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
+        printd(f'🖥️ {msg_json}')
     else:
-        printd(f'{Fore.GREEN}{Style.BRIGHT}🧑 {Fore.GREEN}{msg_json}{Style.RESET_ALL}')
+        printd(f'🧑 {msg_json}')
 
 def function_message(msg):
 
