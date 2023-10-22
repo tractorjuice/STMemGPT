@@ -314,7 +314,7 @@ class AgentAsync(object):
             #'system': self.system,
             'system': st.session_state.agent_system,
             #'functions': self.functions,
-            'functions: st.session_state.agent_functions,
+            'functions': st.session_state.agent_functions,
             'messages': self.messages,
             #'messages_total': self.messages_total,
             'messages_total': st.session_state.messages_total,
