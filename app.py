@@ -61,6 +61,45 @@ st.sidebar.markdown("Current Version: 0.2.0")
 st.sidebar.markdown("Using GPT-4 API")
 st.sidebar.divider()
 
+if "model" not in st.session_state:
+    st.session_state["model"] = None
+
+if "system" not in st.session_state:
+    st.session_state["system"] = None
+
+if "functions" not in st.session_state:
+    st.session_state["functions"] = None
+    
+if "memory" not in st.session_state:
+    st.session_state["memory"] = None
+
+if "_messages" not in st.session_state:
+    st.session_state["_messages"] = None
+
+if "messages_total" not in st.session_state:
+    st.session_state["messages_total"] = 0
+
+if "messages_total_init" not in st.session_state:
+    st.session_state["messages_total_init"] = 0
+
+if "interface" not in st.session_state:
+    st.session_state["interface"] = None
+
+if "persistence_manager" not in st.session_state:
+    st.session_state["persistence_manager"] = None
+
+if "pause_heartbeats_start" not in st.session_state:
+    st.session_state["pause_heartbeats_start"] = None
+
+if "pause_heartbeats_minutes" not in st.session_state:
+    st.session_state["pause_heartbeats_minutes"] = 0
+
+if "first_message_verify_mono" not in st.session_state:
+    st.session_state["first_message_verify_mono"] = None
+
+if "agent_alerted_about_memory_pressure" not in st.session_state:
+    st.session_state["agent_alerted_about_memory_pressure"] = None
+
 if "all_new_messages" not in st.session_state:
     st.session_state["all_new_messages"] = []
     
