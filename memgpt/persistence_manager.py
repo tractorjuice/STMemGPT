@@ -109,7 +109,7 @@ class InMemoryStateManager(PersistenceManager):
         self.messages = st.session_state.persistence_messages
     
         #self.all_messages.extend(added_messages)
-       st.session_state.persistence_all_messages.extend(added_messages)
+        st.session_state.persistence_all_messages.extend(added_messages)
         self.all_messages = st.session_state.persistence_all_messages
 
     def swap_system_message(self, new_system_message):
