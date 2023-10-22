@@ -43,7 +43,8 @@ st.sidebar.title("Learn Wardley Mapping (Infinite)")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
 st.sidebar.markdown("Current Version: 0.7.0")
-st.sidebar.markdown("Core components: Streamlit, OpenAI, Memgpt, FAISS")
+st.sidebar.markdown("Core components:)
+st.sidebar.markdown("Streamlit, OpenAI, Memgpt, FAISS")
 st.sidebar.divider()
 
 # --------------- New code here
