@@ -130,10 +130,10 @@ class AgentAsync(object):
         self.model = st.session_state.agent_model
         
         # Store the system instructions (used to rebuild memory)
-        if "system" not in st.session_state:
-            st.session_state["system"] = system
-        st.session_state.system = system
-        self.system = st.session_state.system
+        if "agent_system" not in st.session_state:
+            st.session_state["agent_system"] = system
+        st.session_state.agent_system = system
+        self.system = st.session_state.agent_system
         
         # Store the functions spec
         if "functions" not in st.session_state:
@@ -150,12 +150,14 @@ class AgentAsync(object):
         # Once the memory object is initialize, use it to "bake" the system message
         if "_messages" not in st.session_state:
             st.session_state["_messages"] = initialize_message_sequence(
-            self.system,
+            #self.system,
+            st.session_state.agent_system,
             #self.memory,
             st.session_state.agent_memory,
         )
         st.session_state._messages = initialize_message_sequence(
-            self.system,
+            #self.system,
+            st.session_state.agent_system
             #self.memory,
             st.session_state.agent_memory,
         )
@@ -285,7 +287,8 @@ class AgentAsync(object):
         """Rebuilds the system message with the latest memory object"""
         curr_system_message = self.messages[0]  # this is the system + memory bank, not just the system prompt
         new_system_message = initialize_message_sequence(
-            self.system,
+            #self.system,
+            st.session_state.agent_system,
             #self.memory,
             st.session_state.agent_memory,
             archival_memory=self.persistence_manager.archival_memory,
@@ -308,7 +311,8 @@ class AgentAsync(object):
         return {
             #'model': self.model,
             'model': st.session_state.agent_model,
-            'system': self.system,
+            #'system': self.system,
+            'system': st.session_state.agent_system,
             'functions': self.functions,
             'messages': self.messages,
             #'messages_total': self.messages_total,
@@ -355,7 +359,9 @@ class AgentAsync(object):
         #self.model = state['model']
         st.session_state.agent_model = state['model']
         self.model = st.session_state.agent_model
-        self.system = state['system']
+        #self.system = state['system']
+        st.session_state.agent_system = state['system']
+        self.system = st.session_state.agent_system
         self.functions = state['functions']
         # memory requires a nested load
         memory_dict = state['memory']
