@@ -162,8 +162,8 @@ class AgentAsync(object):
         # Keep track of the total number of messages throughout all time
 
         if "messages_total" not in st.session_state:
-            st.session_state["messages_total"] = messages_total if messages_total is not None else (len(self._messages) - 1)  # (-system)
-        st.session_state.messages_total = messages_total if messages_total is not None else (len(self._messages) - 1)  # (-system)
+            st.session_state["messages_total"] = messages_total if messages_total is not None else (len(st.session_state._messages) - 1)  # (-system)
+        st.session_state.messages_total = messages_total if messages_total is not None else (len(st.session_state._messages) - 1)  # (-system)
         self.messages_total = st.session_state.messages_total
         
         if "messages_total_init" not in st.session_state:
