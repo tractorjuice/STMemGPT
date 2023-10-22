@@ -157,12 +157,12 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         new_messages, heartbeat_request, function_failed, token_warning = memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         st.sidebar.warning(new_messages)
 
-        #for item in new_messages:
-        #    if 'function_call' in item and 'arguments' in item['function_call']:
-        #        message_args = json.loads(item['function_call']['arguments'])
-        #        message = message_args['message']
-        #        st.write(message)
-        #        break  # Exit the loop once the message is found
+        for item in new_messages:
+            if 'function_call' in item and 'arguments' in item['function_call']:
+                message_args = json.loads(item['function_call']['arguments'])
+                message = message_args['message']
+                st.write(message)
+                break  # Exit the loop once the message is found
         
         #full_response = ""
         #for response in openai.ChatCompletion.create(
