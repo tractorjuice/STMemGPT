@@ -30,7 +30,6 @@ def memory_message(msg):
     
 def system_message(msg):
     printd(f'🖥️ [system] {msg}')
-    st.sidebar.write(f'🖥️ [system] {msg}')
     
 def user_message(msg, raw=False):
     if isinstance(msg, str):
@@ -78,12 +77,12 @@ def function_message(msg):
                     function_name = match.group(1)
                     function_args = match.group(2)
                     print(f'⚡🧠 [function] updating memory with {function_name}:')
-                    st.sidebar.write(f'⚡🧠 [function] updating memory with {function_name}:')
+                    #st.sidebar.write(f'⚡🧠 [function] updating memory with {function_name}:')
                     try:
                         msg_dict = eval(function_args)
                         if function_name == 'archival_memory_search':
                             print(f'\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
-                            st.sidebar.write(f'\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
+                            #st.sidebar.write(f'\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
                         else:
                             st.sidebar.warning(msg_dict)
                             #print(f'\t {msg_dict["old_content"]}\n\t→ {msg_dict["new_content"]}')
