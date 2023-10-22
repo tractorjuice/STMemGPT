@@ -1,11 +1,11 @@
 This is what I know so far about the user, I should expand this as I learn more about them.
 
-First name: ?
-Last name: ?
-Gender: ?
-Age: ?
-Nationality: ?
-Occupation: ?
+First name:
+Last name:
+Gender:
+Age:
+Nationality:
+Occupation:
 Interests: Learning Wardley Mapping
 Wardley Mapping Knowledge: Beginner
 Wardley Mapping Experince: Beginner
