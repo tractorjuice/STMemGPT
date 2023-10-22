@@ -73,14 +73,14 @@ def function_message(msg):
 
     if msg.startswith('Success: '):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡🟢 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write('Function:\n' + msg)
+        st.sidebar.write(f'Function {msg}')
     elif msg.startswith('Error: '):
         printd(f'{Fore.RED}{Style.BRIGHT}⚡🔴 [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-        st.sidebar.write('Function:\n' + msg)
+        st.sidebar.write(f'Function {msg}')
     elif msg.startswith('Running '):
         if DEBUG:
             printd(f'{Fore.RED}{Style.BRIGHT}⚡ [function] {Fore.RED}{msg}{Style.RESET_ALL}')
-            st.sidebar.write('Function:\n' + msg)
+            st.sidebar.write(f'Function {msg}')
         else:
             if 'memory' in msg:
                 match = re.search(r'Running (\w+)\((.*)\)', msg)
