@@ -65,10 +65,10 @@ if "model" not in st.session_state:
     st.session_state["model"] = 'gpt-4'
 
 if "system" not in st.session_state:
-    st.session_state["system"] = None
+    st.session_state["system"] = []
 
 if "functions" not in st.session_state:
-    st.session_state["functions"] = None
+    st.session_state["functions"] = []
     
 if "memory" not in st.session_state:
     st.session_state["memory"] = []
