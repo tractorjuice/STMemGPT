@@ -46,9 +46,9 @@ class CoreMemory(object):
     def __repr__(self) -> str:
         return \
             f"\n### CORE MEMORY ###" + \
-            #f"\n=== Persona ===\n{self.persona}" + \
+            # f"\n=== Persona ===\n{self.persona}" + \
             f"\n=== Persona ===\n{st.session_state.corememory_persona}" + \
-            #f"\n\n=== Human ===\n{self.human}"
+            # f"\n\n=== Human ===\n{self.human}"
             f"\n\n=== Human ===\n{st.session_state.corememory_human}"
 
     def to_dict(self):
