@@ -111,7 +111,7 @@ class InMemoryStateManager(PersistenceManager):
         st.session_state.persistence_messages = st.session_state.persistence_messages + added_messages
         self.messages = st.session_state.persistence_messages
 
-         st.sidebar.error(st.session_state.persistence_messages)
+        st.sidebar.error(st.session_state.persistence_messages)
     
         #self.all_messages.extend(added_messages)
         st.session_state.persistence_all_messages.extend(added_messages)
