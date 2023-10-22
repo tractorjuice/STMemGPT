@@ -8,14 +8,10 @@ STARTUP_QUOTES = [
     #"I think, therefore I am.",
     #"All those moments will be lost in time, like tears in rain.",
     #"More human than human is our motto.",
-    """I'm here to help you learn about and create Wardley Maps. Here are some options for getting started:
-    1. Learn: To learn about the components and concepts of a Wardley Map, type "Learn".
-    2. Vocabulary: To get a list of common Wardley Map terms and their definitions, type "Vocabulary".
-    3. Create: To create your own Wardley Map with step-by-step guidance, type "Create".
-    If you have any specific questions or need clarification on any aspect of Wardley Mapping, feel free to ask."""
+    "I'm here to help you learn about and create Wardley Maps. Where would you like to start?",
 ]
 #INITIAL_BOOT_MESSAGE_SEND_MESSAGE_FIRST_MSG = STARTUP_QUOTES[2]
-INITIAL_BOOT_MESSAGE_SEND_MESSAGE_FIRST_MSG = STARTUP_QUOTES[0]
+INITIAL_BOOT_MESSAGE_SEND_MESSAGE_FIRST_MSG = STARTUP_QUOTES[3]
 
 # Constants to do with summarization / conversation length window
 MESSAGE_SUMMARY_WARNING_TOKENS = 7000 # the number of tokens consumed in a call before a system warning goes to the agent
