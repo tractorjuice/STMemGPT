@@ -160,9 +160,11 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         for item in new_messages:
             if 'function_call' in item and 'arguments' in item['function_call']:
                 message_args = json.loads(item['function_call']['arguments'])
-                message = message_args['message']
-                st.write(message)
-                break  # Exit the loop once the message is found
+                if 'message' in message_args:
+                    message = message_args['message']
+                    st.write(message)
+                    break  # Exit the loop once the message is found
+
         
         #full_response = ""
         #for response in openai.ChatCompletion.create(
