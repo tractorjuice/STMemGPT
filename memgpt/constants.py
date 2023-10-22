@@ -5,9 +5,9 @@ FIRST_MESSAGE_ATTEMPTS = 5
 INITIAL_BOOT_MESSAGE = "Boot sequence complete. Persona activated."
 INITIAL_BOOT_MESSAGE_SEND_MESSAGE_THOUGHT = "Bootup sequence complete. Persona activated. Testing messaging functionality."
 STARTUP_QUOTES = [
-    #"I think, therefore I am.",
-    #"All those moments will be lost in time, like tears in rain.",
-    #"More human than human is our motto.",
+    "I think, therefore I am.",
+    "All those moments will be lost in time, like tears in rain.",
+    "More human than human is our motto.",
     "I'm here to help you learn about and create Wardley Maps. Where would you like to start?",
 ]
 #INITIAL_BOOT_MESSAGE_SEND_MESSAGE_FIRST_MSG = STARTUP_QUOTES[2]
