@@ -47,7 +47,7 @@ st.sidebar.markdown("Using GPT-4 API")
 st.sidebar.divider()
 
 # --------------- New code here
-If not st.session_state.initial_setup:
+if not st.session_state.initial_setup:
     persistence_manager = InMemoryStateManager()
     memgpt_agent = presets.use_preset('memgpt_chat', MODEL, personas.get_persona_text('simonwarbley'), humans.get_human_text('awareness'), interface, persistence_manager)
     print_messages = interface.print_messages
