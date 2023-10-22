@@ -166,10 +166,11 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
                     st.write(message)
                     st.session_state.messages.append({"role": "assistant", "content": message})
 
-        st.write(st.session_state.messages_total_init)
         st.write("Msg Total Init")
-        st.write(st.session_state.messages_total)
+        st.write(st.session_state.messages_total_init)
         st.write("Msg Total")
+        st.write(st.session_state.messages_total)
+        st.write("Agent Msg")
         st.write(st.session_state.agent_messages)
         st.write("Pers Msg")
         st.write(st.session_state.persistence_all_messages)
