@@ -124,10 +124,10 @@ class AgentAsync(object):
     def __init__(self, model, system, functions, interface, persistence_manager, persona_notes, human_notes, messages_total=None, persistence_manager_init=True, first_message_verify_mono=True):
         # gpt-4, gpt-3.5-turbo
         
-        if "model" not in st.session_state:
-            st.session_state["model"] = model
-        st.session_state.model  = model
-        self.model = st.session_state.model
+        if "agent_model" not in st.session_state:
+            st.session_state["agent_model"] = model
+        st.session_state.agent_model  = model
+        self.model = st.session_state.agent_model
         
         # Store the system instructions (used to rebuild memory)
         if "system" not in st.session_state:
@@ -142,20 +142,22 @@ class AgentAsync(object):
         self.functions = st.session_state.functions
         
         # Initialize the memory object
-        if "memory" not in st.session_state:
-            st.session_state["memory"] = initialize_memory(persona_notes, human_notes)
-        st.session_state.memory = initialize_memory(persona_notes, human_notes)
-        self.memory = st.session_state.memory
+        if "agent_memory" not in st.session_state:
+            st.session_state["agent_memory"] = initialize_memory(persona_notes, human_notes)
+        st.session_state.agent_memory = initialize_memory(persona_notes, human_notes)
+        self.memory = st.session_state.agent_memory
         
         # Once the memory object is initialize, use it to "bake" the system message
         if "_messages" not in st.session_state:
             st.session_state["_messages"] = initialize_message_sequence(
             self.system,
-            self.memory,
+            #self.memory,
+            st.session_state.agent_memory,
         )
         st.session_state._messages = initialize_message_sequence(
             self.system,
-            self.memory,
+            #self.memory,
+            st.session_state.agent_memory,
         )
         self._messages = st.session_state._messages
         
@@ -284,7 +286,8 @@ class AgentAsync(object):
         curr_system_message = self.messages[0]  # this is the system + memory bank, not just the system prompt
         new_system_message = initialize_message_sequence(
             self.system,
-            self.memory,
+            #self.memory,
+            st.session_state.agent_memory,
             archival_memory=self.persistence_manager.archival_memory,
             recall_memory=self.persistence_manager.recall_memory,
         )[0]
@@ -293,7 +296,9 @@ class AgentAsync(object):
         printd(f"Rebuilding system with new memory...\nDiff:\n{diff}")
 
         # Store the memory change (if stateful)
-        self.persistence_manager.update_memory(self.memory)
+        #self.persistence_manager.update_memory(self.memory)
+        self.persistence_manager.update_memory(st.session_state.agent_memory)
+
 
         # Swap the system message out
         self.swap_system_message(new_system_message)
@@ -301,13 +306,15 @@ class AgentAsync(object):
     ### Local state management
     def to_dict(self):
         return {
-            'model': self.model,
+            #'model': self.model,
+            'model': st.session_state.agent_model,
             'system': self.system,
             'functions': self.functions,
             'messages': self.messages,
             #'messages_total': self.messages_total,
             'messages_total': st.session_state.messages_total,
-            'memory': self.memory.to_dict(),
+            #'memory': self.memory.to_dict(),
+            'memory': st.session_state.agent_memory.to_dict(),
         }
 
     def save_to_json_file(self, filename):
@@ -345,14 +352,18 @@ class AgentAsync(object):
         return new_agent
 
     def load_inplace(self, state):
-        self.model = state['model']
+        #self.model = state['model']
+        st.session_state.agent_model = state['model']
+        self.model = st.session_state.agent_model
         self.system = state['system']
         self.functions = state['functions']
         # memory requires a nested load
         memory_dict = state['memory']
         persona_notes = memory_dict['persona']
         human_notes = memory_dict['human']
-        self.memory = initialize_memory(persona_notes, human_notes)
+        #self.memory = initialize_memory(persona_notes, human_notes)
+        st.session_state.agent_memory = initialize_memory(persona_notes, human_notes)
+        self.memory = st.session_state.agent_memory
         # messages also
         #self._messages = state['messages']
         st.session_state._messages = new_messages
@@ -555,7 +566,8 @@ class AgentAsync(object):
                 counter = 0
                 while True:
 
-                    response = get_ai_reply_async(model=self.model, message_sequence=input_message_sequence, functions=self.functions)
+                    #response = get_ai_reply_async(model=self.model, message_sequence=input_message_sequence, functions=self.functions)
+                    response = get_ai_reply_async(model=st.session_state.agent_model, message_sequence=input_message_sequence, functions=self.functions)
                     if self.verify_first_message_correctness(response, require_monologue=self.first_message_verify_mono):
                         break
 
@@ -564,8 +576,9 @@ class AgentAsync(object):
                         raise Exception(f'Hit first message retry limit ({first_message_retry_limit})')
 
             else:
-                response = get_ai_reply_async(model=self.model, message_sequence=input_message_sequence, functions=self.functions)
-
+                #response = get_ai_reply_async(model=self.model, message_sequence=input_message_sequence, functions=self.functions)
+                response = get_ai_reply_async(model=st.session_state.agent_model, message_sequence=input_message_sequence, functions=self.functions)
+                
             # Step 2: check if LLM wanted to call a function
             # (if yes) Step 3: call the function
             # (if yes) Step 4: send the info on the function call and function response to LLM
@@ -579,7 +592,8 @@ class AgentAsync(object):
             all_response_messages[0]['api_response'] = response_message_copy
             assert 'api_args' not in all_response_messages[0]
             all_response_messages[0]['api_args'] = {
-                'model': self.model,
+                #'model': self.model,
+                'model': st.session_state.agent_model
                 'messages': input_message_sequence,
                 'functions': self.functions,
             }
@@ -625,7 +639,8 @@ class AgentAsync(object):
             tokens_so_far = 0   # Smart cutoff -- just below the max.
             cutoff = len(self.messages) - 1
             for m in reversed(self.messages):
-                tokens_so_far += count_tokens(str(m), self.model)
+                #tokens_so_far += count_tokens(str(m), self.model)
+                tokens_so_far += count_tokens(str(m), st.session_state.agent_model)
                 if tokens_so_far >= MESSAGE_SUMMARY_WARNING_TOKENS*0.2:
                     break
                 cutoff -= 1
@@ -645,7 +660,8 @@ class AgentAsync(object):
         message_sequence_to_summarize = self.messages[1:cutoff]  # do NOT get rid of the system message
         printd(f"Attempting to summarize {len(message_sequence_to_summarize)} messages [1:{cutoff}] of {len(self.messages)}")
 
-        summary = summarize_messages(self.model, message_sequence_to_summarize)
+        #summary = summarize_messages(self.model, message_sequence_to_summarize)
+        summary = summarize_messages(st.session_state.agent_model, message_sequence_to_summarize)
         printd(f"Got summary: {summary}")
 
         # Metadata that's useful for the agent to see
@@ -700,17 +716,20 @@ class AgentAsync(object):
 
     def edit_memory(self, name, content):
         """Edit memory.name <= content"""
-        new_len = self.memory.edit(name, content)
+        #new_len = self.memory.edit(name, content)
+        new_len = st.session_state.agent_memory.edit(name, content)
         self.rebuild_memory()
         return None
 
     def edit_memory_append(self, name, content):
-        new_len = self.memory.edit_append(name, content)
+        #new_len = self.memory.edit_append(name, content)
+        new_len = st.session_state.agent_memory.edit_append(name, content)
         self.rebuild_memory()
         return None
 
     def edit_memory_replace(self, name, old_content, new_content):
-        new_len = self.memory.edit_replace(name, old_content, new_content)
+        #new_len = self.memory.edit_replace(name, old_content, new_content)
+        new_len = st.session_state.agent_memory.edit_replace(name, old_content, new_content)
         self.rebuild_memory()
         return None
 
