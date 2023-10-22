@@ -248,7 +248,9 @@ class AgentAsync(object):
         new_messages = [self.messages[0]] + added_messages + self.messages[1:]  # prepend (no system)
         #self._messages = new_messages
         st.session_state._messages = new_messages
-        self.messages_total += len(added_messages)  # still should increment the message counter (summaries are additions too)
+        #self.messages_total += len(added_messages)  # still should increment the message counter (summaries are additions too)
+        st.session_state.messages_total += len(added_messages)  # still should increment the message counter (summaries are additions too)
+        self.messages_total = st.session_state.messages_total
 
     def append_to_messages(self, added_messages):
         """Wrapper around self.messages.append to allow additional calls to a state/persistence manager"""
@@ -262,7 +264,9 @@ class AgentAsync(object):
 
         #self._messages = new_messages
         st.session_state._messages = new_messages
-        self.messages_total += len(added_messages)
+        #self.messages_total += len(added_messages)
+        st.session_state.messages_total += len(added_messages)
+        self.messages_total = st.session_state.messages_total
 
     def swap_system_message(self, new_system_message):
         assert new_system_message['role'] == 'system', new_system_message
@@ -300,7 +304,8 @@ class AgentAsync(object):
             'system': self.system,
             'functions': self.functions,
             'messages': self.messages,
-            'messages_total': self.messages_total,
+            #'messages_total': self.messages_total,
+            'messages_total': st.session_state.messages_total,
             'memory': self.memory.to_dict(),
         }
 
@@ -351,9 +356,13 @@ class AgentAsync(object):
         #self._messages = state['messages']
         st.session_state._messages = new_messages
         try:
-            self.messages_total = state['messages_total']
+            #self.messages_total = state['messages_total']
+            st.session_state.messages_total = state['messages_total']
+            self.messages_total = st.session_state.messages_total
         except KeyError:
-            self.messages_total = len(self.messages) - 1  # -system
+            #self.messages_total = len(self.messages) - 1  # -system
+            st.session_state.messages_total = len(self.messages) - 1  # -system
+            self.messages_total = st.session_state.messages_total
 
     @classmethod
     def load_from_json(cls, json_state, interface, persistence_manager):
@@ -539,7 +548,8 @@ class AgentAsync(object):
                 printd(f"WARNING: attempting to run ChatCompletion without user as the last message in the queue")
 
             # Step 1: send the conversation and available functions to GPT
-            if not skip_verify and (first_message or self.messages_total == self.messages_total_init):
+            #if not skip_verify and (first_message or self.messages_total == self.messages_total_init):
+            if not skip_verify and (first_message or st.session_state.messages_total == st.session_state.messages_total_ini):
                 printd(f"This is the first message. Running extra verifier on AI response.")
                 counter = 0
                 while True:
@@ -638,7 +648,8 @@ class AgentAsync(object):
         printd(f"Got summary: {summary}")
 
         # Metadata that's useful for the agent to see
-        all_time_message_count = self.messages_total
+        #all_time_message_count = self.messages_total
+        all_time_message_count = st.session_state.messages_total
         remaining_message_count = len(self.messages[cutoff:])
         hidden_message_count = all_time_message_count - remaining_message_count
         summary_message_count = len(message_sequence_to_summarize)
