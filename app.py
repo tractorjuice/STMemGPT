@@ -167,6 +167,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
 
         st.write(st.session_state.messages_total_init)
         st.write(st.session_state.messages_total)
+        st.write(st.session_state.agent_messages)
 
         
         #full_response = ""
