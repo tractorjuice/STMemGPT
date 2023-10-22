@@ -80,12 +80,9 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
             new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
             heartbeat_request = False
 
-        st.sidebar.write("Heartbeat:")
-        st.sidebar.write(heartbeat_request)
-        st.sidebar.write("Function Failed:")
-        st.sidebar.write(function_failed)
-        st.sidebar.write("Token Warning:")
-        st.sidebar.write(token_warning)
+        st.sidebar.write(f"Heartbeat: {heartbeat_request}")
+        st.sidebar.write(f"Function Failed: {function_failed}")
+        st.sidebar.write(f"Token Warning: {token_warning}")
 
         for item in new_messages:
             if 'function_call' in item and 'arguments' in item['function_call']:
