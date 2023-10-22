@@ -32,6 +32,9 @@ MODEL = "gpt-4"
 if "messages" not in st.session_state:
     st.session_state["messages"] = []
 
+if "initial_setup" not in st.session_state:
+    st.session_state["initial_setup"] = False
+    
 # Swap out your 'import openai'
 openai = promptlayer.openai
 
@@ -44,10 +47,12 @@ st.sidebar.markdown("Using GPT-4 API")
 st.sidebar.divider()
 
 # --------------- New code here
-persistence_manager = InMemoryStateManager()
-memgpt_agent = presets.use_preset('memgpt_chat', MODEL, personas.get_persona_text('simonwarbley'), humans.get_human_text('awareness'), interface, persistence_manager)
-print_messages = interface.print_messages
-print_messages(memgpt_agent.messages)
+If not st.session_state.initial_setup:
+    persistence_manager = InMemoryStateManager()
+    memgpt_agent = presets.use_preset('memgpt_chat', MODEL, personas.get_persona_text('simonwarbley'), humans.get_human_text('awareness'), interface, persistence_manager)
+    print_messages = interface.print_messages
+    print_messages(memgpt_agent.messages)
+    st.session_state.initial_setup = True
 
 for message in st.session_state.messages:
     if message["role"] in ["user", "assistant"]:
