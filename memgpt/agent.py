@@ -522,12 +522,12 @@ class AgentAsync(object):
             if user_message is not None:
                 self.interface.user_message(user_message)
                 packed_user_message = {'role': 'user', 'content': user_message}
-                #input_message_sequence = self.messages + [packed_user_message]
-                st.session_state.all_new_messages.append(packed_user_message)
-                input_message_sequence = st.session_state.all_new_messages
+                input_message_sequence = self.messages + [packed_user_message]
+                #st.session_state.all_new_messages.append(packed_user_message)
+                #input_message_sequence = st.session_state.all_new_messages
             else:
-                #input_message_sequence = self.messages
-                input_message_sequence = st.session_state.all_new_messages
+                input_message_sequence = self.messages
+                #input_message_sequence = st.session_state.all_new_messages
 
             if len(input_message_sequence) > 1 and input_message_sequence[-1]['role'] != 'user':
                 printd(f"WARNING: attempting to run ChatCompletion without user as the last message in the queue")
