@@ -8,6 +8,8 @@
   </div>
 </details>
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/tractorjuice/STMemGPT)
+
 <details>
  <summary><h2>🗃️ Chat with your data - talk to your SQL database or your local files!</strong></h2></summary>
   <strong>SQL Database</strong>
