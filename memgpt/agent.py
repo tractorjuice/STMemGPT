@@ -175,7 +175,7 @@ class AgentAsync(object):
         st.session_state.messages_total_init = self.messages_total
         self.messages_total_init = st.session_state.messages_total_init
         
-        printd(f"AgentAsync initialized, self.messages_total={self.messages_total}")
+        printd(f"AgentAsync initialized, self.messages_total={self.messages_total}, {st.session_state.messages_total}")
 
         # Interface must implement:
         # - internal_monologue
@@ -571,7 +571,7 @@ class AgentAsync(object):
 
             # Step 1: send the conversation and available functions to GPT
             #if not skip_verify and (first_message or self.messages_total == self.messages_total_init):
-            if not skip_verify and (first_message or st.session_state.messages_total == st.session_state.messages_total_ini):
+            if not skip_verify and (first_message or st.session_state.messages_total == st.session_state.messages_total_init):
                 printd(f"This is the first message. Running extra verifier on AI response.")
                 counter = 0
                 while True:
