@@ -614,6 +614,9 @@ class AgentAsync(object):
 
             # Check the memory pressure and potentially issue a memory pressure warning
             current_total_tokens = response['usage']['total_tokens']
+            
+            st.sidebar.write(f"Last response total_tokens: {current_total_tokens}")
+            
             active_memory_warning = False
             if current_total_tokens > MESSAGE_SUMMARY_WARNING_TOKENS:
                 printd(f"WARNING: last response total_tokens ({current_total_tokens}) > {MESSAGE_SUMMARY_WARNING_TOKENS}")
