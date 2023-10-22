@@ -136,10 +136,10 @@ class AgentAsync(object):
         self.system = st.session_state.agent_system
         
         # Store the functions spec
-        if "functions" not in st.session_state:
-            st.session_state["functions"] = functions
-        st.session_state.functions = functions
-        self.functions = st.session_state.functions
+        if "agent_functions" not in st.session_state:
+            st.session_state["agent_functions"] = functions
+        st.session_state.agent_functions = functions
+        self.functions = st.session_state.agent_functions
         
         # Initialize the memory object
         if "agent_memory" not in st.session_state:
@@ -313,7 +313,8 @@ class AgentAsync(object):
             'model': st.session_state.agent_model,
             #'system': self.system,
             'system': st.session_state.agent_system,
-            'functions': self.functions,
+            #'functions': self.functions,
+            'functions: st.session_state.agent_functions,
             'messages': self.messages,
             #'messages_total': self.messages_total,
             'messages_total': st.session_state.messages_total,
@@ -362,7 +363,9 @@ class AgentAsync(object):
         #self.system = state['system']
         st.session_state.agent_system = state['system']
         self.system = st.session_state.agent_system
-        self.functions = state['functions']
+        #self.functions = state['functions']
+        st.session_state.agent_functions = state['functions']
+        self.functions = st.session_state.agent_functions
         # memory requires a nested load
         memory_dict = state['memory']
         persona_notes = memory_dict['persona']
@@ -573,7 +576,7 @@ class AgentAsync(object):
                 while True:
 
                     #response = get_ai_reply_async(model=self.model, message_sequence=input_message_sequence, functions=self.functions)
-                    response = get_ai_reply_async(model=st.session_state.agent_model, message_sequence=input_message_sequence, functions=self.functions)
+                    response = get_ai_reply_async(model=st.session_state.agent_model, message_sequence=input_message_sequence, functions=st.session_state.agent_functions)
                     if self.verify_first_message_correctness(response, require_monologue=self.first_message_verify_mono):
                         break
 
@@ -583,7 +586,7 @@ class AgentAsync(object):
 
             else:
                 #response = get_ai_reply_async(model=self.model, message_sequence=input_message_sequence, functions=self.functions)
-                response = get_ai_reply_async(model=st.session_state.agent_model, message_sequence=input_message_sequence, functions=self.functions)
+                response = get_ai_reply_async(model=st.session_state.agent_model, message_sequence=input_message_sequence, functions=st.session_state.agent_functions)
                 
             # Step 2: check if LLM wanted to call a function
             # (if yes) Step 3: call the function
@@ -601,7 +604,8 @@ class AgentAsync(object):
                 #'model': self.model,
                 'model': st.session_state.agent_model,
                 'messages': input_message_sequence,
-                'functions': self.functions,
+                #'functions': self.functions,
+                'functions': st.session_state.agent_functions,
             }
 
             # Step 4: extend the message history
