@@ -74,6 +74,13 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
 
         st.sidebar.write("Heartbeat:")
         st.sidebar.write(heartbeat_request)
+        
+        if heartbeat_request:
+            new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(new_messages, first_message=False, skip_verify=True)
+            heartbeat_request = False
+
+        st.sidebar.write("Heartbeat:")
+        st.sidebar.write(heartbeat_request)
         st.sidebar.write("Function Failed:")
         st.sidebar.write(function_failed)
         st.sidebar.write("Token Warning:")
