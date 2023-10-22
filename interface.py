@@ -18,18 +18,23 @@ def important_message(msg):
 def internal_monologue(msg):
     # ANSI escape code for italic is '\x1B[3m'
     print(f'💭 {msg}')
+    st.sidebar.markdown("### 💭 Internal Thoughts:")
     st.sidebar.write(f'💭 {msg}')
 
 def assistant_message(msg):
     print(f'🤖 {msg}')
+    st.sidebar.markdown("### 🤖 Assistant:")
     #st.sidebar.write(f'🤖 {msg}')
 
 def memory_message(msg):
     print(f'🧠 {msg}')
+    st.sidebar.markdown("### 🧠 Memory:")
     st.sidebar.write(f'🧠 {msg}')
     
 def system_message(msg):
     printd(f'🖥️ [system] {msg}')
+    st.sidebar.markdown("### 🧠 System:")
+    st.sidebar.write(f'🖥️ {msg}')
     
 def user_message(msg, raw=False):
     if isinstance(msg, str):
