@@ -127,7 +127,7 @@ class InMemoryStateManager(PersistenceManager):
         self.messages[0] = st.session_state.persistence_messages[0]
         
         #self.all_messages.append(new_system_message)
-        st.session_state.persistence_all_messages.extend(new_system_message)
+        st.session_state.persistence_all_messages.append(new_system_message)
         self.all_messages = st.session_state.persistence_all_messages
 
     def update_memory(self, new_memory):
