@@ -622,9 +622,11 @@ class AgentAsync(object):
                 printd(f"WARNING: last response total_tokens ({current_total_tokens}) > {MESSAGE_SUMMARY_WARNING_TOKENS}")
                 st.sidebar.write(f"WARNING: last response total_tokens ({current_total_tokens}) > {MESSAGE_SUMMARY_WARNING_TOKENS}")
                 # Only deliver the alert if we haven't already (this period)
-                if not self.agent_alerted_about_memory_pressure:
+                #if not self.agent_alerted_about_memory_pressure:
+                if not st.session_state.agent_alerted_about_memory_pressure:
                     active_memory_warning = True
                     self.agent_alerted_about_memory_pressure = True  # it's up to the outer loop to handle this
+                    st.session_state.agent_alerted_about_memory_pressure = True
             else:
                 printd(f"last response total_tokens ({current_total_tokens}) < {MESSAGE_SUMMARY_WARNING_TOKENS}")
 
