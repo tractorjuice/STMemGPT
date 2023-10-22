@@ -76,8 +76,6 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         st.sidebar.write(heartbeat_request)
         st.sidebar.write("Function Failed:")
         st.sidebar.write(function_failed)
-        st.sidebar.write("Total Tokens:")
-        st.sidebar.write("")
         st.sidebar.write("Token Warning:")
         st.sidebar.write(token_warning)
 
