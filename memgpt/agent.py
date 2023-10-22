@@ -238,14 +238,16 @@ class AgentAsync(object):
         self.persistence_manager.trim_messages(num)
 
         new_messages = [self.messages[0]] + self.messages[num:]
-        self._messages = new_messages
+        #self._messages = new_messages
+        st.session_state._messages = new_messages
 
     def prepend_to_messages(self, added_messages):
         """Wrapper around self.messages.prepend to allow additional calls to a state/persistence manager"""
         self.persistence_manager.prepend_to_messages(added_messages)
 
         new_messages = [self.messages[0]] + added_messages + self.messages[1:]  # prepend (no system)
-        self._messages = new_messages
+        #self._messages = new_messages
+        st.session_state._messages = new_messages
         self.messages_total += len(added_messages)  # still should increment the message counter (summaries are additions too)
 
     def append_to_messages(self, added_messages):
@@ -258,7 +260,8 @@ class AgentAsync(object):
             msg.pop('api_args', None)
         new_messages = self.messages + added_messages  # append
 
-        self._messages = new_messages
+        #self._messages = new_messages
+        st.session_state._messages = new_messages
         self.messages_total += len(added_messages)
 
     def swap_system_message(self, new_system_message):
@@ -268,7 +271,8 @@ class AgentAsync(object):
         self.persistence_manager.swap_system_message(new_system_message)
 
         new_messages = [new_system_message] + self.messages[1:]  # swap index 0 (system)
-        self._messages = new_messages
+        #self._messages = new_messages
+        st.session_state._messages = new_messages
 
     def rebuild_memory(self):
         """Rebuilds the system message with the latest memory object"""
@@ -344,7 +348,8 @@ class AgentAsync(object):
         human_notes = memory_dict['human']
         self.memory = initialize_memory(persona_notes, human_notes)
         # messages also
-        self._messages = state['messages']
+        #self._messages = state['messages']
+        st.session_state._messages = new_messages
         try:
             self.messages_total = state['messages_total']
         except KeyError:
