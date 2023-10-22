@@ -33,7 +33,7 @@ if "messages" not in st.session_state:
     st.session_state["messages"] = []
 
 if "memgpt_agent" not in st.session_state:
-    st.session_state["memgpt_agent"] = True
+    st.session_state["memgpt_agent"] = False
     
 # Swap out your 'import openai'
 openai = promptlayer.openai
