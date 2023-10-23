@@ -50,7 +50,7 @@ if "messages" not in st.session_state:
             1. Learn: To learn about the components and concepts of a Wardley Map, type "Learn".
             2. Vocabulary: To get a list of common Wardley Map terms and their definitions, type "Vocabulary".
             3. Create: To create your own Wardley Map with step-by-step guidance, type "Create".
-            If you have any specific questions or need clarification on any aspect of Wardley Mapping, feel free to ask.
+            Please introduce yourself and if you have any specific questions or need clarification on any aspect of Wardley Mapping, feel free to ask.
             """
         })
 
