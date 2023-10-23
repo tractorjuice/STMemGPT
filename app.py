@@ -70,8 +70,8 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         user_message = system.package_user_message(prompt)
         new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
 
-        #st.sidebar.divider()
-        #st.sidebar.write(f"Heartbeat: {heartbeat_request}")
+        st.sidebar.divider()
+        st.sidebar.write(f"Heartbeat: {heartbeat_request}")
         
         if heartbeat_request:
             user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
@@ -79,12 +79,12 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
             heartbeat_request = False
 
         st.sidebar.divider()
-        #st.sidebar.write(f"Heartbeat: {heartbeat_request}")
-        #st.sidebar.write(f"Function Failed: {function_failed}")
-        #st.sidebar.write(f"Token Warning: {token_warning}")
-        #st.sidebar.write(f"Msg Total Init: {st.session_state.messages_total_init}")
-        #st.sidebar.write(f"Msg Total: {st.session_state.messages_total}")
-        #st.sidebar.divider()
+        st.sidebar.write(f"Heartbeat: {heartbeat_request}")
+        st.sidebar.write(f"Function Failed: {function_failed}")
+        st.sidebar.write(f"Token Warning: {token_warning}")
+        st.sidebar.write(f"Msg Total Init: {st.session_state.messages_total_init}")
+        st.sidebar.write(f"Msg Total: {st.session_state.messages_total}")
+        st.sidebar.divider()
         #st.sidebar.write(f"Pers Msg: {st.session_state.persistence_all_messages}")
 
         for item in new_messages:
