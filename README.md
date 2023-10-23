@@ -19,7 +19,7 @@ User requests: 'Help me create a Wardley Map.' MapMentor provides step-by-step g
 Remember, your interactions shape MapMentor! Your learning experience becomes more personalised as you engage and learn over time.
 
 ## Technology and Memories
-MapMentor, under the hood, is powered by advanced machine learning algorithms that enable it to dynamically learn from user interactions. It makes use of three types of memories:\
+MapMentor, under the hood, is powered by advanced machine learning algorithms that enable it to dynamically learn from user interactions. It makes use of three types of memories:\\
 Recall Memory: Stores conversation history for referencing past discussions.\
 Core Memory: Contains essential instructions and user-specific details updated through interactions.\
 Archival Memory: Serves as a long-term storage space for essential information.\
