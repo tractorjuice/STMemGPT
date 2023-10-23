@@ -21,9 +21,9 @@ Remember, your interactions shape MapMentor! Your learning experience becomes mo
 ## Technology and Memories
 MapMentor, under the hood, is powered by advanced machine learning algorithms that enable it to dynamically learn from user interactions. It makes use of three types of memories:
 
-Recall Memory: Stores conversation history for referencing past discussions.
-Core Memory: Contains essential instructions and user-specific details updated through interactions.
-Archival Memory: Serves as a long-term storage space for essential information.
+Recall Memory: Stores conversation history for referencing past discussions.\
+Core Memory: Contains essential instructions and user-specific details updated through interactions.\
+Archival Memory: Serves as a long-term storage space for essential information.\
 
 These memories help in retaining and building upon the context of discussions, ensuring a continuous learning experience.
 ## Powered by OpenAI
