@@ -50,7 +50,7 @@ st.sidebar.divider()
 # --------------- New code here
 if not st.session_state.memgpt_agent:
     persistence_manager = InMemoryStateManager()
-    memgpt_agent = presets.use_preset('memgpt_chat', MODEL, personas.get_persona_text('simonwarbley'), humans.get_human_text('awareness'), interface, persistence_manager)
+    memgpt_agent = presets.use_preset('memgpt_chat', MODEL, personas.get_persona_text('mapmentor'), humans.get_human_text('awareness'), interface, persistence_manager)
     st.session_state.memgpt_agent = memgpt_agent
 
 for message in st.session_state.messages:
