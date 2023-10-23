@@ -29,14 +29,30 @@ MODEL = "gpt-4"
 #MODEL = "gpt-4-0613"
 #MODEL = "gpt-4-32k-0613"
 
-if "messages" not in st.session_state:
-    st.session_state["messages"] = []
-
 if "memgpt_agent" not in st.session_state:
     st.session_state["memgpt_agent"] = False
     
 # Swap out your 'import openai'
 openai = promptlayer.openai
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+    st.session_state.messages.append(   
+        {
+            "role": "user",
+            "content": "Help?"
+        })
+    st.session_state.messages.append(
+        {
+            "role": "assistant",
+            "content": """
+            I'm here to help you learn about and create Wardley Maps. Here are some options for getting started:
+            1. Learn: To learn about the components and concepts of a Wardley Map, type "Learn".
+            2. Vocabulary: To get a list of common Wardley Map terms and their definitions, type "Vocabulary".
+            3. Create: To create your own Wardley Map with step-by-step guidance, type "Create".
+            If you have any specific questions or need clarification on any aspect of Wardley Mapping, feel free to ask.
+            """
+        })
 
 st.set_page_config(page_title="Learn Wardley Mapping Bot (Memory Infinte)")
 st.sidebar.title("Learn Wardley Mapping (Infinite)")
