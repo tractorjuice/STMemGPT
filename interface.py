@@ -87,11 +87,11 @@ def function_message(msg):
                         msg_dict = eval(function_args)
                         if function_name == 'archival_memory_search':
                             print(f'\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
-                            #st.sidebar.write(f'\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
+                            st.sidebar.write(f'\tquery: {msg_dict["query"]}, page: {msg_dict["page"]}')
                         else:
                             st.sidebar.warning(msg_dict)
-                            #print(f'\t {msg_dict["old_content"]}\n\t→ {msg_dict["new_content"]}')
-                            #st.sidebar.write(f'\t {msg_dict["old_content"]}\n\t→ {msg_dict["new_content"]}')
+                            print(f'\t {msg_dict["old_content"]}\n\t→ {msg_dict["new_content"]}')
+                            st.sidebar.write(f'\t {msg_dict["old_content"]}\n\t→ {msg_dict["new_content"]}')
                     except Exception as e:
                         printd(e)
                         printd(msg_dict)
@@ -135,6 +135,7 @@ def print_messages(message_sequence):
             function_message(content)
         else:
             print(f'Unknown role: {content}')
+            st.sidebar.write(f'Unknown role: {content}')
 
 def print_messages_simple(message_sequence):
     for msg in message_sequence:
@@ -149,6 +150,7 @@ def print_messages_simple(message_sequence):
             user_message(content, raw=True)
         else:
             print(f'Unknown role: {content}')
+            st.sidebar.write(f'Unknown role: {content}')
 
 def print_messages_raw(message_sequence):
     for msg in message_sequence:
