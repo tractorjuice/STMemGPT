@@ -194,7 +194,7 @@ class InMemoryStateManagerWithFaiss(InMemoryStateManager):
         self.messages = st.session_state.persistence_messages
         
         #self.memory = agent.memory
-        st.session_state.persistence_memory = agent.memory
+        st.session_state.persistence_memory = st.session_state.agent_memory
         self.memory = st.session_state.persistence_memory
         
         #print(f"InMemoryStateManager.all_messages.len = {len(self.all_messages)}")
