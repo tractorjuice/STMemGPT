@@ -23,7 +23,7 @@ MapMentor, under the hood, is powered by advanced machine learning algorithms th
 
 Recall Memory: Stores conversation history for referencing past discussions.\
 Core Memory: Contains essential instructions and user-specific details updated through interactions.\
-Archival Memory: Serves as a long-term storage space for essential information.\
+Archival Memory: Serves as a long-term storage space for essential information.
 
 These memories help in retaining and building upon the context of discussions, ensuring a continuous learning experience.
 ## Powered by OpenAI
