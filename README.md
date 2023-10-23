@@ -1,15 +1,15 @@
-Creating an AI Assistant with infinite memory using MemGPT
-Introduction
+#Creating an AI Assistant with infinite memory using MemGPT
+##Introduction
 MapMentor is an assistant designed to help with learning and creation of Wardley Maps. More on this in several detailed blogs on how to build this with full source code coming soon.
-Functions
+##Functions
 Learn: Understand components of a Wardley Map.
 Create: Build your own map with guidance.
 Explain: Get detailed explanations of mapping concepts.
 Review: Test your comprehension with exam-style questions.
 
-Interacting with MapMaker
+##Interacting with MapMaker
 Begin a conversation or ask a question about Wardley Mapping. For more assistance, type 'Help'.
-Interaction Examples
+###Interaction Examples
 User asks: 'What is the purpose of a Wardley Map?' MapMentor explains the purpose.
 User requests: 'Help me create a Wardley Map.' MapMentor provides step-by-step guidance.
 
@@ -22,5 +22,5 @@ Core Memory: Contains essential instructions and user-specific details updated t
 Archival Memory: Serves as a long-term storage space for essential information.
 
 These memories help in retaining and building upon the context of discussions, ensuring a continuous learning experience.
-Powered by OpenAI
+##Powered by OpenAI
 MapMentor employs OpenAI's Generative Pretrained Transformer models to process user inputs and generate appropriate responses. The use of such advanced AI technology enables MapMentor to conduct human-like, intelligent conversations with users.
