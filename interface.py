@@ -82,7 +82,8 @@ def function_message(msg):
                     function_name = match.group(1)
                     function_args = match.group(2)
                     print(f'⚡🧠 [function] updating memory with {function_name}:')
-                    st.sidebar.write(f'⚡🧠 [function] updating memory with {function_name}:')
+                    st.sidebar.markdown("### 💭 Updating Memory:")
+                    st.sidebar.write(f'⚡🧠 Updating memory with {function_name}:')
                     try:
                         msg_dict = eval(function_args)
                         if function_name == 'archival_memory_search':
