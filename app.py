@@ -53,6 +53,7 @@ if "messages" not in st.session_state:
             1. Learn: To learn about the components and concepts of a Wardley Map, type "Learn".
             2. Vocabulary: To get a list of common Wardley Map terms and their definitions, type "Vocabulary".
             3. Create: To create your own Wardley Map with step-by-step guidance, type "Create".
+            
             Please introduce yourself and if you have any specific questions or need clarification on any aspect of Wardley Mapping, feel free to ask.
             """
         })
@@ -61,9 +62,9 @@ st.set_page_config(page_title="Map Mentor - Ultimate Wardley Map Assistant", lay
 st.sidebar.title("Ultimate AI Assistant to learn Wardley Mapping")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
-st.sidebar.markdown("Current Version: 0.9.0")
+st.sidebar.markdown("Current Version: 1.0.0")
 st.sidebar.markdown("Core components:")
-st.sidebar.markdown("Streamlit, OpenAI, Memgpt (InMemoryStateManager), PromptLayer")
+#st.sidebar.markdown("Streamlit, OpenAI, Memgpt (InMemoryStateManager), PromptLayer")
 st.sidebar.divider()
 
 # --------------- New code here
