@@ -142,6 +142,7 @@ class InMemoryStateManagerWithPreloadedArchivalMemory(InMemoryStateManager):
 
     def init(self, agent):
         print(f"Initializing InMemoryStateManager with agent object")
+        st.sidebar.write(f"Initializing InMemoryStateManager with agent object")
         #self.all_messages = [{'timestamp': get_local_time(), 'message': msg} for msg in agent.messages.copy()]
         st.session_state.persistence_all_messages = [{'timestamp': get_local_time(), 'message': msg} for msg in agent.messages.copy()]
         self.all_messages = st.session_state.persistence_all_messages
@@ -156,9 +157,11 @@ class InMemoryStateManagerWithPreloadedArchivalMemory(InMemoryStateManager):
         
         #print(f"InMemoryStateManager.all_messages.len = {len(self.all_messages)}")
         print(f"InMemoryStateManager.all_messages.len = {len(st.session_state.persistence_all_messages)}")
+        st.sidebar.write(f"InMemoryStateManager.all_messages.len = {len(st.session_state.persistence_all_messages)}")
         
         #print(f"InMemoryStateManager.messages.len = {len(self.messages)}")
         print(f"InMemoryStateManager.messages.len = {len(st.session_state.persistence_messages)}")
+        st.sidebar.write(f"InMemoryStateManager.messages.len = {len(st.session_state.persistence_messages)}")
         
         #self.recall_memory = self.recall_memory_cls(message_database=self.all_messages)
         self.recall_memory = self.recall_memory_cls(message_database=st.session_state.persistence_all_messages)
