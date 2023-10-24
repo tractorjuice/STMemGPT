@@ -8,8 +8,8 @@ from memgpt.utils import printd
 
 init(autoreset=True)
 
-# DEBUG = True  # puts full message outputs in the terminal
-DEBUG = False  # only dumps important messages in the terminal
+DEBUG = True  # puts full message outputs in the terminal
+#DEBUG = False  # only dumps important messages in the terminal
 
 def important_message(msg):
     print(f'{msg}')
