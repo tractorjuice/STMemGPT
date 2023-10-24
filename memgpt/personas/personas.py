@@ -1,7 +1,5 @@
 import os
-
-DEFAULT = 'simonwarbley'
-
+DEFAULT = 'mapmentor_chat'
 
 def get_persona_text(key=DEFAULT):
     filename = key if key.endswith('.txt') else f'{key}.txt'
