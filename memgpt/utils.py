@@ -78,6 +78,7 @@ def parse_json(string):
 
 def prepare_archival_index(folder):
     index_file = os.path.join(folder, "all_docs.index")
+    print(folder, index_file)
     index = faiss.read_index(index_file)
 
     archival_database_file = os.path.join(folder, "all_docs.jsonl")
@@ -209,6 +210,7 @@ def prepare_archival_index_from_files_compute_embeddings(glob_pattern, tkns_per_
     embeddings_file = os.path.join(save_dir, "embeddings.json")
     with open(embeddings_file, 'w') as f:
         print(f"Saving embeddings to {embeddings_file}")
+        st.sidebar.write(f"Saving embeddings to {embeddings_file}")
         json.dump(embedding_data, f)
     
     # make all_text.json
@@ -216,6 +218,7 @@ def prepare_archival_index_from_files_compute_embeddings(glob_pattern, tkns_per_
     chunks_by_file = chunk_files_for_jsonl(files, tkns_per_chunk, model)
     with open(archival_storage_file, 'w') as f:
         print(f"Saving archival storage with preloaded files to {archival_storage_file}")
+        st.sidebar.write(f"Saving archival storage with preloaded files to {archival_storage_file}")
         for c in chunks_by_file:
             json.dump(c, f)
             f.write('\n')
