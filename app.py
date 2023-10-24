@@ -29,6 +29,9 @@ MODEL = "gpt-4"
 #MODEL = "gpt-4-0613"
 #MODEL = "gpt-4-32k-0613"
 
+MODE = "Archive"
+#MODE = "Chat"
+
 if "memgpt_agent" not in st.session_state:
     st.session_state["memgpt_agent"] = False
     
@@ -54,26 +57,29 @@ if "messages" not in st.session_state:
             """
         })
 
-st.set_page_config(page_title="Learn Wardley Mapping Bot (Memory Infinte)")
-st.sidebar.title("Learn Wardley Mapping (Infinite)")
+st.set_page_config(page_title="Map Mentor - Ultimate Wardley Map Assistant", layout="wide")
+st.sidebar.title("Ultimate AI Assistant to learn Wardley Mapping")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
-st.sidebar.markdown("Current Version: 0.8.0")
+st.sidebar.markdown("Current Version: 0.9.0")
 st.sidebar.markdown("Core components:")
 st.sidebar.markdown("Streamlit, OpenAI, Memgpt (InMemoryStateManager), PromptLayer")
 st.sidebar.divider()
 
 # --------------- New code here
 if not st.session_state.memgpt_agent:
+    if MODE == "Archive":
+        # Memory stored from FAISS
+        index, archival_database = utils.prepare_archival_index('/mount/src/stmemgpt/memgpt/personas/examples/mapmentor_archive')
+        persistence_manager = InMemoryStateManagerWithFaiss(index, archival_database)
+        HUMAN = 'wardley_awareness'
+        PERSONA = 'mapmentor_docs'
+    else:
+        # Memory stored in memory
+        HUMAN = 'wardley_awareness'
+        PERSONA = 'mapmentor_chat'
+        persistence_manager = InMemoryStateManager()
     
-    # Memory stored from FAISS
-    index, archival_database = utils.prepare_archival_index('/mount/src/stmemgpt/memgpt/personas/examples/mapmentor_archive')
-    persistence_manager = InMemoryStateManagerWithFaiss(index, archival_database)
-    HUMAN = 'wardley_awareness'
-    PERSONA = 'mapmentor_docs'
-    
-    # Memory stored in memory
-    # persistence_manager = InMemoryStateManager()
     memgpt_agent = presets.use_preset('memgpt_chat', MODEL, personas.get_persona_text(PERSONA), humans.get_human_text(HUMAN), interface, persistence_manager)
     st.session_state.memgpt_agent = memgpt_agent
 
@@ -113,7 +119,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
 
         for item in new_messages:
             if 'function_call' in item and 'arguments' in item['function_call']:
-                st.sidebar.write(item['function_call']['arguments'])
+                #st.sidebar.write(item['function_call']['arguments'])
                 message_args = json.loads(item['function_call']['arguments'])
                 if 'message' in message_args:
                     message = message_args['message']
