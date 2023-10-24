@@ -113,6 +113,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
 
         for item in new_messages:
             if 'function_call' in item and 'arguments' in item['function_call']:
+                st.sidebar.write(item['function_call']['arguments'])
                 message_args = json.loads(item['function_call']['arguments'])
                 if 'message' in message_args:
                     message = message_args['message']
