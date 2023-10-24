@@ -63,7 +63,7 @@ st.sidebar.title("Ultimate AI Assistant to learn Wardley Mapping")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
 st.sidebar.markdown("Current Version: 1.0.0")
-st.sidebar.markdown("Core components:")
+#st.sidebar.markdown("Core components:")
 #st.sidebar.markdown("Streamlit, OpenAI, Memgpt (InMemoryStateManager), PromptLayer")
 st.sidebar.divider()
 
