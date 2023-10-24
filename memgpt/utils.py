@@ -78,7 +78,7 @@ def parse_json(string):
 
 def prepare_archival_index(folder):
     index_file = os.path.join(folder, "all_docs.index")
-    print(f"Folder: {folder}\nIndex File: {index_file}")
+    print(f"Folder: {folder}\nIndex File: {index_file}\n")
     index = faiss.read_index(index_file)
 
     archival_database_file = os.path.join(folder, "all_docs.jsonl")
