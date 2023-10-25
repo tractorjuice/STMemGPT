@@ -104,7 +104,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         st.write(prompt)
     user_message = system.package_user_message(prompt)
     new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-
+    
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 
 if st.session_state.token_warning or st.session_state.function_failed or st.session_state.heartbeat_request:
@@ -117,7 +117,8 @@ if st.session_state.token_warning or st.session_state.function_failed or st.sess
         user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
 
     new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-
+    st.rerun()
+    
 st.sidebar.divider()
 st.sidebar.write(f"Heartbeat: {st.session_state.heartbeat_request}")
 st.sidebar.write(f"Function Failed: {st.session_state.function_failed}")
@@ -132,5 +133,5 @@ for item in new_messages:
         if 'message' in message_args:
             message = message_args['message']
             st.session_state.messages.append({"role": "assistant", "content": message})
-            with st.chat_message("user"):
+            with st.chat_message("assistant"):
                 st.write(message)
