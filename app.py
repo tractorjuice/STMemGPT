@@ -94,32 +94,39 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.write(prompt)
+    user_message = system.package_user_message(prompt)
 
-    with st.chat_message("assistant"):
-        message_placeholder = st.empty()
+new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
 
-        # --------------- New code here
-        user_message = system.package_user_message(prompt)
-        new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-        
-        if heartbeat_request:
-            user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
-            new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-            heartbeat_request = False
+# Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
+if heartbeat_request:
+    user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
+    new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
+    heartbeat_request = False
+    skip_next_user_input = True
+if token_warning:
+    user_message = system.get_token_limit_warning()
+    skip_next_user_input = True
+elif function_failed:
+    user_message = system.get_heartbeat(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
+    skip_next_user_input = True
+elif heartbeat_request:
+    user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
+    skip_next_user_input = True
 
-        st.sidebar.divider()
-        st.sidebar.write(f"Heartbeat: {heartbeat_request}")
-        st.sidebar.write(f"Function Failed: {function_failed}")
-        st.sidebar.write(f"Token Warning: {token_warning}")
-        st.sidebar.write(f"Msg Total Init: {st.session_state.messages_total_init}")
-        st.sidebar.write(f"Msg Total: {st.session_state.messages_total}")
-        st.sidebar.divider()
-        st.sidebar.write(f"Pers Msg: {st.session_state.persistence_all_messages}")
+st.sidebar.divider()
+st.sidebar.write(f"Heartbeat: {heartbeat_request}")
+st.sidebar.write(f"Function Failed: {function_failed}")
+st.sidebar.write(f"Token Warning: {token_warning}")
+st.sidebar.write(f"Msg Total Init: {st.session_state.messages_total_init}")
+st.sidebar.write(f"Msg Total: {st.session_state.messages_total}")
+st.sidebar.divider()
+st.sidebar.write(f"Pers Msg: {st.session_state.persistence_all_messages}")
 
-        for item in new_messages:
-            if 'function_call' in item and 'arguments' in item['function_call']:
-                message_args = json.loads(item['function_call']['arguments'])
-                if 'message' in message_args:
-                    message = message_args['message']
-                    st.write(message)
-                    st.session_state.messages.append({"role": "assistant", "content": message})
+for item in new_messages:
+    if 'function_call' in item and 'arguments' in item['function_call']:
+        message_args = json.loads(item['function_call']['arguments'])
+        if 'message' in message_args:
+            message = message_args['message']
+            st.write(message)
+            st.session_state.messages.append({"role": "assistant", "content": message})
