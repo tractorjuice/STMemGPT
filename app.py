@@ -48,6 +48,32 @@ if "memgpt_agent" not in st.session_state:
 # Swap out openai for promptlayer
 openai = promptlayer.openai
 
+def process_assistant_messages(new_messages):
+    for item in new_messages:
+        if 'function_call' in item and 'arguments' in item['function_call']:
+            try:
+                message_args = json.loads(item['function_call']['arguments'])
+                if 'message' in message_args:
+                    message = message_args['message']
+                    with st.chat_message("assistant"):
+                        st.write(message)
+                    st.session_state.messages.append({"role": "assistant", "content": message})
+            except json.JSONDecodeError:
+                st.warning("There was an error parsing the message from the assistant.")
+
+def process_user_messages(new_messages):
+    for item in new_messages:
+        if 'function_call' in item and 'arguments' in item['function_call']:
+            try:
+                message_args = json.loads(item['function_call']['arguments'])
+                if 'message' in message_args:
+                    message = message_args['message']
+                    with st.chat_message("user"):
+                        st.write(message)
+                    st.session_state.messages.append({"role": "user", "content": message})
+            except json.JSONDecodeError:
+                st.warning("There was an error parsing the message from the assistant.")
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
     st.session_state.messages.append(   
@@ -105,14 +131,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
     user_message = system.package_user_message(prompt)
     with st.status("Give me a few secs, I'm just thinking about that."):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-        for item in new_messages:
-            if 'function_call' in item and 'arguments' in item['function_call']:
-                message_args = json.loads(item['function_call']['arguments'])
-                if 'message' in message_args:
-                    message = message_args['message']
-                    with st.chat_message("user"):
-                        st.write(message)
-                        st.session_state.messages.append({"role": "assistant", "content": message})
+        process_assistant_messages(new_messages)
     
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 
@@ -120,46 +139,24 @@ if st.session_state.token_warning:
     user_message = system.get_token_limit_warning()
     with st.status("Thinking ... Reached token limit. Saving to memory:"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-        for item in new_messages:
-            if 'function_call' in item and 'arguments' in item['function_call']:
-                message_args = json.loads(item['function_call']['arguments'])
-                if 'message' in message_args:
-                    message = message_args['message']
-                    with st.chat_message("assistant"):
-                        st.write(message)
-                        st.session_state.messages.append({"role": "assistant", "content": message})
+        process_assistant_messages(new_messages)
 
 if st.session_state.function_failed:
     user_message = system.get_heartbeat(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
-    new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
     with st.status("Thinking ... Internal error, recovering:"):
-        for item in new_messages:
-            if 'function_call' in item and 'arguments' in item['function_call']:
-                message_args = json.loads(item['function_call']['arguments'])
-                if 'message' in message_args:
-                    message = message_args['message']
-                    with st.chat_message("assistant"):
-                        st.write(message)
-                        st.session_state.messages.append({"role": "assistant", "content": message})
+        new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
+        process_assistant_messages(new_messages)
 
 if st.session_state.heartbeat_request:
     user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
-    new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
     with st.status("Thinking ... Internal processing."):
-        for item in new_messages:
-            if 'function_call' in item and 'arguments' in item['function_call']:
-                message_args = json.loads(item['function_call']['arguments'])
-                if 'message' in message_args:
-                    message = message_args['message']
-                    with st.chat_message("assistant"):
-                        st.write(message)
-                        st.session_state.messages.append({"role": "assistant", "content": message})
+        new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
+        process_assistant_messages(new_messages)
 
-    for message in st.session_state.messages:
-        if message["role"] in ["user", "assistant"]:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
-
+for message in st.session_state.messages:
+    if message["role"] in ["user", "assistant"]:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
 #st.sidebar.divider()
 #st.sidebar.write(f"Heartbeat: {st.session_state.heartbeat_request}")
