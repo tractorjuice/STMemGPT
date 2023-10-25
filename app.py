@@ -118,7 +118,12 @@ if not st.session_state.memgpt_agent:
     
     memgpt_agent = presets.use_preset('memgpt_chat', MODEL, personas.get_persona_text(PERSONA), humans.get_human_text(HUMAN), interface, persistence_manager)
     st.session_state.memgpt_agent = memgpt_agent
-        
+
+for message in st.session_state.messages:
+    if message["role"] in ["user", "assistant"]:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+            
 if prompt := st.chat_input("How can I help with Wardley Mapping?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
@@ -147,11 +152,6 @@ if st.session_state.heartbeat_request:
     with st.status("Thinking ... Internal processing."):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         process_assistant_messages(new_messages)
-
-for message in st.session_state.messages:
-    if message["role"] in ["user", "assistant"]:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
 
 st.sidebar.divider()
 st.sidebar.write(f"Heartbeat: {st.session_state.heartbeat_request}")
