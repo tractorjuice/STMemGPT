@@ -34,13 +34,13 @@ MODE = "Archive"
 new_messages = []
 
 if "heartbeat_request" not in st.session_state:
-    st.session_state["heartbeat_request"] = False
+    st.session_state["heartbeat_request"] = None
     
 if "function_failed" not in st.session_state:
-    st.session_state["function_failed"] = False
+    st.session_state["function_failed"] = None
     
 if "token_warning" not in st.session_state:
-    st.session_state["token_warning"] = False
+    st.session_state["token_warning"] = None
     
 if "memgpt_agent" not in st.session_state:
     st.session_state["memgpt_agent"] = False
