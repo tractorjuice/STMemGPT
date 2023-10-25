@@ -107,7 +107,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
                     message = message_args['message']
                     with st.chat_message("user"):
                         st.write(message)
-                        st.session_state.messages.append({"role": "user", "content": message})
+                        st.session_state.messages.append({"role": "assistant", "content": message})
     
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 
