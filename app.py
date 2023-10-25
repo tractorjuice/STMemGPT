@@ -86,7 +86,8 @@ def process_assistant_messages(new_messages):
                     st.session_state.messages.append({"role": "assistant", "content": response})
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
-        return(response)
+                response = None
+    return(response)
 
 def process_user_messages(new_messages):
     for item in new_messages:
@@ -98,7 +99,8 @@ def process_user_messages(new_messages):
                     st.session_state.messages.append({"role": "user", "content": response})
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
-        return(response)
+                response = None
+    return(response)
 
 if not st.session_state.memgpt_agent:
     if MODE == "Archive":
