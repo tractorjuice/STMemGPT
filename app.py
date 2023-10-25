@@ -84,10 +84,11 @@ def process_assistant_messages(new_messages):
                 if 'message' in message_args:
                     message = message_args['message']
                     #with st.chat_message("assistant"):
-                    st.write(message)
+                    #    st.write(message)
                     st.session_state.messages.append({"role": "assistant", "content": message})
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
+    return(message)
 
 def process_user_messages(new_messages):
     for item in new_messages:
@@ -96,11 +97,12 @@ def process_user_messages(new_messages):
                 message_args = json.loads(item['function_call']['arguments'])
                 if 'message' in message_args:
                     message = message_args['message']
-                    with st.chat_message("user"):
-                        st.write(message)
+                    #with st.chat_message("user"):
+                    #    st.write(message)
                     st.session_state.messages.append({"role": "user", "content": message})
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
+    return(message)
 
 if not st.session_state.memgpt_agent:
     if MODE == "Archive":
