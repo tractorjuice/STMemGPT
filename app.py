@@ -86,7 +86,7 @@ def process_assistant_messages(new_messages):
                     st.session_state.messages.append({"role": "assistant", "content": response})
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
-                response = None
+                response = "No response. Retry")
     return(response)
 
 def process_user_messages(new_messages):
