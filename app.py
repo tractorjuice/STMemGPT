@@ -73,7 +73,7 @@ st.sidebar.title("Ultimate AI Assistant")
 st.sidebar.title("Wardley Mapping Version")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
-st.sidebar.markdown("Current Version: 1.0.0")
+st.sidebar.markdown("Current Version: 1.0.2")
 st.sidebar.divider()
 
 # --------------- New code here
@@ -101,23 +101,18 @@ for message in st.session_state.messages:
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 if st.session_state.token_warning:
     user_message = system.get_token_limit_warning()
-    new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-    st.session_state.token_warning = False
 if st.session_state.function_failed:
     user_message = system.get_heartbeat(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
-    new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-    st.session_state.function_failed = False
 if st.session_state.heartbeat_request:
     user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
-    new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-    st.session_state.heartbeat_request = False
-    
+
 if prompt := st.chat_input("How can I help with Wardley Mapping?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.write(prompt)
     user_message = system.package_user_message(prompt)
-    new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
+
+new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
 
 st.sidebar.divider()
 st.sidebar.write(f"Heartbeat: {st.session_state.heartbeat_request}")
