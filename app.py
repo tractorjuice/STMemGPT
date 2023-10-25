@@ -170,7 +170,7 @@ if st.session_state.heartbeat_request:
             st.write(response)
     st.rerun()
 
-st.sidebar.divider()
+#st.sidebar.divider()
 #st.sidebar.write(f"Heartbeat: {st.session_state.heartbeat_request}")
 #st.sidebar.write(f"Function Failed: {st.session_state.function_failed}")
 #st.sidebar.write(f"Token Warning: {st.session_state.token_warning}")
