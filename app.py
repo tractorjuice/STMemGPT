@@ -77,6 +77,7 @@ st.sidebar.markdown("Current Version: 1.0.0")
 st.sidebar.divider()
 
 def process_assistant_messages(new_messages):
+    response = None  # Initialize the response variable
     for item in new_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
             try:
@@ -86,10 +87,12 @@ def process_assistant_messages(new_messages):
                     st.session_state.messages.append({"role": "assistant", "content": response})
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
-                response = "No response. Retry"
-    return(response)
+                response = "There was an error parsing the message from the assistant. Retry"
+    return response
+
 
 def process_user_messages(new_messages):
+    response = None  # Initialize the response variable
     for item in new_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
             try:
@@ -99,7 +102,7 @@ def process_user_messages(new_messages):
                     st.session_state.messages.append({"role": "user", "content": response})
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
-                response = None
+                response = "There was an error parsing the message from the assistant.. Retry"
     return(response)
 
 if not st.session_state.memgpt_agent:
