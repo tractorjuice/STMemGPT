@@ -112,7 +112,7 @@ if st.session_state.token_warning:
     with st.status("Thinking ... Token Warning:"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
 if st.session_state.function_failed:
-    user_message = system.get_heartbet(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
+    user_message = system.get_heartbeat(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
     with st.status("Thinking ... Function Failed:"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
 if st.session_state.heartbeat_request:
