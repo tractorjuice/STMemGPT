@@ -135,4 +135,3 @@ for item in new_messages:
             st.session_state.messages.append({"role": "assistant", "content": message})
             with st.chat_message("assistant"):
                 st.write(message)
-            st.rerun()
