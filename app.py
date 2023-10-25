@@ -84,10 +84,10 @@ def process_assistant_messages(new_messages):
                 message_args = json.loads(item['function_call']['arguments'])
                 if 'message' in message_args:
                     response = message_args['message']
-                    st.session_state.messages.append({"role": "assistant", "content": response})
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
                 response = "There was an error parsing the message from the assistant. Retry"
+            st.session_state.messages.append({"role": "assistant", "content": response})
     return response
 
 
@@ -99,10 +99,10 @@ def process_user_messages(new_messages):
                 message_args = json.loads(item['function_call']['arguments'])
                 if 'message' in message_args:
                     response = message_args['message']
-                    st.session_state.messages.append({"role": "user", "content": response})
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
                 response = "There was an error parsing the message from the assistant.. Retry"
+            st.session_state.messages.append({"role": "user", "content": response})
     return(response)
 
 if not st.session_state.memgpt_agent:
