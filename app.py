@@ -168,6 +168,7 @@ if st.session_state.heartbeat_request:
     if response is not None:
         with st.chat_message("assistant"):
             st.write(response)
+    st.rerun()
 
 st.sidebar.divider()
 st.sidebar.write(f"Heartbeat: {st.session_state.heartbeat_request}")
