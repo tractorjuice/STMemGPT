@@ -135,7 +135,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
     with st.chat_message("assistant"):
-        st.write(response)
+        if response not None st.write(response)
     
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 
@@ -145,7 +145,7 @@ if st.session_state.token_warning:
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
     with st.chat_message("assistant"):
-        st.write(response)
+        if response not None st.write(response)
 
 if st.session_state.function_failed:
     user_message = system.get_heartbeat(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
@@ -153,7 +153,7 @@ if st.session_state.function_failed:
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
     with st.chat_message("assistant"):
-        st.write(response)
+        if response not None st.write(response)
 
 if st.session_state.heartbeat_request:
     user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
@@ -161,7 +161,7 @@ if st.session_state.heartbeat_request:
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
     with st.chat_message("assistant"):
-        st.write(response)
+        if response not None st.write(response)
 
 st.sidebar.divider()
 st.sidebar.write(f"Heartbeat: {st.session_state.heartbeat_request}")
