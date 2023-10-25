@@ -31,7 +31,7 @@ MODEL = "gpt-4"
 
 MODE = "Archive"
 #MODE = "Chat"
-new_messages = None
+new_messages = []
 
 if "heartbeat_request" not in st.session_state:
     st.session_state["heartbeat_request"] = False
