@@ -676,9 +676,9 @@ class AgentAsync(object):
 
         #summary = summarize_messages(self.model, message_sequence_to_summarize)
         summary = summarize_messages(st.session_state.agent_model, message_sequence_to_summarize)
-        printd(f"Got summary: {summary}")
         st.sidebar.markdown("### Summariser: ")
-        st.sidebar.write(f"Got summary: {summary}")
+        printd(f"Got summary: {summary}")
+        #st.sidebar.write(f"Got summary: {summary}")
 
         # Metadata that's useful for the agent to see
         #all_time_message_count = self.messages_total
@@ -688,7 +688,7 @@ class AgentAsync(object):
         summary_message_count = len(message_sequence_to_summarize)
         summary_message = package_summarize_message(summary, summary_message_count, hidden_message_count, all_time_message_count)
         printd(f"Packaged into message: {summary_message}")
-        st.sidebar.write(f"Packaged into message: {summary_message}")
+        #st.sidebar.write(f"Packaged into message: {summary_message}")
 
         prior_len = len(self.messages)
         self.trim_messages(cutoff)
@@ -699,7 +699,7 @@ class AgentAsync(object):
         self.agent_alerted_about_memory_pressure = False
 
         printd(f"Ran summarizer, messages length {prior_len} -> {len(self.messages)}")
-        st.sidebar.write(f"Ran summarizer, messages length {prior_len} -> {len(self.messages)}")
+        #st.sidebar.write(f"Ran summarizer, messages length {prior_len} -> {len(self.messages)}")
 
     def free_step(self, user_message, limit=None):
         """Allow agent to manage its own control flow (past a single LLM call).
