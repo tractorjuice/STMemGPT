@@ -158,13 +158,13 @@ for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-#st.sidebar.divider()
-#st.sidebar.write(f"Heartbeat: {st.session_state.heartbeat_request}")
-#st.sidebar.write(f"Function Failed: {st.session_state.function_failed}")
-#st.sidebar.write(f"Token Warning: {st.session_state.token_warning}")
-#st.sidebar.write(f"Msg Total Init: {st.session_state.messages_total_init}")
-#st.sidebar.write(f"Msg Total: {st.session_state.messages_total}")
-#st.sidebar.divider()
+st.sidebar.divider()
+st.sidebar.write(f"Heartbeat: {st.session_state.heartbeat_request}")
+st.sidebar.write(f"Function Failed: {st.session_state.function_failed}")
+st.sidebar.write(f"Token Warning: {st.session_state.token_warning}")
+st.sidebar.write(f"Msg Total Init: {st.session_state.messages_total_init}")
+st.sidebar.write(f"Msg Total: {st.session_state.messages_total}")
+st.sidebar.divider()
 #st.sidebar.write(f"Pers Msg: {st.session_state.persistence_all_messages}")
 
 #for item in new_messages:
