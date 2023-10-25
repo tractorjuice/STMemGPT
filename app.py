@@ -127,10 +127,10 @@ st.sidebar.write(f"Msg Total: {st.session_state.messages_total}")
 st.sidebar.divider()
 st.sidebar.write(f"Pers Msg: {st.session_state.persistence_all_messages}")
 
-for item in new_messages:
-    if 'function_call' in item and 'arguments' in item['function_call']:
-        message_args = json.loads(item['function_call']['arguments'])
-        if 'message' in message_args:
-            message = message_args['message']
-            st.write(message)
-            st.session_state.messages.append({"role": "assistant", "content": message})
+#for item in new_messages:
+#####    if 'function_call' in item and 'arguments' in item['function_call']:
+#        message_args = json.loads(item['function_call']['arguments'])
+#        if 'message' in message_args:
+#            message = message_args['message']
+#            st.write(message)
+#            st.session_state.messages.append({"role": "assistant", "content": message})
