@@ -95,8 +95,7 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
     with st.chat_message("user"):
         st.write(prompt)
     user_message = system.package_user_message(prompt)
-
-new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
+    new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
 
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 if heartbeat_request:
