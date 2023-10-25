@@ -107,7 +107,8 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
     
     for item in new_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
-            message_args = json.loads(item['function_call']['arguments'])
+            escaped_string = item['function_call']['arguments'].replace('\n', '\\n')
+            message_args = json.loads(escaped_string)
             if 'message' in message_args:
                 message = message_args['message']
                 st.session_state.messages.append({"role": "assistant", "content": message})
@@ -122,7 +123,8 @@ if st.session_state.token_warning:
 
     for item in new_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
-            message_args = json.loads(item['function_call']['arguments'])
+            escaped_string = item['function_call']['arguments'].replace('\n', '\\n')
+            message_args = json.loads(escaped_string)
             if 'message' in message_args:
                 message = message_args['message']
                 st.session_state.messages.append({"role": "assistant", "content": message})
@@ -135,7 +137,8 @@ elif st.session_state.function_failed:
     
     for item in new_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
-            message_args = json.loads(item['function_call']['arguments'])
+            escaped_string = item['function_call']['arguments'].replace('\n', '\\n')
+            message_args = json.loads(escaped_string)
             if 'message' in message_args:
                 message = message_args['message']
                 st.session_state.messages.append({"role": "assistant", "content": message})
@@ -148,7 +151,8 @@ elif st.session_state.heartbeat_request:
 
     for item in new_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
-            message_args = json.loads(item['function_call']['arguments'])
+            escaped_string = item['function_call']['arguments'].replace('\n', '\\n')
+            message_args = json.loads(escaped_string)
             if 'message' in message_args:
                 message = message_args['message']
                 st.session_state.messages.append({"role": "assistant", "content": message})
