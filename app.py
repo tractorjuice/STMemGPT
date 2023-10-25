@@ -93,10 +93,10 @@ if not st.session_state.memgpt_agent:
     memgpt_agent = presets.use_preset('memgpt_chat', MODEL, personas.get_persona_text(PERSONA), humans.get_human_text(HUMAN), interface, persistence_manager)
     st.session_state.memgpt_agent = memgpt_agent
 
-    for message in st.session_state.messages:
-        if message["role"] in ["user", "assistant"]:
-            with st.chat_message(message["role"]):
-                st.markdown(message["content"])
+for message in st.session_state.messages:
+    if message["role"] in ["user", "assistant"]:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
             
 if prompt := st.chat_input("How can I help with Wardley Mapping?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
