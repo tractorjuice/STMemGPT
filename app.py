@@ -100,6 +100,8 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
     user_message = system.package_user_message(prompt)
     new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
     st.sidebar.write("running")
+
+st.sidebar.write("Running Again")
     
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 if st.session_state.token_warning:
