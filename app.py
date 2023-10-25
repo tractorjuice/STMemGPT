@@ -48,32 +48,6 @@ if "memgpt_agent" not in st.session_state:
 # Swap out openai for promptlayer
 openai = promptlayer.openai
 
-def process_assistant_messages(new_messages):
-    for item in new_messages:
-        if 'function_call' in item and 'arguments' in item['function_call']:
-            try:
-                message_args = json.loads(item['function_call']['arguments'])
-                if 'message' in message_args:
-                    message = message_args['message']
-                    with st.chat_message("assistant"):
-                        st.write(message)
-                    st.session_state.messages.append({"role": "assistant", "content": message})
-            except json.JSONDecodeError:
-                st.warning("There was an error parsing the message from the assistant.")
-
-def process_user_messages(new_messages):
-    for item in new_messages:
-        if 'function_call' in item and 'arguments' in item['function_call']:
-            try:
-                message_args = json.loads(item['function_call']['arguments'])
-                if 'message' in message_args:
-                    message = message_args['message']
-                    with st.chat_message("user"):
-                        st.write(message)
-                    st.session_state.messages.append({"role": "user", "content": message})
-            except json.JSONDecodeError:
-                st.warning("There was an error parsing the message from the assistant.")
-
 if "messages" not in st.session_state:
     st.session_state.messages = []
     st.session_state.messages.append(   
@@ -102,7 +76,32 @@ st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)"
 st.sidebar.markdown("Current Version: 1.0.0")
 st.sidebar.divider()
 
-# --------------- New code here
+def process_assistant_messages(new_messages):
+    for item in new_messages:
+        if 'function_call' in item and 'arguments' in item['function_call']:
+            try:
+                message_args = json.loads(item['function_call']['arguments'])
+                if 'message' in message_args:
+                    message = message_args['message']
+                    #with st.chat_message("assistant"):
+                    st.write(message)
+                    st.session_state.messages.append({"role": "assistant", "content": message})
+            except json.JSONDecodeError:
+                st.warning("There was an error parsing the message from the assistant.")
+
+def process_user_messages(new_messages):
+    for item in new_messages:
+        if 'function_call' in item and 'arguments' in item['function_call']:
+            try:
+                message_args = json.loads(item['function_call']['arguments'])
+                if 'message' in message_args:
+                    message = message_args['message']
+                    with st.chat_message("user"):
+                        st.write(message)
+                    st.session_state.messages.append({"role": "user", "content": message})
+            except json.JSONDecodeError:
+                st.warning("There was an error parsing the message from the assistant.")
+
 if not st.session_state.memgpt_agent:
     if MODE == "Archive":
         # Memory stored from FAISS
@@ -161,12 +160,3 @@ st.sidebar.write(f"Msg Total Init: {st.session_state.messages_total_init}")
 st.sidebar.write(f"Msg Total: {st.session_state.messages_total}")
 st.sidebar.divider()
 #st.sidebar.write(f"Pers Msg: {st.session_state.persistence_all_messages}")
-
-#for item in new_messages:
-#    if 'function_call' in item and 'arguments' in item['function_call']:
-#        message_args = json.loads(item['function_call']['arguments'])
-#        if 'message' in message_args:
-#            message = message_args['message']
-#            with st.chat_message("user"):
-#                st.write(message)
-#            st.session_state.messages.append({"role": "assistant", "content": message})
