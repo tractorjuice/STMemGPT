@@ -126,7 +126,7 @@ st.sidebar.write(f"Token Warning: {st.session_state.token_warning}")
 st.sidebar.write(f"Msg Total Init: {st.session_state.messages_total_init}")
 st.sidebar.write(f"Msg Total: {st.session_state.messages_total}")
 st.sidebar.divider()
-st.sidebar.write(f"Pers Msg: {st.session_state.persistence_all_messages}")
+#st.sidebar.write(f"Pers Msg: {st.session_state.persistence_all_messages}")
 
 for item in new_messages:
     if 'function_call' in item and 'arguments' in item['function_call']:
