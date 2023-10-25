@@ -32,10 +32,19 @@ MODEL = "gpt-4"
 MODE = "Archive"
 #MODE = "Chat"
 
+if "heartbeat_request" not in st.session_state:
+    st.session_state["heartbeat_request"] = False
+    
+if "function_failed" not in st.session_state:
+    st.session_state["function_failed"] = False
+    
+if "token_warning" not in st.session_state:
+    st.session_state["token_warning"] = False
+    
 if "memgpt_agent" not in st.session_state:
     st.session_state["memgpt_agent"] = False
     
-# Swap out your 'import openai'
+# Swap out openai for promptlayer
 openai = promptlayer.openai
 
 if "messages" not in st.session_state:
@@ -64,8 +73,6 @@ st.sidebar.title("Wardley Mapping Version")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
 st.sidebar.markdown("Current Version: 1.0.0")
-#st.sidebar.markdown("Core components:")
-#st.sidebar.markdown("Streamlit, OpenAI, Memgpt (InMemoryStateManager), PromptLayer")
 st.sidebar.divider()
 
 # --------------- New code here
@@ -95,23 +102,21 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
     with st.chat_message("user"):
         st.write(prompt)
     user_message = system.package_user_message(prompt)
-    new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
+    new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
 
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
-if heartbeat_request:
+if st.session_state.token_warning:
+    user_message = system.get_token_limit_warning()
+    new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
+    st.session_state.token_warning = False
+if st.session_state.function_failed:
+    user_message = system.get_heartbeat(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
+    new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
+    st.session_state.function_failed = False
+if st.session_state.heartbeat_request:
     user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
     new_messages, heartbeat_request, function_failed, token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-    heartbeat_request = False
-    skip_next_user_input = True
-if token_warning:
-    user_message = system.get_token_limit_warning()
-    skip_next_user_input = True
-elif function_failed:
-    user_message = system.get_heartbeat(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
-    skip_next_user_input = True
-elif heartbeat_request:
-    user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
-    skip_next_user_input = True
+    st.session_state.heartbeat_request = False
 
 st.sidebar.divider()
 st.sidebar.write(f"Heartbeat: {heartbeat_request}")
