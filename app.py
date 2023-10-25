@@ -111,6 +111,8 @@ if prompt := st.chat_input("How can I help with Wardley Mapping?"):
             if 'message' in message_args:
                 message = message_args['message']
                 st.session_state.messages.append({"role": "assistant", "content": message})
+                with st.chat_message("assistant"):
+                    st.write(message)
                 
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 
@@ -124,6 +126,8 @@ if st.session_state.token_warning:
             if 'message' in message_args:
                 message = message_args['message']
                 st.session_state.messages.append({"role": "assistant", "content": message})
+                with st.chat_message("assistant"):
+                    st.write(message)
                     
 elif st.session_state.function_failed:
     user_message = system.get_heartbeat(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
@@ -135,6 +139,8 @@ elif st.session_state.function_failed:
             if 'message' in message_args:
                 message = message_args['message']
                 st.session_state.messages.append({"role": "assistant", "content": message})
+                with st.chat_message("assistant"):
+                    st.write(message)
 
 elif st.session_state.heartbeat_request:
     user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
@@ -146,9 +152,8 @@ elif st.session_state.heartbeat_request:
             if 'message' in message_args:
                 message = message_args['message']
                 st.session_state.messages.append({"role": "assistant", "content": message})
-
-with st.chat_message("assistant"):
-    st.write(message)
+                with st.chat_message("assistant"):
+                    st.write(message)
 
 st.sidebar.divider()
 st.sidebar.write(f"Heartbeat: {st.session_state.heartbeat_request}")
