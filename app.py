@@ -80,7 +80,7 @@ def clean_and_parse_json(raw_json):
     # Remove newline characters and extra spaces
     cleaned_json = raw_json.replace('\\n', ' ').replace('\n', ' ').replace('  ', ' ')
     return json.loads(cleaned_json)
-    
+
 def process_assistant_messages(new_messages):
     response = None  # Initialize the response variable
     for item in new_messages:
@@ -88,14 +88,19 @@ def process_assistant_messages(new_messages):
             try:
                 message_args = json.loads(item['function_call']['arguments'])
                 if 'message' in message_args:
-                    cleaned_messages = message_args['message']
-                    response = clean_and_parse_json(cleaned_messages)
+                    try:
+                        # Try to clean and parse the message if it's a JSON string
+                        response = clean_and_parse_json(message_args['message'])
+                    except json.JSONDecodeError:
+                        # If cleaning and parsing fail, use the message as is
+                        response = message_args['message']
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
                 response = "There was an error parsing the message from the assistant..."
             if response is not None:
                 st.session_state.messages.append({"role": "assistant", "content": response})
     return response
+
 
 
 def process_user_messages(new_messages):
