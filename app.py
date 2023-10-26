@@ -82,34 +82,34 @@ def clean_and_parse_json(raw_json):
     return json.loads(cleaned_json)
     
 def process_assistant_messages(new_messages):
-    cleaned_messages = clean_and_parse_json(new_messages)
     response = None  # Initialize the response variable
-    for item in cleaned_messages:
+    for item in new_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
             try:
                 message_args = json.loads(item['function_call']['arguments'])
                 if 'message' in message_args:
-                    response = message_args['message']
+                    cleaned_messages = message_args['message']
+                    response = clean_and_parse_json(cleaned_messages)
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
-                response = "There was an error parsing the message from the assistant. Retry"
+                response = "There was an error parsing the message from the assistant..."
             if response is not None:
                 st.session_state.messages.append({"role": "assistant", "content": response})
     return response
 
 
 def process_user_messages(new_messages):
-    cleaned_messages = clean_and_parse_json(new_messages)
     response = None  # Initialize the response variable
-    for item in cleaned_messages:
+    for item in new_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
             try:
                 message_args = json.loads(item['function_call']['arguments'])
                 if 'message' in message_args:
-                    response = message_args['message']
+                    cleaned_message = message_args['message']
+                    response = clean_and_parse_json(cleaned_messages)
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
-                response = "There was an error parsing the message from the assistant.. Retry"
+                response = "There was an error parsing the message from the assistant..."
             if response is not None:
                 st.session_state.messages.append({"role": "user", "content": response})
     return(response)
