@@ -76,9 +76,15 @@ st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)"
 st.sidebar.markdown("Current Version: 1.0.0")
 st.sidebar.divider()
 
+def clean_json_string(raw_json):
+    # Replace newline characters with their escaped version
+    cleaned_json = raw_json.replace("\n", "\\n")
+    return cleaned_json
+    
 def process_assistant_messages(new_messages):
+    cleaned_messages = clean_json_string(new_messages)
     response = None  # Initialize the response variable
-    for item in new_messages:
+    for item in cleaned_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
             try:
                 message_args = json.loads(item['function_call']['arguments'])
@@ -93,8 +99,9 @@ def process_assistant_messages(new_messages):
 
 
 def process_user_messages(new_messages):
+    cleaned_messages = clean_json_string(new_messages)
     response = None  # Initialize the response variable
-    for item in new_messages:
+    for item in cleaned_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
             try:
                 message_args = json.loads(item['function_call']['arguments'])
