@@ -20,7 +20,7 @@ def count_tokens(s: str, model: str = "gpt-4") -> int:
     return len(encoding.encode(s))
 
 #DEBUG = True
-#DEBUG = False
+DEBUG = False
 
 def printd(*args, **kwargs):
     if DEBUG:
