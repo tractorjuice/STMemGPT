@@ -79,14 +79,14 @@ st.sidebar.divider()
 def clean_and_parse_json(raw_json):
     # Remove newline characters and extra spaces
     cleaned_json = raw_json.replace("\n", "\\n")
-    return json.loads(cleaned_json)
+    return json.loads(cleaned_json, strict=False)
 
 def process_assistant_messages(new_messages):
     response = None  # Initialize the response variable
     for item in new_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
             try:
-                message_args = json.loads(item['function_call']['arguments'])
+                message_args = json.loads(item['function_call']['arguments'], strict=False)
                 if 'message' in message_args:
                     try:
                         # Try to clean and parse the message if it's a JSON string
@@ -108,7 +108,7 @@ def process_user_messages(new_messages):
     for item in new_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
             try:
-                message_args = json.loads(item['function_call']['arguments'])
+                message_args = json.loads(item['function_call']['arguments'], strict=False)
                 if 'message' in message_args:
                     cleaned_message = message_args['message']
                     response = clean_and_parse_json(cleaned_messages)
