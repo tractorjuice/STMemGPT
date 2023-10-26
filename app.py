@@ -76,10 +76,10 @@ st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)"
 st.sidebar.markdown("Current Version: 1.0.0")
 st.sidebar.divider()
 
-def clean_json_string(raw_json):
-    # Replace newline characters with their escaped version
-    cleaned_json = raw_json.replace("\n", "\\n")
-    return cleaned_json
+def clean_and_parse_json(raw_json):
+    # Remove newline characters and extra spaces
+    cleaned_json = raw_json.replace('\\n', ' ').replace('\n', ' ').replace('  ', ' ')
+    return json.loads(cleaned_json)
     
 def process_assistant_messages(new_messages):
     cleaned_messages = clean_json_string(new_messages)
