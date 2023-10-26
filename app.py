@@ -78,7 +78,7 @@ st.sidebar.divider()
 
 def clean_and_parse_json(raw_json):
     # Remove newline characters and extra spaces
-    cleaned_json = raw_json.replace('\\n', ' ').replace('\n', ' ').replace('  ', ' ')
+    cleaned_json = raw_json.replace("\n", "\\n")
     return json.loads(cleaned_json)
 
 def process_assistant_messages(new_messages):
