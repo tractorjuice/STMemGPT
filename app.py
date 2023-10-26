@@ -82,7 +82,7 @@ def clean_and_parse_json(raw_json):
     return json.loads(cleaned_json)
     
 def process_assistant_messages(new_messages):
-    cleaned_messages = clean_json_string(new_messages)
+    cleaned_messages = clean_and_parse_json(new_messages)
     response = None  # Initialize the response variable
     for item in cleaned_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
@@ -99,7 +99,7 @@ def process_assistant_messages(new_messages):
 
 
 def process_user_messages(new_messages):
-    cleaned_messages = clean_json_string(new_messages)
+    cleaned_messages = clean_and_parse_json(new_messages)
     response = None  # Initialize the response variable
     for item in cleaned_messages:
         if 'function_call' in item and 'arguments' in item['function_call']:
