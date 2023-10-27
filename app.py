@@ -141,6 +141,9 @@ for message in st.session_state.messages:
 if user_openai_api_key:
     st.write(st.session_state.heartbeat_request)
     if st.session_state.heartbeat_request == None pr st.session_state.heartbeat_request == "False":
+        st.write(st.session_state.user_input)
+        st.write(prompt)
+        st.session_state.user_input = ""
         if prompt := st.chat_input("How can I help with Wardley Mapping?"):
             st.session_state.messages.append({"role": "user", "content": prompt})
             st.write("Running prompt code:")
@@ -185,5 +188,4 @@ if st.session_state.heartbeat_request:
     if response is not None:
         with st.chat_message("assistant"):
             st.write(response)
-    st.session_state.user_input = ""
     st.rerun()
