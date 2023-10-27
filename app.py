@@ -48,7 +48,7 @@ if "memgpt_agent" not in st.session_state:
     st.session_state["memgpt_agent"] = False
     
 if "session_id" not in st.session_state:
-    st.session_state.session_id = uuid.uuid4()
+    st.session_state.session_id = str(uuid.uuid4())
     
 # Swap out openai for promptlayer
 openai = promptlayer.openai
@@ -78,22 +78,13 @@ st.sidebar.title("Ultimate AI Assistant (SPR)")
 st.sidebar.title("Wardley Mapping Version")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
-st.sidebar.markdown("Current Version: 1.3.5")
+st.sidebar.markdown("Current Version: 1.3.6")
 st.sidebar.divider()
 st.sidebar.write(st.session_state.session_id)
 
 # Check if the user has provided an API key, otherwise default to the secret
 user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:")
-
-def _get_session():
-    import streamlit.report_thread as ReportThread
-    from streamlit.server.server import Server
-    session_id = get_report_ctx().session_id
-    session_info = Server.get_current()._get_session_info(session_id)
-    if session_info is None:
-        raise RuntimeError("Couldn't get your Streamlit Session object.")
-    return session_info.session
-    
+  
 def clean_and_parse_json(raw_json):
     # Remove newline characters and extra spaces
     cleaned_json = raw_json.replace("\n", "\\n")
