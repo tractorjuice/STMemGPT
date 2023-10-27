@@ -78,7 +78,7 @@ st.sidebar.title("Ultimate AI Assistant (SPR)")
 st.sidebar.title("Wardley Mapping Version")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
-st.sidebar.markdown("Current Version: 1.3.6")
+st.sidebar.markdown("Current Version: 1.3.7")
 st.sidebar.divider()
 st.sidebar.write(st.session_state.session_id)
 
@@ -165,9 +165,9 @@ if st.session_state.token_warning:
     with st.status("Thinking ... Reached token limit. Saving to memory:"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
-    if response is not None:
-        with st.chat_message("assistant"):
-            st.write(response)
+    #if response is not None:
+    #    with st.chat_message("assistant"):
+    #        st.write(response)
 
 if st.session_state.function_failed:
     st.write("Function Failed")
@@ -175,9 +175,9 @@ if st.session_state.function_failed:
     with st.status("Thinking ... Internal error, recovering:"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
-    if response is not None:
-        with st.chat_message("assistant"):
-            st.write(response)
+    #if response is not None:
+    #    with st.chat_message("assistant"):
+    #        st.write(response)
 
 if st.session_state.heartbeat_request:
     st.write("Heartbeat")
