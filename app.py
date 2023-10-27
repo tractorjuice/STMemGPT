@@ -75,12 +75,6 @@ st.sidebar.divider()
 
 # Check if the user has provided an API key
 user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:")
-
-# If the user has provided an API key, use it
-if user_openai_api_key:
-    OPENAI_API_KEY = user_openai_api_key
-else:
-    st.warning("Please enter your OpenAI API key")
     
 def clean_and_parse_json(raw_json):
     # Remove newline characters and extra spaces
@@ -107,26 +101,16 @@ def process_assistant_messages(new_messages):
         st.session_state.messages.append({"role": "assistant", "content": response})
     return response
 
-def process_user_messages(new_messages):
-    response = None  # Initialize the response variable
-    for item in new_messages:
-        if 'function_call' in item and 'arguments' in item['function_call']:
-            try:
-                message_args = json.loads(item['function_call']['arguments'], strict=False)
-                if 'message' in message_args:
-                    cleaned_message = message_args['message']
-                    response = clean_and_parse_json(cleaned_messages)
-            except json.JSONDecodeError:
-                st.warning("There was an error parsing the message from the assistant.")
-                response = "There was an error parsing the message from the assistant..."
-            if response is not None:
-                st.session_state.messages.append({"role": "user", "content": response})
-    return(response)
-
 if not st.session_state.memgpt_agent:
+    # If the user has provided an API key, use it
+    if user_openai_api_key:
+        OPENAI_API_KEY = user_openai_api_key
+    else:
+        st.warning("Please enter your OpenAI API key")
     # Swap out openai for promptlayer
     promptlayer.api_key = st.secrets["PROMPTLAYER"]
     openai = promptlayer.openai
+    
     if MODE == "Archive":
         # Memory stored from FAISS
         index, archival_database = utils.prepare_archival_index('/mount/src/stmemgpt/memgpt/personas/examples/mapmentor_archive')
