@@ -3,12 +3,12 @@ from .prompts import gpt_system
 from .agent import AgentAsync
 from .utils import printd
 
-DEFAULT = 'memgpt_wardley'
+DEFAULT = 'memgpt_spr_chat'
 
 def use_preset(preset_name, model, persona, human, interface, persistence_manager):
     """Storing combinations of SYSTEM + FUNCTION prompts"""
 
-    if preset_name == 'memgpt_chat' or preset_name == 'memgpt_wardley':
+    if preset_name == 'memgpt_chat' or preset_name == 'memgpt_spr_chat':
 
         functions = [
             'send_message', 'pause_heartbeats',
