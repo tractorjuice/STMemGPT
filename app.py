@@ -48,9 +48,6 @@ if "memgpt_agent" not in st.session_state:
     
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
-    
-# Swap out openai for promptlayer
-openai = promptlayer.openai
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -111,7 +108,10 @@ def process_assistant_messages(new_messages):
 
 if not st.session_state.memgpt_agent:
     # If the user has provided an API key, use it
+    # Swap out openai for promptlayer
     promptlayer.api_key = st.secrets["PROMPTLAYER"]
+    openai = promptlayer.openai
+    
     if user_openai_api_key:
         OPENAI_API_KEY = user_openai_api_key
     else:
