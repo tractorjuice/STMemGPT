@@ -105,8 +105,8 @@ def process_assistant_messages(new_messages):
             except json.JSONDecodeError:
                 st.warning("There was an error parsing the message from the assistant.")
                 response = "There was an error parsing the message from the assistant..."
-            if response is not None:
-                st.session_state.messages.append({"role": "assistant", "content": response})
+        if response is not None:
+            st.session_state.messages.append({"role": "assistant", "content": response})
     return response
 
 if not st.session_state.memgpt_agent:
@@ -157,17 +157,26 @@ if st.session_state.token_warning:
     with st.status("Thinking ... Reached token limit. Saving to memory:"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
+    if response is not None:
+        with st.chat_message("assistant"):
+            st.write(response)
 
 if st.session_state.function_failed:
     user_message = system.get_heartbeat(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
     with st.status("Thinking ... Internal error, recovering:"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
+    if response is not None:
+        with st.chat_message("assistant"):
+            st.write(response)
 
 if st.session_state.heartbeat_request:
     user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
     with st.status("Thinking ... Internal processing."):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
+    if response is not None:
+        with st.chat_message("assistant"):
+            st.write(response)
     st.session_state.user_input = ""
     st.rerun()
