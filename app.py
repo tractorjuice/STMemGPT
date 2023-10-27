@@ -61,16 +61,16 @@ if "messages" not in st.session_state:
         {
             "role": "assistant",
             "content": """
-            I'm here to help you learn about and create Wardley Maps. Here are some options for getting started:
-            1. Learn: To learn about the components and concepts of a Wardley Map, type "Learn".
-            2. Vocabulary: To get a list of common Wardley Map terms and their definitions, type "Vocabulary".
-            3. Create: To create your own Wardley Map with step-by-step guidance, type "Create".
+            I'm here to help you learn about GPDO. Here are some options for getting started:
+            1. Learn: To learn about the GPDO, type "Learn".
+            2. Vocabulary: To get a list of common GPDO terms and their definitions, type "Vocabulary".
+            3. Create: To create your own planning application with step-by-step guidance, type "Create".
             
-            Please introduce yourself and if you have any specific questions or need clarification on any aspect of Wardley Mapping, feel free to ask.
+            Please introduce yourself and if you have any specific questions or need clarification on any aspect of the GPDO, feel free to ask.
             """
         })
 
-st.set_page_config(page_title="Map Mentor - Ultimate GPDO Assistant", layout="wide")
+st.set_page_config(page_title="GPDO Mentor - Ultimate GPDO Assistant", layout="wide")
 st.sidebar.title("Ultimate AI Assistant")
 st.sidebar.title("GPDO Version")
 st.sidebar.divider()
