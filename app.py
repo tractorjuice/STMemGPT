@@ -45,9 +45,6 @@ if "token_warning" not in st.session_state:
     
 if "memgpt_agent" not in st.session_state:
     st.session_state["memgpt_agent"] = False
-    
-# Swap out openai for promptlayer
-openai = promptlayer.openai
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -77,7 +74,7 @@ st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)"
 st.sidebar.markdown("Current Version: 1.3.2")
 st.sidebar.divider()
 
-# Check if the user has provided an API key, otherwise default to the secret
+# Check if the user has provided an API key
 user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:")
 
 # If the user has provided an API key, use it
@@ -128,6 +125,8 @@ def process_user_messages(new_messages):
     return(response)
 
 if not st.session_state.memgpt_agent:
+    # Swap out openai for promptlayer
+    openai = promptlayer.openai
     if MODE == "Archive":
         # Memory stored from FAISS
         index, archival_database = utils.prepare_archival_index('/mount/src/stmemgpt/memgpt/personas/examples/mapmentor_archive')
@@ -148,18 +147,18 @@ for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-#if user_openai_api_key:
-if prompt := st.chat_input("How can I help with Wardley Mapping?"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.write(prompt)
-    user_message = system.package_user_message(prompt)
-    with st.status("Give me a few secs, I'm just thinking about that."):
-        new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-        response = process_assistant_messages(new_messages)
-    if response is not None:
-        with st.chat_message("assistant"):
-            st.write(response)
+if user_openai_api_key:
+    if prompt := st.chat_input("How can I help with Wardley Mapping?"):
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.write(prompt)
+        user_message = system.package_user_message(prompt)
+        with st.status("Give me a few secs, I'm just thinking about that."):
+            new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
+            response = process_assistant_messages(new_messages)
+        if response is not None:
+            with st.chat_message("assistant"):
+                st.write(response)
     
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 
@@ -168,34 +167,16 @@ if st.session_state.token_warning:
     with st.status("Thinking ... Reached token limit. Saving to memory:"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
-    #if response is not None:
-    #    with st.chat_message("assistant"):
-    #        st.write(response)
 
 if st.session_state.function_failed:
     user_message = system.get_heartbeat(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
     with st.status("Thinking ... Internal error, recovering:"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
-    #if response is not None:
-    #    with st.chat_message("assistant"):
-    #        st.write(response)
 
 if st.session_state.heartbeat_request:
     user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
     with st.status("Thinking ... Internal processing."):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
-    #if response is not None:
-    #    with st.chat_message("assistant"):
-    #        st.write(response)
     st.rerun()
-
-#st.sidebar.divider()
-#st.sidebar.write(f"Heartbeat: {st.session_state.heartbeat_request}")
-#st.sidebar.write(f"Function Failed: {st.session_state.function_failed}")
-#st.sidebar.write(f"Token Warning: {st.session_state.token_warning}")
-#st.sidebar.write(f"Msg Total Init: {st.session_state.messages_total_init}")
-#st.sidebar.write(f"Msg Total: {st.session_state.messages_total}")
-#st.sidebar.divider()
-#st.sidebar.write(f"Pers Msg: {st.session_state.persistence_all_messages}")
