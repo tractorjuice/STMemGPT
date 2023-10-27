@@ -144,7 +144,6 @@ if user_openai_api_key:
     prompt = st.chat_input(placeholder="How can I help with Wardley Mapping?", key="chat")
     if not prompt == st.session_state.prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
-        st.write("Running prompt code:")
         with st.chat_message("user"):
             st.write(prompt)
         st.session_state.prompt = prompt
@@ -159,21 +158,18 @@ if user_openai_api_key:
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 
 if st.session_state.token_warning:
-    st.write("Token limit")
     user_message = system.get_token_limit_warning()
     with st.status("Thinking ... Reached token limit. Saving to memory:"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
 
 if st.session_state.function_failed:
-    st.write("Function Failed")
     user_message = system.get_heartbeat(constants.FUNC_FAILED_HEARTBEAT_MESSAGE)
     with st.status("Thinking ... Internal error, recovering:"):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
 
 if st.session_state.heartbeat_request:
-    st.write("Heartbeat")
     user_message = system.get_heartbeat(constants.REQ_HEARTBEAT_MESSAGE)
     with st.status("Thinking ... Internal processing."):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
