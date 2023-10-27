@@ -141,6 +141,7 @@ for message in st.session_state.messages:
 if user_openai_api_key:
     st.write(st.session_state.heartbeat_request)
     if st.session_state.heartbeat_request == None or st.session_state.heartbeat_request == "False":
+        prompt = ""
         prompt = st.chat_input("How can I help with Wardley Mapping?")
         if prompt:
             st.session_state.messages.append({"role": "user", "content": prompt})
@@ -183,7 +184,7 @@ if st.session_state.heartbeat_request:
     with st.status("Thinking ... Internal processing."):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
-    if response is not None:
-        with st.chat_message("assistant"):
-            st.write(response)
+    #if response is not None:
+    #    with st.chat_message("assistant"):
+    #        st.write(response)
     st.rerun()
