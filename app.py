@@ -18,7 +18,15 @@ import memgpt.personas.personas as personas
 import memgpt.humans.humans as humans
 from memgpt.persistence_manager import InMemoryStateManager, InMemoryStateManagerWithPreloadedArchivalMemory, InMemoryStateManagerWithFaiss
 
-OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+# Check if the user has provided an API key, otherwise default to the secret
+user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:", value=st.secrets.get("OPENAI_API_KEY", ""))
+
+# If the user has provided an API key, use it
+if user_openai_api_key:
+    OPENAI_API_KEY = user_openai_api_key
+else:
+    OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+
 promptlayer.api_key = st.secrets["PROMPTLAYER"]
 #MODEL = "gpt-3"
 #MODEL = "gpt-3.5-turbo"
