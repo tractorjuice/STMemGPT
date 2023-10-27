@@ -140,7 +140,7 @@ if not st.session_state.memgpt_agent:
         PERSONA = 'mapmentor_chat'
         persistence_manager = InMemoryStateManager()
     
-    memgpt_agent = presets.use_preset('memgpt_chat', MODEL, personas.get_persona_text(PERSONA), humans.get_human_text(HUMAN), interface, persistence_manager)
+    memgpt_agent = presets.use_preset('memgpt_spr_chat', MODEL, personas.get_persona_text(PERSONA), humans.get_human_text(HUMAN), interface, persistence_manager)
     st.session_state.memgpt_agent = memgpt_agent
 
 for message in st.session_state.messages:
