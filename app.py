@@ -1,8 +1,8 @@
 # Importing required packages
 import streamlit as st
-from streamlit.report_thread import get_report_ctx
 import openai
 import promptlayer
+import uuid
 import json
 import glob
 import os
@@ -46,6 +46,9 @@ if "token_warning" not in st.session_state:
     
 if "memgpt_agent" not in st.session_state:
     st.session_state["memgpt_agent"] = False
+    
+if "session_id" not in st.session_state:
+    st.session_state.session_id = uuid.uuid4()
     
 # Swap out openai for promptlayer
 openai = promptlayer.openai
