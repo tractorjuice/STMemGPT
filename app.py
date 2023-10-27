@@ -74,7 +74,7 @@ st.sidebar.title("Ultimate AI Assistant (SPR)")
 st.sidebar.title("Wardley Mapping Version")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
-st.sidebar.markdown("Current Version: 1.3.4")
+st.sidebar.markdown("Current Version: 1.3.5")
 st.sidebar.divider()
 
 # Check if the user has provided an API key, otherwise default to the secret
@@ -104,22 +104,6 @@ def process_assistant_messages(new_messages):
             if response is not None:
                 st.session_state.messages.append({"role": "assistant", "content": response})
     return response
-
-def process_user_messages(new_messages):
-    response = None  # Initialize the response variable
-    for item in new_messages:
-        if 'function_call' in item and 'arguments' in item['function_call']:
-            try:
-                message_args = json.loads(item['function_call']['arguments'], strict=False)
-                if 'message' in message_args:
-                    cleaned_message = message_args['message']
-                    response = clean_and_parse_json(cleaned_messages)
-            except json.JSONDecodeError:
-                st.warning("There was an error parsing the message from the assistant.")
-                response = "There was an error parsing the message from the assistant..."
-            if response is not None:
-                st.session_state.messages.append({"role": "user", "content": response})
-    return(response)
 
 if not st.session_state.memgpt_agent:
     # If the user has provided an API key, use it
@@ -180,5 +164,5 @@ if st.session_state.heartbeat_request:
     with st.status("Thinking ... Internal processing."):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
-    prompt = ""
+    prompt = None
     st.rerun()
