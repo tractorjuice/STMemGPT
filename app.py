@@ -140,7 +140,7 @@ for message in st.session_state.messages:
 
 if user_openai_api_key:
     st.write(st.session_state.heartbeat_request)
-    if st.session_state.heartbeat_request == None pr st.session_state.heartbeat_request == "False":
+    if st.session_state.heartbeat_request == None or st.session_state.heartbeat_request == "False":
         st.write(st.session_state.user_input)
         st.write(prompt)
         st.session_state.user_input = ""
