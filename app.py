@@ -36,7 +36,7 @@ new_messages = []
 prompt = None
 
 if "heartbeat_request" not in st.session_state:
-    st.session_state["heartbeat_request"] = False
+    st.session_state["heartbeat_request"] = None
     
 if "function_failed" not in st.session_state:
     st.session_state["function_failed"] = False
@@ -140,7 +140,7 @@ for message in st.session_state.messages:
 
 if user_openai_api_key:
     st.write(st.session_state.heartbeat_request)
-    if not st.session_state.heartbeat_request == "True":
+    if st.session_state.heartbeat_request == None:
         if prompt := st.chat_input("How can I help with Wardley Mapping?"):
             st.session_state.messages.append({"role": "user", "content": prompt})
             st.write("Running prompt code:")
