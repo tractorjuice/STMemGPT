@@ -2,6 +2,7 @@
 import streamlit as st
 import openai
 import promptlayer
+import uuid
 import json
 import glob
 import os
@@ -70,7 +71,8 @@ st.sidebar.title("Ultimate AI Assistant")
 st.sidebar.title("Wardley Mapping Version")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
-st.sidebar.markdown("Current Version: 1.3.9")
+st.sidebar.markdown("Current Version: 1.4.0")
+st.sidebar.write(st.session_state.session_id)
 st.sidebar.divider()
 
 # Check if the user has provided an API key
