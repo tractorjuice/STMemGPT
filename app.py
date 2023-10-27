@@ -78,8 +78,7 @@ st.sidebar.markdown("Current Version: 1.3.4")
 st.sidebar.divider()
 
 # Check if the user has provided an API key, otherwise default to the secret
-if not user_openai_api_key:
-    user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:")
+user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:")
 
 # If the user has provided an API key, use it
 if user_openai_api_key:
