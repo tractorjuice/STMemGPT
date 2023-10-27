@@ -18,7 +18,6 @@ import memgpt.personas.personas as personas
 import memgpt.humans.humans as humans
 from memgpt.persistence_manager import InMemoryStateManager, InMemoryStateManagerWithPreloadedArchivalMemory, InMemoryStateManagerWithFaiss
 
-promptlayer.api_key = st.secrets["PROMPTLAYER"]
 #MODEL = "gpt-3"
 #MODEL = "gpt-3.5-turbo"
 #MODEL = "gpt-3.5-turbo-0301"
@@ -126,6 +125,7 @@ def process_user_messages(new_messages):
 
 if not st.session_state.memgpt_agent:
     # Swap out openai for promptlayer
+    promptlayer.api_key = st.secrets["PROMPTLAYER"]
     openai = promptlayer.openai
     if MODE == "Archive":
         # Memory stored from FAISS
