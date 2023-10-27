@@ -19,7 +19,6 @@ import memgpt.personas.personas as personas
 import memgpt.humans.humans as humans
 from memgpt.persistence_manager import InMemoryStateManager, InMemoryStateManagerWithPreloadedArchivalMemory, InMemoryStateManagerWithFaiss
 
-promptlayer.api_key = st.secrets["PROMPTLAYER"]
 #MODEL = "gpt-3"
 #MODEL = "gpt-3.5-turbo"
 #MODEL = "gpt-3.5-turbo-0301"
@@ -31,8 +30,8 @@ MODEL = "gpt-4"
 #MODEL = "gpt-4-0613"
 #MODEL = "gpt-4-32k-0613"
 
-#MODE = "Archive"
-MODE = "Chat"
+MODE = "Archive"
+#MODE = "Chat"
 new_messages = []
 
 if "heartbeat_request" not in st.session_state:
@@ -112,6 +111,7 @@ def process_assistant_messages(new_messages):
 
 if not st.session_state.memgpt_agent:
     # If the user has provided an API key, use it
+    promptlayer.api_key = st.secrets["PROMPTLAYER"]
     if user_openai_api_key:
         OPENAI_API_KEY = user_openai_api_key
     else:
