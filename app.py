@@ -78,7 +78,6 @@ st.sidebar.markdown("Current Version: 1.3.0")
 st.sidebar.divider()
 
 # Check if the user has provided an API key, otherwise default to the secret
-user_openai_api_key = None
 user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:")
 
 # If the user has provided an API key, use it
@@ -149,7 +148,7 @@ for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-if user_openai_api_key is not None:
+if user_openai_api_key:
     if prompt := st.chat_input("How can I help with Wardley Mapping?"):
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
