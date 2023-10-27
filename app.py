@@ -171,4 +171,4 @@ if st.session_state.heartbeat_request:
         response = process_assistant_messages(new_messages)
     st.write("Cleared prompt!")
     prompt = "Cleared Prompt!"
-    st.rerun()
+    #st.rerun()
