@@ -139,19 +139,20 @@ for message in st.session_state.messages:
             st.markdown(message["content"])
 
 if user_openai_api_key:
-    prompt = st.chat_input(placeholder="How can I help with Wardley Mapping?", key="chat")
-    if prompt:
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        st.write("Running prompt code:")
-        with st.chat_message("user"):
-            st.write(prompt)
-        user_message = system.package_user_message(prompt)
-        with st.status("Give me a few secs, I'm just thinking about that."):
-            new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
-            response = process_assistant_messages(new_messages)
-        if response is not None:
-            with st.chat_message("assistant"):
-                st.write(response)
+    if st.session_state.heartbeat_request not True:
+        prompt = st.chat_input(placeholder="How can I help with Wardley Mapping?", key="chat")
+        if prompt:
+            st.session_state.messages.append({"role": "user", "content": prompt})
+            st.write("Running prompt code:")
+            with st.chat_message("user"):
+                st.write(prompt)
+            user_message = system.package_user_message(prompt)
+            with st.status("Give me a few secs, I'm just thinking about that."):
+                new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
+                response = process_assistant_messages(new_messages)
+            if response is not None:
+                with st.chat_message("assistant"):
+                    st.write(response)
     
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 
