@@ -1,5 +1,6 @@
 # Importing required packages
 import streamlit as st
+from streamlit.report_thread import get_report_ctx
 import openai
 import promptlayer
 import json
@@ -76,10 +77,20 @@ st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
 st.sidebar.markdown("Current Version: 1.3.5")
 st.sidebar.divider()
+st.sidebar.write(user_session = _get_session())
 
 # Check if the user has provided an API key, otherwise default to the secret
 user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:")
-  
+
+def _get_session():
+    import streamlit.report_thread as ReportThread
+    from streamlit.server.server import Server
+    session_id = get_report_ctx().session_id
+    session_info = Server.get_current()._get_session_info(session_id)
+    if session_info is None:
+        raise RuntimeError("Couldn't get your Streamlit Session object.")
+    return session_info.session
+    
 def clean_and_parse_json(raw_json):
     # Remove newline characters and extra spaces
     cleaned_json = raw_json.replace("\n", "\\n")
