@@ -7,7 +7,7 @@ import openai
 import promptlayer
 
 # Swap out your 'import openai'
-openai = promptlayer.openai
+#openai = promptlayer.openai
 
 def retry_with_exponential_backoff(
     func,
