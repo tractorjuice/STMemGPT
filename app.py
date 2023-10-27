@@ -174,4 +174,7 @@ if st.session_state.heartbeat_request:
     with st.status("Thinking ... Internal processing."):
         new_messages, st.session_state.heartbeat_request, st.session_state.function_failed, st.session_state.token_warning = st.session_state.memgpt_agent.step(user_message, first_message=False, skip_verify=True)
         response = process_assistant_messages(new_messages)
+    if response is not None:
+        with st.chat_message("assistant"):
+            st.write(response)
     st.rerun()
