@@ -74,7 +74,7 @@ st.set_page_config(page_title="Map Mentor - Ultimate GPDO Assistant", layout="wi
 st.sidebar.title("Ultimate AI Assistant")
 st.sidebar.title("GPDO Version")
 st.sidebar.divider()
-#st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
+st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
 st.sidebar.markdown("Current Version: 0.0.1")
 st.sidebar.divider()
 
@@ -125,7 +125,7 @@ if not st.session_state.memgpt_agent:
         index, archival_database = utils.prepare_archival_index('/mount/src/stmemgpt/memgpt/personas/examples/mapmentor_archive')
         persistence_manager = InMemoryStateManagerWithFaiss(index, archival_database)
         HUMAN = 'gpdo_awareness'
-        PERSONA = 'gpdo_docs'
+        PERSONA = 'gdpo_docs'
     else:
         # Memory stored in memory
         HUMAN = 'gpdo_awareness'
