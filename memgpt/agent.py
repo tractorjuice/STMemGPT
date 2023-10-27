@@ -10,7 +10,6 @@ import openai
 import promptlayer
 
 # Swap out your 'import openai'
-promptlayer.api_key = st.secrets["PROMPTLAYER"]
 openai = promptlayer.openai
 
 from .system import get_heartbeat, get_login_event, package_function_response, package_summarize_message, get_initial_boot_messages

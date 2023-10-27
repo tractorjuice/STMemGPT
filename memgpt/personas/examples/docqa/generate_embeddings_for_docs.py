@@ -12,8 +12,7 @@ try:
     load_dotenv()
 except ModuleNotFoundError:
     pass
-openai.api_key = os.getenv('OPENAI_API_KEY')
-
+openai.api_key = OPENAI_API_KEY
 sys.path.append("../../../")
 from openai_tools import async_get_embedding_with_backoff
 from openai_parallel_request_processor import process_api_requests_from_file

@@ -18,7 +18,6 @@ import memgpt.personas.personas as personas
 import memgpt.humans.humans as humans
 from memgpt.persistence_manager import InMemoryStateManager, InMemoryStateManagerWithPreloadedArchivalMemory, InMemoryStateManagerWithFaiss
 
-OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 promptlayer.api_key = st.secrets["PROMPTLAYER"]
 #MODEL = "gpt-3"
 #MODEL = "gpt-3.5-turbo"
@@ -78,6 +77,15 @@ st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)"
 st.sidebar.markdown("Current Version: 1.3.0")
 st.sidebar.divider()
 
+# Check if the user has provided an API key, otherwise default to the secret
+user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:")
+
+# If the user has provided an API key, use it
+if user_openai_api_key:
+    OPENAI_API_KEY = user_openai_api_key
+else:
+    st.warning("Please enter your OpenAI API key")
+    
 def clean_and_parse_json(raw_json):
     # Remove newline characters and extra spaces
     cleaned_json = raw_json.replace("\n", "\\n")
