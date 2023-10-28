@@ -93,14 +93,14 @@ def get_ai_reply_async(
     ):
     """Base call to GPT API w/ functions"""
 
-    st.sidebar.write("[langchain] converting openai to langchain")
-    message_sequence = convert_openai_messages(message_sequence)
+    #st.sidebar.write("[langchain] converting openai to langchain")
+    #message_sequence = convert_openai_messages(message_sequence)
     
     try:
         response = acreate(
             model=model,
-            #messages=message_sequence,
-            prompts=message_sequence,
+            messages=message_sequence,
+            #prompts=message_sequence,
             functions=functions,
             function_call=function_call,
             pl_tags=["stmemgpt-alpha", st.session_state.session_id],
