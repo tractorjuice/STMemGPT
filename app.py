@@ -82,7 +82,7 @@ st.sidebar.markdown("Current Version: 1.6.0L")
 st.sidebar.divider()
 
 # Check if the user has provided an API key, otherwise default to the secret
-user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:")
+user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:", placeholder="sk-...", type=password)
   
 def clean_and_parse_json(raw_json):
     # Remove newline characters and extra spaces
@@ -141,7 +141,7 @@ for message in st.session_state.messages:
             st.markdown(message["content"])
 
 if user_openai_api_key:
-    prompt = st.chat_input(placeholder="How can I help with Wardley Mapping?", key="chat")
+    prompt = st.chat_input("How can I help with Wardley Mapping?", key="chat")
     if not prompt == st.session_state.prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
