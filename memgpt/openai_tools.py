@@ -6,6 +6,9 @@ import streamlit as st
 import openai
 import promptlayer
 
+import langchain
+from langchain.llms import PromptLayerOpenAI
+
 # Swap out your 'import openai'
 openai = promptlayer.openai
 
@@ -53,9 +56,10 @@ def retry_with_exponential_backoff(
     return wrapper
 
 
-@retry_with_exponential_backoff
-def completions_with_backoff(**kwargs):
-    return openai.ChatCompletion.create(**kwargs)
+#@retry_with_exponential_backoff
+def completions_with_backoff():
+    return llm = PromptLayerOpenAI(**kwargs)
+    #return openai.ChatCompletion.create(**kwargs)
 
 
 def aretry_with_exponential_backoff(
