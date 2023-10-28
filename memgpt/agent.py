@@ -94,7 +94,7 @@ def get_ai_reply_async(
     """Base call to GPT API w/ functions"""
 
     st.sidebar.write("[langchain] converting openai to langchain")
-    message_sequence = convert_openai_messages(message_sequence))
+    message_sequence = convert_openai_messages(message_sequence)
     
         try:
         response = acreate(
