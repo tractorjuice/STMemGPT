@@ -2,6 +2,7 @@
 import random
 import time
 import streamlit as st
+from .utils import printd
 
 import openai
 import promptlayer
