@@ -126,7 +126,7 @@ if not st.session_state.memgpt_agent:
         index, archival_database = utils.prepare_archival_index('/mount/src/stmemgpt/memgpt/personas/examples/mapmentor_archive')
         persistence_manager = InMemoryStateManagerWithFaiss(index, archival_database)
         HUMAN = 'wardley_awareness'
-        PERSONA = 'synapse_docs'
+        PERSONA = 'wardley_coach'
     else:
         # Memory stored in memory
         HUMAN = 'wardley_awareness'
