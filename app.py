@@ -30,8 +30,8 @@ MODEL = "gpt-4"
 #MODEL = "gpt-4-0613"
 #MODEL = "gpt-4-32k-0613"
 
-MODE = "Archive"
-#MODE = "Chat"
+#MODE = "Archive"
+MODE = "Chat"
 new_messages = []
 
 if "heartbeat_request" not in st.session_state:
