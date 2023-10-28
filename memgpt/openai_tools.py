@@ -2,8 +2,6 @@
 import random
 import time
 import streamlit as st
-from .utils import printd
-
 import openai
 import promptlayer
 
@@ -58,7 +56,7 @@ def retry_with_exponential_backoff(
 
 #@retry_with_exponential_backoff
 def completions_with_backoff(**kwargs):
-    printd("[OpenAI] Calling OpenAI API")
+    st.sidebar.write("[OpenAI] Calling OpenAI API")
     llm = PromptLayerOpenAI(**kwargs)
     return llm.generate(**kwargs)
     #return openai.ChatCompletion.create(**kwargs)
@@ -111,7 +109,7 @@ def aretry_with_exponential_backoff(
 
 @aretry_with_exponential_backoff
 def acompletions_with_backoff(**kwargs):
-    printd("[OpenAI] Calling OpenAI API")
+    st.sidebar.write("[OpenAI] Calling OpenAI API")
     llm = PromptLayerOpenAI(**kwargs)
     return llm.generate(**kwargs)
     #return openai.ChatCompletion.create(**kwargs)
