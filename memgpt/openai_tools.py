@@ -109,7 +109,7 @@ def aretry_with_exponential_backoff(
 
 @aretry_with_exponential_backoff
 def acompletions_with_backoff(**kwargs):
-    st.sidebar.write("[OpenAI] Calling OpenAI API")
+    st.sidebar.write("[openai] calling openai api")
     llm = PromptLayerOpenAI(**kwargs)
     return llm.generate(**kwargs)
     #return openai.ChatCompletion.create(**kwargs)
