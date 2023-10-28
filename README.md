@@ -1,4 +1,4 @@
-# An AI Assistant with infinite memory using Streamlit & MemGPT
+# An Programmable AI Assistant with infinite memory using Streamlit & MemGPT
 ## Introduction
 
 MapMentor is an assistant designed to help with learning and creation of Wardley Maps. More on this in several detailed blogs on how to build this with full source code coming soon.
