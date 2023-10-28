@@ -47,7 +47,7 @@ def retry_with_exponential_backoff(
                 delay *= exponential_base * (1 + jitter * random.random())
 
                 # Sleep for the delay
-                time.sleep(62)
+                time.sleep(delay)
 
             # Raise exceptions for any errors not specified
             except Exception as e:
@@ -57,7 +57,7 @@ def retry_with_exponential_backoff(
 
 #@retry_with_exponential_backoff
 def completions_with_backoff(**kwargs):
-    printd("Calling OpenAI API")
+    printd("[OpenAI] Calling OpenAI API")
     llm = PromptLayerOpenAI(**kwargs)
     return llm.generate(**kwargs)
     #return openai.ChatCompletion.create(**kwargs)
@@ -99,7 +99,7 @@ def aretry_with_exponential_backoff(
                 delay *= exponential_base * (1 + jitter * random.random())
 
                 # Sleep for the delay
-                time.sleep(62)
+                time.sleep(delay)
 
             # Raise exceptions for any errors not specified
             except Exception as e:
@@ -110,7 +110,10 @@ def aretry_with_exponential_backoff(
 
 @aretry_with_exponential_backoff
 def acompletions_with_backoff(**kwargs):
-    return openai.ChatCompletion.create(**kwargs)
+    printd("[OpenAI] Calling OpenAI API")
+    llm = PromptLayerOpenAI(**kwargs)
+    return llm.generate(**kwargs)
+    #return openai.ChatCompletion.create(**kwargs)
 
 
 @aretry_with_exponential_backoff
