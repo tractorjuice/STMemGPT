@@ -56,7 +56,7 @@ def retry_with_exponential_backoff(
 
 @retry_with_exponential_backoff
 def completions_with_backoff(**kwargs):
-    st.sidebar.write("[OpenAI] Calling OpenAI API")
+    st.sidebar.write("[openai] calling openai api")
     #llm = PromptLayerOpenAI(**kwargs)
     #return llm.generate(**kwargs)
     return openai.ChatCompletion.create(**kwargs)
