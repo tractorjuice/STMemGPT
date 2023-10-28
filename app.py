@@ -109,17 +109,16 @@ def process_assistant_messages(new_messages):
         st.session_state.messages.append({"role": "assistant", "content": response})
     return response
 
-if not st.session_state.memgpt_agent:
+if user_openai_api_key:
     # If the user has provided an API key, use it
     # Swap out openai for promptlayer
     promptlayer.api_key = st.secrets["PROMPTLAYER"]
     openai = promptlayer.openai
-    
-    if user_openai_api_key:
-        OPENAI_API_KEY = user_openai_api_key
-    else:
-        st.warning("Please enter your OpenAI API key", icon="⚠️")
-        
+    openai.api_key = user_openai_api_key
+else:
+    st.warning("Please enter your OpenAI API key", icon="⚠️")
+
+if not st.session_state.memgpt_agent:        
     if MODE == "Archive":
         # Memory stored from FAISS
         index, archival_database = utils.prepare_archival_index('/mount/src/stmemgpt/memgpt/personas/examples/mapmentor_archive')
