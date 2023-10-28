@@ -78,12 +78,14 @@ st.sidebar.title("Wardley Mapping Version")
 st.sidebar.divider()
 st.sidebar.markdown("Developed by Mark Craddock](https://twitter.com/mcraddock)", unsafe_allow_html=True)
 st.sidebar.markdown("Current Version: 1.6.0L")
+
+# Show session state id, used to identifying individual browsers for diagnostics.
 #st.sidebar.write(st.session_state.session_id)
-st.sidebar.divider()
 
 # Check if the user has provided an API key, otherwise default to the secret
 user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:", placeholder="sk-...", type="password")
-  
+st.sidebar.divider()
+
 def clean_and_parse_json(raw_json):
     # Remove newline characters and extra spaces
     cleaned_json = raw_json.replace("\n", "\\n")
