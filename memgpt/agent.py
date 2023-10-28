@@ -98,8 +98,8 @@ def get_ai_reply_async(
     try:
         response = acreate(
             model=model,
-            messages=message_sequence,
-            #prompts=message_sequence,
+            #messages=message_sequence,
+            prompts=message_sequence,
             functions=functions,
             function_call=function_call,
             pl_tags=["stmemgpt-alpha", st.session_state.session_id],
