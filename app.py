@@ -116,7 +116,7 @@ if not st.session_state.memgpt_agent:
     openai = promptlayer.openai
     
     if user_openai_api_key:
-        OPENAI_API_KEY = user_openai_api_key
+        openai.api_key = user_openai_api_key
     else:
         st.warning("Please enter your OpenAI API key", icon="⚠️")
         
