@@ -82,7 +82,7 @@ st.sidebar.markdown("Current Version: 1.6.0L")
 st.sidebar.divider()
 
 # Check if the user has provided an API key, otherwise default to the secret
-user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:", placeholder="sk-...", type=password)
+user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:", placeholder="sk-...", type="password")
   
 def clean_and_parse_json(raw_json):
     # Remove newline characters and extra spaces
