@@ -156,9 +156,9 @@ if user_openai_api_key:
             except Exception as e:
                 st.warning(e)
             response = process_assistant_messages(new_messages)
-            if response is not None:
-                with st.chat_message("assistant"):
-                    st.write(response)
+        if response is not None:
+            with st.chat_message("assistant"):
+                st.write(response)
     
 # Skip user inputs if there's a memory warning, function execution failed, or the agent asked for control
 
