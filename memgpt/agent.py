@@ -134,30 +134,25 @@ class AgentAsync(object):
         
         # Store the system instructions (used to rebuild memory)
         if "agent_system" not in st.session_state:
-            st.session_state["agent_system"] = system
+            st.session_state["agent_system"] = []
         st.session_state.agent_system = system
         self.system = st.session_state.agent_system
         
         # Store the functions spec
         if "agent_functions" not in st.session_state:
-            st.session_state["agent_functions"] = functions
+            st.session_state["agent_functions"] = []
         st.session_state.agent_functions = functions
         self.functions = st.session_state.agent_functions
         
         # Initialize the memory object
         if "agent_memory" not in st.session_state:
-            st.session_state["agent_memory"] = initialize_memory(persona_notes, human_notes)
+            st.session_state["agent_memory"] = []
         st.session_state.agent_memory = initialize_memory(persona_notes, human_notes)
         self.memory = st.session_state.agent_memory
         
         # Once the memory object is initialize, use it to "bake" the system message
         if "agent_messages" not in st.session_state:
-            st.session_state["agent_messages"] = initialize_message_sequence(
-            #self.system,
-            st.session_state.agent_system,
-            #self.memory,
-            st.session_state.agent_memory,
-        )
+            st.session_state["agent_messages"] = []
         st.session_state.agent_messages = initialize_message_sequence(
             #self.system,
             st.session_state.agent_system,
@@ -169,16 +164,16 @@ class AgentAsync(object):
         # Keep track of the total number of messages throughout all time
 
         if "messages_total" not in st.session_state:
-            st.session_state["messages_total"] = messages_total if messages_total is not None else (len(st.session_state.agent_messages) - 1)  # (-system)
+            st.session_state["messages_total"] = 0
         st.session_state.messages_total = messages_total if messages_total is not None else (len(st.session_state.agent_messages) - 1)  # (-system)
         self.messages_total = st.session_state.messages_total
         
         if "messages_total_init" not in st.session_state:
-            st.session_state["messages_total_init"] = self.messages_total
+            st.session_state["messages_total_init"] = 0
         st.session_state.messages_total_init = self.messages_total
         self.messages_total_init = st.session_state.messages_total_init
         
-        printd(f"AgentAsync initialized, self.messages_total={self.messages_total}, {st.session_state.messages_total}")
+        printd(f"AgentAsync initialized, self.messages_total={self.messages_total}")
 
         # Interface must implement:
         # - internal_monologue
