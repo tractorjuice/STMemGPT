@@ -173,7 +173,7 @@ class AgentAsync(object):
         #st.session_state.messages_total_init = self.messages_total
         #self.messages_total_init = st.session_state.messages_total_init
         
-        printd(f"AgentAsync initialized, self.messages_total={self.messages_total}")
+        #printd(f"AgentAsync initialized, self.messages_total={self.messages_total}")
 
         # Interface must implement:
         # - internal_monologue
@@ -223,6 +223,8 @@ class AgentAsync(object):
             st.session_state["messages_total_init"] = 0
         st.session_state.messages_total_init = self.messages_total
         self.messages_total_init = st.session_state.messages_total_init
+
+        printd(f"AgentAsync initialized, self.messages_total={self.messages_total}")
         
         # State needed for heartbeat pausing
         if "pause_heartbeats_start" not in st.session_state:
