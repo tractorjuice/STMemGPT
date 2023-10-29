@@ -158,6 +158,8 @@ class AgentAsync(object):
             st.session_state.agent_system,
             #self.memory,
             st.session_state.agent_memory,
+            archival_memory=self.persistence_manager.archival_memory,
+            recall_memory=self.persistence_manager.recall_memory,
         )
         self._messages = st.session_state.agent_messages
         
