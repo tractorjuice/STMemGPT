@@ -118,7 +118,7 @@ if user_openai_api_key:
 else:
     st.warning("Please enter your OpenAI API key", icon="⚠️")
 
-if not st.session_state.memgpt_agent:    
+if not st.session_state.memgpt_agent:        
     if MODE == "Archive":
         # Memory stored from FAISS
         index, archival_database = utils.prepare_archival_index('/mount/src/stmemgpt/memgpt/personas/examples/mapmentor_archive')

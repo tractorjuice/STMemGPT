@@ -35,4 +35,4 @@ MemGPT memory is divided into three parts: recall memory, core memory, and archi
 **Core Memory:** This is where I store key details about my persona and about you, the user. This gives me a 'personality' and allows for more personalized conversation.\
 **Archival Memory:** This is my long-term memory where I store information that doesn't fit into core memory but is essential to remember. It's infinite in size, and I usually page through it to find answers to your questions.
 
-These parts work together to help me remember prior engagements, learn from them, and refer back when needed.
+These parts work together to help the AI Assistant remember prior engagements, learn from them, and refer back when needed.
