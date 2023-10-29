@@ -162,6 +162,12 @@ class InMemoryStateManagerWithPreloadedArchivalMemory(InMemoryStateManager):
         #print(f"InMemoryStateManager.messages.len = {len(self.messages)}")
         print(f"InMemoryStateManager.messages.len = {len(st.session_state.persistence_messages)}")
         st.sidebar.write(f"InMemoryStateManager.messages.len = {len(st.session_state.persistence_messages)}")
+
+        print(f"Recall Memory = {len(st.session_state.persistence_all_messages)}")
+        st.sidebar.write(f"Recall Memory =  = {len(st.session_state.persistence_all_messages)}")
+
+        print(f"Archive Memory = {len(self.archival_memory_db)}")
+        st.sidebar.write(f"Archive Memory =  = {len(self.archival_memory_db)}")
         
         #self.recall_memory = self.recall_memory_cls(message_database=self.all_messages)
         self.recall_memory = self.recall_memory_cls(message_database=st.session_state.persistence_all_messages)
