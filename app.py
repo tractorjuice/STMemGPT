@@ -52,8 +52,8 @@ if "session_id" not in st.session_state:
 if "prompt" not in st.session_state:
     st.session_state["prompt"] = None
 
-#if "messages" not in st.session_state:
-#    st.session_state.messages = []
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 #    st.session_state.messages.append(   
 #        {
 #            "role": "user",
