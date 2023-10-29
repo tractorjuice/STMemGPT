@@ -373,14 +373,14 @@ class AgentAsync(object):
         self.memory = st.session_state.agent_memory
         # messages also
         #self._messages = state['messages']
-        st.session_state.agent_messages = new_messages
+        st.session_state.agent_messages = state['messages']
         try:
             #self.messages_total = state['messages_total']
             st.session_state.messages_total = state['messages_total']
             self.messages_total = st.session_state.messages_total
         except KeyError:
             #self.messages_total = len(self.messages) - 1  # -system
-            st.session_state.messages_total = len(self.messages) - 1  # -system
+            st.session_state.messages_total = len(st.session_state.agent_messages) - 1  # -system
             self.messages_total = st.session_state.messages_total
 
     @classmethod
