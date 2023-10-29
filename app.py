@@ -52,25 +52,25 @@ if "session_id" not in st.session_state:
 if "prompt" not in st.session_state:
     st.session_state["prompt"] = None
 
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-    st.session_state.messages.append(   
-        {
-            "role": "user",
-            "content": "Help?"
-        })
-    st.session_state.messages.append(
-        {
-            "role": "assistant",
-            "content": """
-            I'm here to help you learn about and create Wardley Maps. Here are some options for getting started:
-            1. Learn: To learn about the components and concepts of a Wardley Map, type "Learn".
-            2. Vocabulary: To get a list of common Wardley Map terms and their definitions, type "Vocabulary".
-            3. Create: To create your own Wardley Map with step-by-step guidance, type "Create".
-            
-            Please introduce yourself and if you have any specific questions or need clarification on any aspect of Wardley Mapping, feel free to ask.
-            """
-        })
+#if "messages" not in st.session_state:
+#    st.session_state.messages = []
+#    st.session_state.messages.append(   
+#        {
+#            "role": "user",
+#           "content": "Help?"
+#       })
+#   st.session_state.messages.append(
+#       {
+#           "role": "assistant",
+#           "content": """
+#           I'm here to help you learn about and create Wardley Maps. Here are some options for getting started:
+#           1. Learn: To learn about the components and concepts of a Wardley Map, type "Learn".
+#           2. Vocabulary: To get a list of common Wardley Map terms and their definitions, type "Vocabulary".
+#           3. Create: To create your own Wardley Map with step-by-step guidance, type "Create".
+#           
+#           Please introduce yourself and if you have any specific questions or need clarification on any aspect of Wardley Mapping, feel free to ask.
+#           """
+#       })
 
 st.set_page_config(page_title="Map Mentor - Ultimate Wardley Map Assistant", layout="wide")
 st.sidebar.title("Ultimate AI Assistant (SPR)")
@@ -135,6 +135,9 @@ if not st.session_state.memgpt_agent:
     
     memgpt_agent = presets.use_preset('memgpt_spr_chat', MODEL, personas.get_persona_text(PERSONA), humans.get_human_text(HUMAN), interface, persistence_manager)
     st.session_state.memgpt_agent = memgpt_agent
+    
+    prompt = "Help?"
+    user_message = system.package_user_message(prompt)
 
 for message in st.session_state.messages:
     if message["role"] in ["user", "assistant"]:
