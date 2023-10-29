@@ -302,8 +302,8 @@ class AgentAsync(object):
         printd(f"Rebuilding system with new memory...\nDiff:\n{diff}")
 
         # Store the memory change (if stateful)
-        #self.persistence_manager.update_memory(self.memory)
-        self.persistence_manager.update_memory(st.session_state.agent_memory)
+        self.persistence_manager.update_memory(self.memory)
+        #self.persistence_manager.update_memory(st.session_state.agent_memory)
 
 
         # Swap the system message out
