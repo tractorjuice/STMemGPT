@@ -158,8 +158,8 @@ class AgentAsync(object):
             st.session_state.agent_system,
             #self.memory,
             st.session_state.agent_memory,
-            archival_memory=self.persistence_manager.archival_memory,
-            recall_memory=self.persistence_manager.recall_memory,
+            #archival_memory=self.persistence_manager.archival_memory,
+            #recall_memory=self.persistence_manager.recall_memory,
         )
         self._messages = st.session_state.agent_messages
         
@@ -199,6 +199,18 @@ class AgentAsync(object):
             st.session_state["persistence_manager"] = persistence_manager
         st.session_state.persistence_manager = persistence_manager
         self.persistence_manager = st.session_state.persistence_manager
+
+        # Trying to fix Archive not there until first call of update/amend, etc
+
+        st.session_state.agent_messages = initialize_message_sequence(
+            #self.system,
+            st.session_state.agent_system,
+            #self.memory,
+            st.session_state.agent_memory,
+            archival_memory=self.persistence_manager.archival_memory,
+            recall_memory=self.persistence_manager.recall_memory,
+        )
+        self._messages = st.session_state.agent_messages
         
         if persistence_manager_init:
             # creates a new agent object in the database
