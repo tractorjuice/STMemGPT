@@ -151,29 +151,27 @@ class AgentAsync(object):
         self.memory = st.session_state.agent_memory
         
         # Once the memory object is initialize, use it to "bake" the system message
-        if "agent_messages" not in st.session_state:
-            st.session_state["agent_messages"] = []
-        st.session_state.agent_messages = initialize_message_sequence(
-            #self.system,
-            st.session_state.agent_system,
-            #self.memory,
-            st.session_state.agent_memory,
-            #archival_memory=self.persistence_manager.archival_memory,
-            #recall_memory=self.persistence_manager.recall_memory,
-        )
-        self._messages = st.session_state.agent_messages
+        #if "agent_messages" not in st.session_state:
+        #    st.session_state["agent_messages"] = []
+        #st.session_state.agent_messages = initialize_message_sequence(
+        #    #self.system,
+        #    st.session_state.agent_system,
+        #    #self.memory,
+        #    st.session_state.agent_memory,
+        #)
+        #self._messages = st.session_state.agent_messages
         
         # Keep track of the total number of messages throughout all time
 
-        if "messages_total" not in st.session_state:
-            st.session_state["messages_total"] = 0
-        st.session_state.messages_total = messages_total if messages_total is not None else (len(st.session_state.agent_messages) - 1)  # (-system)
-        self.messages_total = st.session_state.messages_total
+        #if "messages_total" not in st.session_state:
+        #    st.session_state["messages_total"] = 0
+        #st.session_state.messages_total = messages_total if messages_total is not None else (len(st.session_state.agent_messages) - 1)  # (-system)
+        #self.messages_total = st.session_state.messages_total
         
-        if "messages_total_init" not in st.session_state:
-            st.session_state["messages_total_init"] = 0
-        st.session_state.messages_total_init = self.messages_total
-        self.messages_total_init = st.session_state.messages_total_init
+        #if "messages_total_init" not in st.session_state:
+        #    st.session_state["messages_total_init"] = 0
+        #st.session_state.messages_total_init = self.messages_total
+        #self.messages_total_init = st.session_state.messages_total_init
         
         printd(f"AgentAsync initialized, self.messages_total={self.messages_total}")
 
@@ -203,18 +201,29 @@ class AgentAsync(object):
         if persistence_manager_init:
             # creates a new agent object in the database
             self.persistence_manager.init(self)
-                    # Trying to fix Archive not there until first call of update/amend, etc
-
-            st.session_state.agent_messages = initialize_message_sequence(
-                #self.system,
-                st.session_state.agent_system,
-                #self.memory,
-                st.session_state.agent_memory,
-                archival_memory=self.persistence_manager.archival_memory,
-                recall_memory=self.persistence_manager.recall_memory,
-            )
-            self._messages = st.session_state.agent_messages
-
+            
+        # Trying to fix Archive not there until first call of update/amend, etc
+        st.session_state.agent_messages = initialize_message_sequence(
+            #self.system,
+            st.session_state.agent_system,
+            #self.memory,
+            st.session_state.agent_memory,
+            archival_memory=self.persistence_manager.archival_memory,
+            recall_memory=self.persistence_manager.recall_memory,
+        )
+        self._messages = st.session_state.agent_messages
+            
+        # Trying to fix error with no archive count on first message
+        if "messages_total" not in st.session_state:
+            st.session_state["messages_total"] = 0
+        st.session_state.messages_total = messages_total if messages_total is not None else (len(st.session_state.agent_messages) - 1)  # (-system)
+        self.messages_total = st.session_state.messages_total
+        
+        if "messages_total_init" not in st.session_state:
+            st.session_state["messages_total_init"] = 0
+        st.session_state.messages_total_init = self.messages_total
+        self.messages_total_init = st.session_state.messages_total_init
+        
         # State needed for heartbeat pausing
         if "pause_heartbeats_start" not in st.session_state:
             st.session_state["pause_heartbeats_start"] = None
