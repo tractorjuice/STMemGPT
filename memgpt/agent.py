@@ -151,8 +151,8 @@ class AgentAsync(object):
         self.memory = st.session_state.agent_memory
         
         # Once the memory object is initialize, use it to "bake" the system message
-        #if "agent_messages" not in st.session_state:
-        #    st.session_state["agent_messages"] = []
+        if "agent_messages" not in st.session_state:
+            st.session_state["agent_messages"] = []
         #st.session_state.agent_messages = initialize_message_sequence(
         #    #self.system,
         #    st.session_state.agent_system,
