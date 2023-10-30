@@ -139,7 +139,7 @@ for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-if not user_openai_api_key:
+if user_openai_api_key:
     prompt = st.chat_input(placeholder="How can I help with Wardley Mapping?", key="chat")
     if not prompt == st.session_state.prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
