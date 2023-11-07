@@ -19,16 +19,18 @@ import memgpt.personas.personas as personas
 import memgpt.humans.humans as humans
 from memgpt.persistence_manager import InMemoryStateManager, InMemoryStateManagerWithPreloadedArchivalMemory, InMemoryStateManagerWithFaiss
 
-#MODEL = "gpt-3"
 #MODEL = "gpt-3.5-turbo"
 #MODEL = "gpt-3.5-turbo-0301"
 #MODEL = "gpt-3.5-turbo-0613"
-#MODEL = "gpt-3.5-turbo-16k"
+#MODEL = "gpt-3.5-turbo-1106"
+MODEL = "gpt-3.5-turbo-16k"
 #MODEL = "gpt-3.5-turbo-16k-0613"
-MODEL = "gpt-4"
-#MODEL = "gpt-4-0314"
+#MODEL = "gpt-4"
+#MODEL = "gpt-4-0613"
 #MODEL = "gpt-4-0613"
 #MODEL = "gpt-4-32k-0613"
+#MODEL = "gpt-4-1106-preview"
+#MODEL = "gpt-4-vision-preview"
 
 MODE = "Archive"
 #MODE = "Chat"
