@@ -19,9 +19,14 @@ import memgpt.personas.personas as personas
 import memgpt.humans.humans as humans
 from memgpt.persistence_manager import InMemoryStateManager, InMemoryStateManagerWithPreloadedArchivalMemory, InMemoryStateManagerWithFaiss
 
-#MODEL = "gpt-3.5-turbo-16k" # Legacy
-MODEL = "gpt-3.5-turbo-1106" # Latest model
-#MODEL = "gpt-4-1106-preview"
+# gpt-3.5-turbo, gpt-4, and gpt-4-turbo-preview point to the latest model version
+#MODEL = "gpt-3.5-turbo" # 4K, Sept 2021
+MODEL = "gpt-3.5-turbo-16k" # 16K, Sept 2021
+#MODEL = "gpt-3.5-turbo-1106" # 16K, Sept 2021
+#MODEL = "gpt-4" # 8K, Sept 2021
+#MODEL = "gpt-4-32k" # 32K, Sept 2021
+#MODEL = "gpt-4-turbo-preview" # 128K, Apr 2023
+#MODEL = "gpt-4-1106-preview" # 128K, Apr 2023
 
 MODE = "Archive"
 #MODE = "Chat"
